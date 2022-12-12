@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { CssBaseline, Typography } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import darkTheme from './theme/dark';
+import lightTheme from './theme/light';
 
-function App() {
-
+const App = () => {
   return (
-    <div className="App">
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
+      <div className="App">
+        <Typography variant="h4">welcome to fake bet admin</Typography>
+      </div>
+    </ThemeProvider>
+  );
+};
 
-    </div>
-  )
-}
-
-export default App
+export default App;
