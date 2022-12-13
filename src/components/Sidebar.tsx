@@ -1,4 +1,4 @@
-import { ChevronRightOutlined, Inbox as InboxIcon } from '@mui/icons-material';
+import { ChevronRightOutlined, Inbox as InboxIcon, Public as PublicIcon } from '@mui/icons-material';
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import {
   Box,
@@ -43,6 +43,16 @@ const Sidebar = () => {
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link to={'/categories'}>
+          <ListItem disablePadding>
+            <ListItemButton selected={location.pathname === '/categories'}>
+              <ListItemIcon>
+                <PublicIcon />
+              </ListItemIcon>
+              <ListItemText primary="Categories" />
             </ListItemButton>
           </ListItem>
         </Link>

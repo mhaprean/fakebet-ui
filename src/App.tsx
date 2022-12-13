@@ -3,6 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
+import OddspediaCategories from './pages/OddspediaCategories';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
 
@@ -25,6 +26,7 @@ const App = () => {
           <Routes>
             <Route element={<Layout isDarkMode={theme === 'dark'} onThemeChange={handleThemeChange} />}>
               <Route path="/" element={<div>dashboard</div>} />
+              <Route path="/categories" element={<OddspediaCategories />} />
               <Route path="/games" element={<div>games</div>} />
             </Route>
           </Routes>
