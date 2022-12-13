@@ -9,35 +9,46 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Divider,
+  Toolbar,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const StyledSidebar = styled(Paper)`
-  width: 280px;
+  width: 250px;
+
+  .logo {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+  }
 `;
 
 const Sidebar = () => {
+
+  const location = useLocation();
   return (
-    <StyledSidebar className="Sidebar" variant="outlined" square>
-      <Box>
-        <Typography>Fake bet</Typography>
+    <StyledSidebar className="Sidebar" square>
+      <Box className="logo">
+        <Typography variant="subtitle2">Fakebet Admin</Typography>
       </Box>
 
       <List>
         <Link to={'/'}>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton selected={location.pathname === '/'}>
               <ListItemIcon>
                 <InboxIcon />
               </ListItemIcon>
-              <ListItemText primary="Inbox" />
+              <ListItemText primary="Dashboard" />
             </ListItemButton>
           </ListItem>
         </Link>
         <Link to={'/games'}>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton selected={location.pathname === '/games'}>
               <ListItemIcon>
                 <SportsSoccerIcon />
               </ListItemIcon>
@@ -46,6 +57,7 @@ const Sidebar = () => {
           </ListItem>
         </Link>
       </List>
+      <Divider />
     </StyledSidebar>
   );
 };

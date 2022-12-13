@@ -10,6 +10,11 @@ export const lightTheme = createTheme({
       default: '#edf3f7',
     },
   },
+  mixins: {
+    toolbar: {
+      minHeight: '50px',
+    },
+  },
 });
 
 export default lightTheme;
