@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IOddspediaCategory, IOddspediaLeague } from './oddspediaTypes';
+import { IOddspediaCategory, IOddspediaGetMatchListData, IOddspediaLeague } from './oddspediaTypes';
 
 interface IGetLeaguesResponse {
   generated_at: string;
@@ -25,6 +25,24 @@ interface IGetCategoriesParams {
   startDate?: string;
   endDate?: string;
   countriesOnly?: number;
+}
+
+interface IGetMatchListResponse {
+  generated_at: string;
+  data: IOddspediaGetMatchListData;
+}
+
+interface IGetMatchListParams {
+  excludeSpecialStatus?: number;
+  popularLeaguesOnly?: number;
+  sortBy?: string;
+  status?: string;
+  sport?: string;
+  perPageDefault?: number;
+  perPage?: number;
+  page?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 export const oddspediaApi = createApi({
@@ -55,7 +73,36 @@ export const oddspediaApi = createApi({
             geoCode: 'RO',
             language: 'en',
             countriesOnly,
-            sport
+            sport,
+          },
+        };
+      },
+    }),
+
+    getMatchList: builder.query<IGetMatchListResponse, IGetMatchListParams>({
+      query: ({
+        excludeSpecialStatus = 0,
+        sport = '',
+        perPageDefault = 150,
+        perPage = 150,
+        page = 1,
+        sortBy = 'default',
+        status = 'all',
+        popularLeaguesOnly = 0,
+      }: IGetMatchListParams) => {
+        return {
+          url: 'getMatchList',
+          params: {
+            geoCode: 'RO',
+            language: 'en',
+            excludeSpecialStatus,
+            sport,
+            status,
+            page,
+            perPage,
+            perPageDefault,
+            sortBy,
+            popularLeaguesOnly,
           },
         };
       },
@@ -63,9 +110,6 @@ export const oddspediaApi = createApi({
   }),
 });
 
-export const {
-  useGetLeaguesQuery,
-  useGetCategoriesQuery
-} = oddspediaApi;
+export const { useGetLeaguesQuery, useGetCategoriesQuery, useGetMatchListQuery } = oddspediaApi;
 
 export default oddspediaApi;
