@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IOddspediaCategory, IOddspediaGetMatchListData, IOddspediaLeague } from './oddspediaTypes';
+import { IOddspediaCategory, IOddspediaGetMatchListData, IOddspediaLeague, IOddspediaMatchInfo } from './oddspediaTypes';
 
 interface IGetLeaguesResponse {
   generated_at: string;
@@ -25,6 +25,12 @@ interface IGetCategoriesParams {
   startDate?: string;
   endDate?: string;
   countriesOnly?: number;
+}
+
+
+interface IGetMatchInfoResponse {
+  generated_at: string;
+  data: IOddspediaMatchInfo;
 }
 
 interface IGetMatchListResponse {
@@ -103,6 +109,22 @@ export const oddspediaApi = createApi({
             perPageDefault,
             sortBy,
             popularLeaguesOnly,
+          },
+        };
+      },
+    }),
+
+    getMatchInfo: builder.query<IGetMatchInfoResponse, {matchKey: number | string}>({
+      query: ({
+        matchKey
+      }) => {
+        return {
+          url: 'getMatchList',
+          params: {
+            geoCode: 'RO',
+            wettsteuer: 0,
+            matchKey,
+            language: 'en'
           },
         };
       },
