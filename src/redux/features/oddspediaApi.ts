@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IOddspediaCategory, IOddspediaGetMatchListData, IOddspediaLeague, IOddspediaMatchInfo } from './oddspediaTypes';
+import { IOddspediaCategory, IOddspediaGetMatchListData, IOddspediaLeague, IOddspediaMatchInfo, IOddspediaMatchOddsData, IOddspediaOddsNamesData } from './oddspediaTypes';
 
 interface IGetLeaguesResponse {
   generated_at: string;
@@ -49,6 +49,17 @@ interface IGetMatchListParams {
   page?: number;
   startDate?: string;
   endDate?: string;
+}
+
+
+interface IGetOddsNamesResponse {
+  generated_at: string;
+  data: IOddspediaOddsNamesData;
+}
+
+interface IGetMatchOddsResponse {
+  generated_at: string;
+  data: IOddspediaMatchOddsData;
 }
 
 export const oddspediaApi = createApi({
@@ -119,7 +130,7 @@ export const oddspediaApi = createApi({
         matchKey
       }) => {
         return {
-          url: 'getMatchList',
+          url: 'getMatchInfo',
           params: {
             geoCode: 'RO',
             wettsteuer: 0,
@@ -129,6 +140,39 @@ export const oddspediaApi = createApi({
         };
       },
     }),
+
+    getOddsNames: builder.query<IGetOddsNamesResponse, void>({
+      query: () => {
+        return {
+          url: 'oddsNames',
+          params: {
+            language: 'en',
+          },
+        };
+      },
+    }),
+
+
+    getMatchOdds: builder.query<IGetMatchOddsResponse, {matchKey: number | string}>({
+      query: ({
+        matchKey
+      }) => {
+        return {
+          url: 'getMatchOdds',
+          params: {
+            geoCode: 'RO',
+            bookmakerGeoCode: 'RO',
+            geoState: '',
+            wettsteuer: 0,
+            matchKey,
+            language: 'en'
+          },
+        };
+      },
+    }),
+
+
+
   }),
 });
 

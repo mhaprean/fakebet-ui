@@ -222,3 +222,63 @@ export interface IOddspediaMatchInfo {
   aggregate_home_score?: any;
   aggregate_away_score?: any;
 }
+
+interface IOddspediaOddName {
+  id: number;
+  name: string;
+  alternative_name: string;
+  period: string;
+  oddsnames: string[];
+  waytype: number;
+  has_handicap: number;
+  payout: number;
+}
+
+export interface IOddspediaOddsNamesData {
+  [key: string]: IOddspediaOddName;
+}
+
+
+interface IOddspediaOdd {
+  bid: number;
+  bookie_name: string;
+  bookie_slug: string;
+  bookie_order: number;
+  wettsteuer: number;
+  offer_id: number;
+  o1: string;
+  o1d: number;
+  o1_link: string;
+  o2: string;
+  o2d: number;
+  o2_link: string;
+  o3: string;
+  o3d: number;
+  o3_link: string;
+  payout: number;
+  status: number;
+}
+
+
+interface IOddspediaOddsPeriod {
+  ot_id: number;
+  name: string;
+  winning_odd?: any;
+  odds: IOddspediaOdd[];
+}
+
+interface IOddspediaPrematchOdd {
+  id: number;
+  name: string;
+  short_name: string;
+  oddsnames: string[];
+  waytype: number;
+  has_handicap: number;
+  payout: number;
+  periods: IOddspediaOddsPeriod[];
+}
+
+export interface IOddspediaMatchOddsData {
+  prematch: IOddspediaPrematchOdd[];
+}
+
