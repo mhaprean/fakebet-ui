@@ -27,12 +27,11 @@ const StyledSidebar = styled(Paper)`
 `;
 
 const Sidebar = () => {
-
   const location = useLocation();
   return (
     <StyledSidebar className="Sidebar" square>
       <Box className="logo">
-        <Typography variant="subtitle2">Fakebet Admin</Typography>
+        <Typography variant="h6">Fakebet Admin</Typography>
       </Box>
 
       <List>
@@ -68,6 +67,18 @@ const Sidebar = () => {
         </Link>
       </List>
       <Divider />
+      <List>
+        <Link to={'/tournaments'}>
+          <ListItem disablePadding>
+            <ListItemButton selected={location.pathname === '/tournaments'}>
+              <ListItemIcon>
+                <PublicIcon />
+              </ListItemIcon>
+              <ListItemText primary="Tournaments" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+      </List>
     </StyledSidebar>
   );
 };
