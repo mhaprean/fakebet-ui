@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IIgubetMatch, IIgutbetTournament } from './igubetTypes';
+import { IIgubetMatch, IIgubetSport, IIgutbetTournament } from './igubetTypes';
 
 interface IIgubetPagination {
   total: number;
@@ -28,12 +28,29 @@ interface ITournamentsResponse {
   pagination: IIgubetPagination;
 }
 
+interface ISportsResponse {
+  data: IIgubetSport[];
+  pagination: IIgubetPagination;
+}
+
 export const igubetApi = createApi({
   reducerPath: 'igubetApi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://igubet.com/api/v2/',
   }),
   endpoints: (builder) => ({
+    getSports: builder.query<ISportsResponse, { sport_type?: string; limit?: number }>({
+      query: ({ sport_type = 'regular', limit = 500 }) => {
+        return {
+          url: 'sports',
+          params: {
+            sport_type,
+            limit,
+          },
+        };
+      },
+    }),
+
     getTournaments: builder.query<ITournamentsResponse, { category_id: number; limit?: number }>({
       query: ({ category_id, limit = 500 }) => {
         return {
@@ -73,6 +90,6 @@ export const igubetApi = createApi({
   }),
 });
 
-export const { useGetMatchesQuery, useGetTournamentsQuery } = igubetApi;
+export const { useGetMatchesQuery, useGetTournamentsQuery, useGetSportsQuery } = igubetApi;
 
 export default igubetApi;

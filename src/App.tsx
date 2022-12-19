@@ -3,6 +3,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
+import NotFoundPage from './pages/404';
+import IgubetSports from './pages/IgubetSports';
 import IgubetTournament from './pages/IgubetTournaments';
 import OddspediaCategories from './pages/OddspediaCategories';
 import darkTheme from './theme/dark';
@@ -30,6 +32,9 @@ const App = () => {
               <Route path="/categories" element={<OddspediaCategories />} />
               <Route path="/games" element={<div>games</div>} />
               <Route path="/tournaments" element={<IgubetTournament />} />
+              <Route path="/sports" element={<IgubetSports />} />
+              <Route path='*' element={<NotFoundPage />} />
+              
             </Route>
           </Routes>
         </ThemeProvider>

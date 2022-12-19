@@ -8,7 +8,7 @@ interface ICompetitors {
   away: ICompetitor;
 }
 
-interface ISport {
+export interface IIgubetSport {
   id: number;
   urn_id: string;
   name: string;
@@ -42,7 +42,7 @@ export interface IIgutbetTournament {
   urn_id: string;
   name: string;
   priority: number;
-  sport: ISport;
+  sport: IIgubetSport;
   category: ICategory;
   slug: string;
   provider: string;

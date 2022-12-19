@@ -67,7 +67,20 @@ const Sidebar = () => {
         </Link>
       </List>
       <Divider />
+      <Box className="logo">
+        <Typography variant="h6">Igubet</Typography>
+      </Box>
       <List>
+        <Link to={'/sports'}>
+          <ListItem disablePadding>
+            <ListItemButton selected={location.pathname === '/sports'}>
+              <ListItemIcon>
+                <PublicIcon />
+              </ListItemIcon>
+              <ListItemText primary="Sports" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
         <Link to={'/tournaments'}>
           <ListItem disablePadding>
             <ListItemButton selected={location.pathname === '/tournaments'}>
