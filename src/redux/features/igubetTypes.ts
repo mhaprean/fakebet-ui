@@ -22,7 +22,7 @@ export interface IIgubetSport {
   provider: string;
 }
 
-interface ICategory {
+export interface IIgubetCategory {
   id: number;
   urn_id: string;
   name: string;
@@ -43,7 +43,7 @@ export interface IIgutbetTournament {
   name: string;
   priority: number;
   sport: IIgubetSport;
-  category: ICategory;
+  category: IIgubetCategory;
   slug: string;
   provider: string;
 }

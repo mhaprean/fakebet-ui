@@ -81,6 +81,16 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         </Link>
+        <Link to={'/igubet-categories'}>
+          <ListItem disablePadding>
+            <ListItemButton selected={location.pathname === '/igubet-categories'}>
+              <ListItemIcon>
+                <PublicIcon />
+              </ListItemIcon>
+              <ListItemText primary="Igubet Categories" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
         <Link to={'/tournaments'}>
           <ListItem disablePadding>
             <ListItemButton selected={location.pathname === '/tournaments'}>

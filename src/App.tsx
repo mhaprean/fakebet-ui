@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import NotFoundPage from './pages/404';
+import IIgubetCategories from './pages/IgubetCategories';
 import IgubetSports from './pages/IgubetSports';
 import IgubetTournament from './pages/IgubetTournaments';
 import OddspediaCategories from './pages/OddspediaCategories';
@@ -33,6 +34,7 @@ const App = () => {
               <Route path="/games" element={<div>games</div>} />
               <Route path="/tournaments" element={<IgubetTournament />} />
               <Route path="/sports" element={<IgubetSports />} />
+              <Route path="/igubet-categories" element={<IIgubetCategories />} />
               <Route path='*' element={<NotFoundPage />} />
               
             </Route>
