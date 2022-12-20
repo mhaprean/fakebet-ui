@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
+import { Box, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navigation from './Navigation';
 import Sidebar from './Sidebar';
@@ -21,11 +22,44 @@ interface IPropsLayout {
 }
 
 const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <StyledLayout className="Layout">
-      <Sidebar />
-      <Box flexGrow={1}>
-        <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} />
+      <Box sx={{ width: { xs: 0, sm: 250}, flexShrink: 0}}>
+        <Drawer
+          variant="temporary"
+          open={menuOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
+          }}
+        >
+          <Sidebar />
+        </Drawer>
+
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
+          }}
+          open
+        >
+          <Sidebar />
+        </Drawer>
+      </Box>
+
+      <Box sx={{ flexGrow: 1, width: { sm: `calc(100% - ${250}px)` }, paddingTop: '50px' }}>
+        <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
         <Box className="page-content">
           <Outlet />
         </Box>

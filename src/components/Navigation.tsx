@@ -9,9 +9,9 @@ import {
 } from '@mui/icons-material';
 
 const StyledNavigation = styled(AppBar)`
-  position: static;
-  background: none;
-  box-shadow: none;
+  
+  /* box-shadow: none; */
+  background: ${props => props.theme.palette.background.paper};
 
   .toolbar {
     justify-content: space-between;
@@ -28,26 +28,39 @@ const StyledNavigation = styled(AppBar)`
     padding: 2px;
     padding-left: 20px;
     display: flex;
-    margin-left: 20px;
     box-shadow: none;
-    border: 1px solid ${props => props.theme.palette.divider};
+    border: 1px solid ${(props) => props.theme.palette.divider};
   }
 `;
 
 interface IPropsNavigation {
   isDarkMode?: boolean;
   onThemeChange?: () => void;
+  onMenuToggle?: () => void;
 }
 
-const Navigation = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsNavigation) => {
+const Navigation = ({
+  isDarkMode = false,
+  onThemeChange = () => {},
+  onMenuToggle = () => {},
+}: IPropsNavigation) => {
   return (
-    <StyledNavigation>
+    <StyledNavigation
+      className="Navigation"
+      position="fixed"
+      variant='outlined'
+      elevation={0}
+      sx={{
+        width: { sm: `calc(100% - ${250}px)` },
+        ml: { sm: `${250}px` },
+      }}
+    >
       <Toolbar className="toolbar">
         <Box className="left-group">
-          <IconButton>
+          <IconButton sx={{ display: { xs: 'flex', sm: 'none' }, marginRight: '15px' }} onClick={() => onMenuToggle()}>
             <MenuIcon sx={{ fontSize: '20px' }} />
           </IconButton>
-          <Paper className="search-field" variant='elevation' elevation={1}>
+          <Paper className="search-field" variant="elevation" elevation={1}>
             <InputBase placeholder="Search..." />
             <IconButton>
               <SearchIcon sx={{ fontSize: '20px' }} />
@@ -67,7 +80,6 @@ const Navigation = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsNavi
           </IconButton>
         </Box>
       </Toolbar>
-      <Divider />
     </StyledNavigation>
   );
 };

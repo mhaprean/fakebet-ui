@@ -15,8 +15,10 @@ import {
 import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
 
-const StyledSidebar = styled(Paper)`
-  width: 250px;
+const StyledSidebar = styled('div')`
+  /* width: 250px; */
+  width: 100%;
+  height: 100%;
 
   .logo {
     height: 50px;
@@ -29,7 +31,7 @@ const StyledSidebar = styled(Paper)`
 const Sidebar = () => {
   const location = useLocation();
   return (
-    <StyledSidebar className="Sidebar" square>
+    <StyledSidebar className="Sidebar">
       <Box className="logo">
         <Typography variant="h6">Fakebet Admin</Typography>
       </Box>
