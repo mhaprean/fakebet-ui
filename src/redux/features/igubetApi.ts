@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IIgubetCategory, IIgubetMatch, IIgubetSport, IIgutbetTournament } from './igubetTypes';
+import {
+  IIgubetCategory,
+  IIgubetMarket,
+  IIgubetMatch,
+  IIgubetSport,
+  IIgutbetTournament,
+} from './igubetTypes';
 
 interface IIgubetPagination {
   total: number;
@@ -33,9 +39,13 @@ interface ISportsResponse {
   pagination: IIgubetPagination;
 }
 
-
 interface ICategoriesResponse {
   data: IIgubetCategory[];
+  pagination: IIgubetPagination;
+}
+
+interface IMatchMarketsResponse {
+  data: IIgubetMarket[];
   pagination: IIgubetPagination;
 }
 
@@ -105,9 +115,26 @@ export const igubetApi = createApi({
         };
       },
     }),
+
+    getMatchMarkets: builder.query<IMatchMarketsResponse, { matchId: number | string }>({
+      query: ({ matchId }) => {
+        return {
+          url: `matches/${matchId}/markets`,
+          params: {
+            limit: 500,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetMatchesQuery, useGetTournamentsQuery, useGetSportsQuery, useGetCategoriesQuery } = igubetApi;
+export const {
+  useGetMatchesQuery,
+  useGetTournamentsQuery,
+  useGetSportsQuery,
+  useGetCategoriesQuery,
+  useGetMatchMarketsQuery,
+} = igubetApi;
 
 export default igubetApi;

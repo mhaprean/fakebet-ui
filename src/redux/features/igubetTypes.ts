@@ -80,7 +80,6 @@ interface IMarket {
   provider: string;
 }
 
-
 export interface IIgubetMatch {
   id: number;
   urn_id: string;
@@ -103,3 +102,19 @@ export interface IIgubetMatch {
   provider: string;
 }
 
+// match markets
+
+export interface IIgubetMarket {
+  id: number;
+  market_external_id: number;
+  match_urn_id: string;
+  name: string;
+  specifier: string;
+  status: number;
+  outcomes: IOutcome[];
+  priority: number;
+  most_balanced: boolean;
+  market_groups: string[];
+  custom_bet_groups: any[];
+  provider: string;
+}
