@@ -20,7 +20,7 @@ interface IMatchesResponse {
 }
 
 interface IMatchesParams {
-  tournament_id?: number;
+  tournament_id?: number | string;
   start_from?: string;
   start_to?: string;
   bettable?: boolean;
