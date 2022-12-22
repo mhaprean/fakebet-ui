@@ -1,10 +1,13 @@
+import { useParams } from 'react-router-dom';
 import { useGetTournamentsQuery } from '../redux/features/igubetApi';
 
 const IgubetTournament = () => {
-  const { data: tournamentsRes, isLoading } = useGetTournamentsQuery({ category_id: 362 });
+  const { id } = useParams();
+
+  const { data: tournamentsRes, isLoading } = useGetTournamentsQuery({ category_id: id || 0 }, { skip: !id });
+
   return (
     <div>
-      IgubetTournament
       {isLoading && <div>is loading...</div>}
       {!isLoading &&
         tournamentsRes &&

@@ -79,7 +79,7 @@ export const igubetApi = createApi({
       },
     }),
 
-    getTournaments: builder.query<ITournamentsResponse, { category_id: number; limit?: number }>({
+    getTournaments: builder.query<ITournamentsResponse, { category_id: number | string; limit?: number }>({
       query: ({ category_id, limit = 500 }) => {
         return {
           url: 'tournaments',

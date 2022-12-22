@@ -10,7 +10,7 @@ interface IGetLeagueParams {
   topLeaguesOnly?: number;
   includeLeaguesWithoutMatches?: number;
   sport?: string;
-  category?: number; // category id is the country id
+  category?: number | string; // category id is the country id
   startDate?: string;
   endDate?: string;
 }
@@ -69,12 +69,14 @@ export const oddspediaApi = createApi({
   }),
   endpoints: (builder) => ({
     getLeagues: builder.query<IGetLeaguesResponse, IGetLeagueParams>({
-      query: ({ topLeaguesOnly = 0, includeLeaguesWithoutMatches = 1 }: IGetLeagueParams) => {
+      query: ({ topLeaguesOnly = 0, includeLeaguesWithoutMatches = 1, category, sport = 'football' }: IGetLeagueParams) => {
         return {
           url: 'getLeagues',
           params: {
+            category,
             geoCode: 'RO',
             language: 'en',
+            sport,
             topLeaguesOnly,
             includeLeaguesWithoutMatches,
           },

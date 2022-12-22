@@ -8,6 +8,7 @@ import IIgubetCategories from './pages/IgubetCategories';
 import IgubetSports from './pages/IgubetSports';
 import IgubetTournament from './pages/IgubetTournaments';
 import OddspediaCategories from './pages/OddspediaCategories';
+import OddspediaLeagues from './pages/OddspediaLeagues';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
 
@@ -30,11 +31,13 @@ const App = () => {
           <Routes>
             <Route element={<Layout isDarkMode={theme === 'dark'} onThemeChange={handleThemeChange} />}>
               <Route path="/" element={<div>dashboard</div>} />
-              <Route path="/categories" element={<OddspediaCategories />} />
+              <Route path="/oddspedia-categories" element={<OddspediaCategories />} />
+              <Route path="/oddspedia-categories/:id" element={<OddspediaLeagues />} />
               <Route path="/games" element={<div>games</div>} />
-              <Route path="/tournaments" element={<IgubetTournament />} />
+
               <Route path="/sports" element={<IgubetSports />} />
               <Route path="/igubet-categories" element={<IIgubetCategories />} />
+              <Route path="/igubet-categories/:id" element={<IgubetTournament />} />
               <Route path='*' element={<NotFoundPage />} />
               
             </Route>

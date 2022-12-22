@@ -36,6 +36,10 @@ const Sidebar = () => {
         <Typography variant="h6">Fakebet Admin</Typography>
       </Box>
 
+      <Box className="logo">
+        <Typography variant="h6">Oddspedia</Typography>
+      </Box>
+
       <List>
         <Link to={'/'}>
           <ListItem disablePadding>
@@ -47,7 +51,7 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         </Link>
-        <Link to={'/categories'}>
+        <Link to={'/oddspedia-categories'}>
           <ListItem disablePadding>
             <ListItemButton selected={location.pathname === '/categories'}>
               <ListItemIcon>
@@ -93,16 +97,7 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         </Link>
-        <Link to={'/tournaments'}>
-          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === '/tournaments'}>
-              <ListItemIcon>
-                <PublicIcon />
-              </ListItemIcon>
-              <ListItemText primary="Tournaments" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
+
       </List>
     </StyledSidebar>
   );
