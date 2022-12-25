@@ -238,7 +238,6 @@ export interface IOddspediaOddsNamesData {
   [key: string]: IOddspediaOddName;
 }
 
-
 interface IOddspediaOdd {
   bid: number;
   bookie_name: string;
@@ -258,7 +257,6 @@ interface IOddspediaOdd {
   payout: number;
   status: number;
 }
-
 
 interface IOddspediaOddsPeriod {
   ot_id: number;
@@ -282,3 +280,61 @@ export interface IOddspediaMatchOddsData {
   prematch: IOddspediaPrematchOdd[];
 }
 
+interface IStage {
+  name: string;
+  type: string;
+}
+
+interface IAllRound {
+  round: string;
+  round_en: string;
+  start_date: string;
+  end_date: string;
+}
+
+interface IAllWeek {
+  week: number;
+  start_date: string;
+  end_date: string;
+}
+
+interface IAllSeason {
+  season_id: number;
+  start_date: string;
+  end_date: string;
+  season_name: string;
+  year: string;
+}
+
+export interface IOddspediaLeagueInfoData {
+  is_summer_olympics: number;
+  is_winter_olympics: number;
+  current_season: number;
+  has_standing: number;
+  sport_id: number;
+  sport_name: string;
+  sport_name_en: string;
+  sport_slug: string;
+  sport_slug_en: string;
+  category_id: number;
+  category_name: string;
+  category_slug: string;
+  category_slug_en: string;
+  league_id: number;
+  league_name: string;
+  league_name_en: string;
+  league_slug: string;
+  league_slug_en: string;
+  league_abbr?: any;
+  playlist?: any;
+  has_sr_coverage: boolean;
+  stage: IStage;
+  all_rounds: IAllRound[];
+  current_round: string;
+  all_weeks: IAllWeek[];
+  current_week: number;
+  all_seasons: IAllSeason[];
+  title_holder?: any;
+  runner_up?: any;
+  top_scorer?: any;
+}

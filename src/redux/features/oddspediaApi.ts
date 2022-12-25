@@ -1,5 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IOddspediaCategory, IOddspediaGetMatchListData, IOddspediaLeague, IOddspediaMatchInfo, IOddspediaMatchOddsData, IOddspediaOddsNamesData } from './oddspediaTypes';
+import {
+  IOddspediaCategory,
+  IOddspediaGetMatchListData,
+  IOddspediaLeague,
+  IOddspediaLeagueInfoData,
+  IOddspediaMatchInfo,
+  IOddspediaMatchOddsData,
+  IOddspediaOddsNamesData,
+} from './oddspediaTypes';
 
 interface IGetLeaguesResponse {
   generated_at: string;
@@ -27,7 +35,6 @@ interface IGetCategoriesParams {
   countriesOnly?: number;
 }
 
-
 interface IGetMatchInfoResponse {
   generated_at: string;
   data: IOddspediaMatchInfo;
@@ -51,7 +58,6 @@ interface IGetMatchListParams {
   endDate?: string;
 }
 
-
 interface IGetOddsNamesResponse {
   generated_at: string;
   data: IOddspediaOddsNamesData;
@@ -62,6 +68,11 @@ interface IGetMatchOddsResponse {
   data: IOddspediaMatchOddsData;
 }
 
+interface IGetLeagueInfoResponse {
+  generated_at: string;
+  data: IOddspediaLeagueInfoData;
+}
+
 export const oddspediaApi = createApi({
   reducerPath: 'oddspediaapi',
   baseQuery: fetchBaseQuery({
@@ -69,7 +80,12 @@ export const oddspediaApi = createApi({
   }),
   endpoints: (builder) => ({
     getLeagues: builder.query<IGetLeaguesResponse, IGetLeagueParams>({
-      query: ({ topLeaguesOnly = 0, includeLeaguesWithoutMatches = 1, category, sport = 'football' }: IGetLeagueParams) => {
+      query: ({
+        topLeaguesOnly = 0,
+        includeLeaguesWithoutMatches = 1,
+        category,
+        sport = 'football',
+      }: IGetLeagueParams) => {
         return {
           url: 'getLeagues',
           params: {
@@ -127,17 +143,15 @@ export const oddspediaApi = createApi({
       },
     }),
 
-    getMatchInfo: builder.query<IGetMatchInfoResponse, {matchKey: number | string}>({
-      query: ({
-        matchKey
-      }) => {
+    getMatchInfo: builder.query<IGetMatchInfoResponse, { matchKey: number | string }>({
+      query: ({ matchKey }) => {
         return {
           url: 'getMatchInfo',
           params: {
             geoCode: 'RO',
             wettsteuer: 0,
             matchKey,
-            language: 'en'
+            language: 'en',
           },
         };
       },
@@ -154,11 +168,26 @@ export const oddspediaApi = createApi({
       },
     }),
 
+    getLeagueInfo: builder.query<
+      IGetLeagueInfoResponse,
+      { sport?: string; category: string; league: string }
+    >({
+      query: ({ sport = 'football', category, league }) => {
+        return {
+          url: 'getLeagueInfo',
+          params: {
+            geoCode: 'RO',
+            language: 'en',
+            sport,
+            category,
+            league,
+          },
+        };
+      },
+    }),
 
-    getMatchOdds: builder.query<IGetMatchOddsResponse, {matchKey: number | string}>({
-      query: ({
-        matchKey
-      }) => {
+    getMatchOdds: builder.query<IGetMatchOddsResponse, { matchKey: number | string }>({
+      query: ({ matchKey }) => {
         return {
           url: 'getMatchOdds',
           params: {
@@ -167,17 +196,15 @@ export const oddspediaApi = createApi({
             geoState: '',
             wettsteuer: 0,
             matchKey,
-            language: 'en'
+            language: 'en',
           },
         };
       },
     }),
-
-
-
   }),
 });
 
-export const { useGetLeaguesQuery, useGetCategoriesQuery, useGetMatchListQuery } = oddspediaApi;
+export const { useGetLeaguesQuery, useGetCategoriesQuery, useGetMatchListQuery, useGetLeagueInfoQuery } =
+  oddspediaApi;
 
 export default oddspediaApi;
