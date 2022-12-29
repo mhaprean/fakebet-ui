@@ -27,6 +27,8 @@ interface IMatchesParams {
   limit?: number;
   match_status?: number;
   sort_by?: string;
+  sport_key?: string;
+  type?: string;
 }
 
 interface ITournamentsResponse {
@@ -100,6 +102,8 @@ export const igubetApi = createApi({
         start_from,
         start_to,
         tournament_id,
+        sport_key = 'soccer',
+        type = 'match'
       }) => {
         return {
           url: 'matches',
@@ -111,6 +115,8 @@ export const igubetApi = createApi({
             start_from,
             start_to,
             tournament_id,
+            sport_key,
+            type
           },
         };
       },

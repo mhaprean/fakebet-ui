@@ -12,7 +12,7 @@ const StyledLayout = styled('div')`
   display: flex;
 
   .page-content {
-    padding: 20px;
+    padding: 10px;
   }
 `;
 
@@ -58,7 +58,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
         </Drawer>
       </Box>
 
-      <Box sx={{ flexGrow: 1, width: { sm: `calc(100% - ${250}px)` }, paddingTop: '50px' }}>
+      <Box sx={{ flexGrow: 1, width: { xs: '100%',sm: `calc(100% - ${250}px)` }, paddingTop: '50px' }}>
         <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
         <Box className="page-content">
           <Outlet />
