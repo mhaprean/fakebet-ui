@@ -8,7 +8,7 @@ const StyledMarket = styled('div')`
   .market-title {
     padding: 10px;
     margin-bottom: 5px;
-    color: ${(props) => props.theme.palette.text.secondary};
+    /* color: ${(props) => props.theme.palette.text.secondary}; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -33,11 +33,11 @@ const StyledMarket = styled('div')`
     border-radius: 5px;
 
     .outcome-name {
-      color: ${props => props.theme.palette.text.secondary};
+      color: ${(props) => props.theme.palette.text.secondary};
     }
     .outcome-value {
-      font-weight: ${props => props.theme.typography.fontWeightMedium};
-      color: ${props => props.theme.palette.text.primary};
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+      color: ${(props) => props.theme.palette.text.primary};
     }
   }
 `;
@@ -45,6 +45,24 @@ const StyledMarket = styled('div')`
 interface IMarketProps {
   market: IIgubetMarket;
 }
+
+const marketIds = {
+  71: 'Halftime/fulltime & total'
+}
+
+const outcomeExternalIds = {
+  1: '1',
+  2: 'X',
+  3: '2',
+  9: '1X',
+  10: '12',
+  11: 'X2',
+  12: 'Over',
+  13: 'Under',
+  74: 'Yes',
+  76: 'No',
+  
+};
 
 const Market = ({ market }: IMarketProps) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -54,15 +72,14 @@ const Market = ({ market }: IMarketProps) => {
   };
 
   const formatOddValue = (val: number) => {
-
     return (val / 1000).toFixed(2);
-  }
+  };
 
   return (
     <StyledMarket className="Market">
       <Paper className="market-title" onClick={toggleExpanded} variant={'outlined'}>
         <Typography>
-          {market.name} {market.specifier}
+          {market.id}# {market.name} / {market.specifier}
         </Typography>
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </Paper>
@@ -71,9 +88,11 @@ const Market = ({ market }: IMarketProps) => {
           {market.outcomes.map((outcome) => (
             <Button className="outcome" key={outcome.id}>
               <Typography className="outcome-name" variant="body2">
-                {outcome.name}
+                {outcome.name} {outcome.outcome_external_id}
               </Typography>
-              <Typography className="outcome-value" variant="body2">{formatOddValue(outcome.odds)}</Typography>
+              <Typography className="outcome-value" variant="body2">
+                {formatOddValue(outcome.odds)}
+              </Typography>
             </Button>
           ))}
         </div>
