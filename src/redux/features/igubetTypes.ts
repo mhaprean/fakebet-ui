@@ -63,6 +63,10 @@ export interface IOutcome {
   active: boolean;
   name: string;
   odds: number;
+
+  // custom fields
+  formated_name?: string;
+  formated_value?: string | number;
 }
 
 interface IMarket {
@@ -117,4 +121,7 @@ export interface IIgubetMarket {
   market_groups: string[];
   custom_bet_groups: any[];
   provider: string;
+
+  // custom fields
+  formated_market_name?: string;
 }
