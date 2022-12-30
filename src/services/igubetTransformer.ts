@@ -105,15 +105,62 @@ const formatOddValue = (val: number) => {
   return (val / 1000).toFixed(2);
 };
 
-const formatOddName = (outcome: IOutcome) => {
+const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {
+  let formatedName = outcome.name;
   if (outcomeExternalIds[outcome.outcome_external_id]) {
-    return outcomeExternalIds[outcome.outcome_external_id];
+    formatedName = outcomeExternalIds[outcome.outcome_external_id];
   }
-  return outcome.name;
+
+  if (
+    [209, 219, 212, 146, 71, 360, 679, 23391, 3975, 4043, 4081, 4458, 4069, 4106, 4917].includes(market.id)
+  ) {
+    const limit = market.specifier.replace('total=', '');
+
+    return `${formatedName} ${limit}`;
+  }
+  return formatedName;
 };
 
 const formatMarketName = (market: IIgubetMarket) => {
   return market.name + (market.specifier ? market.specifier : '');
+};
+
+const getMarketRules = (market: IIgubetMarket) => {
+  let rules = '';
+  switch (market.market_external_id) {
+    case 1: // 1x2
+      rules = `
+      Predict the result of the match.
+
+      Void if the match is not completed. 
+      `;
+      break;
+
+    case 10: // Double chance
+      rules = `
+      Bet on two of the three possible outcomes in the match:
+
+      1X   If the match result is either home win or draw this option is a winner
+      12   If the match result is either home win or away win this option is a winner
+      X2   If the match result is either draw or away win this option is a winner
+      
+      Void if the match is not completed.
+      `;
+      break;
+
+    case 11: // Draw no bet
+      rules = `
+      Predict which team will win the match. Tickets are void if the match result is a draw.
+
+      Void if the match is not completed.
+      `;
+      break;
+
+    default:
+      break;
+  }
+
+  return rules;
 };
 
 export const transformIgubetMarkets = (markets: IIgubetMarket[]): IIgubetMarket[] => {
@@ -124,12 +171,17 @@ export const transformIgubetMarkets = (markets: IIgubetMarket[]): IIgubetMarket[
       const newOutcomes = market.outcomes.map((outcome) => {
         return {
           ...outcome,
-          formated_name: formatOddName(outcome),
+          formated_name: formatOddName(outcome, market),
           formated_value: formatOddValue(outcome.odds),
         };
       });
 
-      return { ...market, outcomes: newOutcomes, formated_market_name: formatMarketName(market) };
+      return {
+        ...market,
+        outcomes: newOutcomes,
+        formated_market_name: formatMarketName(market),
+        rules: getMarketRules(market),
+      };
     });
 
   return result;

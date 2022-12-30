@@ -20,6 +20,7 @@ const StyledMarket = styled('div')`
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px 0;
+    margin-bottom: 20px;
   }
 
   .outcome {
@@ -58,11 +59,12 @@ const Market = ({ market }: IMarketProps) => {
     <StyledMarket className="Market">
       <Paper className="market-title" onClick={toggleExpanded} variant={'outlined'}>
         <Typography>
-          {market.id}# {market.formated_market_name}
+          id:{market.id}# external_id:{market.market_external_id} - {market.formated_market_name}
         </Typography>
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </Paper>
       <Collapse in={isOpen}>
+        <Typography variant="caption" style={{whiteSpace: 'pre'}}>{market.rules}</Typography>
         <div className="market-outcomes">
           {market.outcomes.map((outcome) => (
             <Button className="outcome" key={outcome.id}>

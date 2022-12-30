@@ -123,5 +123,6 @@ export interface IIgubetMarket {
   provider: string;
 
   // custom fields
+  rules?: string;
   formated_market_name?: string;
 }

@@ -164,13 +164,13 @@ Any goals/corners, etc. awarded to the corresponding team will count for the mar
 
 4.12. Main Markets
 
-4.12.1.  1X2
+4.12.1.  1X2 (✔️) ✅
 
 Predict the result of the match.
 
 Void if the match is not completed. 
 
-4.12.2. Double Chance
+4.12.2. Double Chance (✔️) ✅
 
 Bet on two of the three possible outcomes in the match:
 
@@ -182,11 +182,14 @@ X2   If the match result is either draw or away win this option is a winner
 
 Void if the match is not completed.
 
-4.12.3. Draw No Bet
+4.12.3. Draw No Bet (✔️) ✅
 
 Predict which team will win the match. Tickets are void if the match result is a draw.
 
 Void if the match is not completed.
+
+
+
 
 4.12.4. European Handicap (1 goal)
 
