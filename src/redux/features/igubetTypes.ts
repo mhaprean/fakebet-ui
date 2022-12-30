@@ -57,7 +57,7 @@ interface IStatistics {
   current_server?: any;
 }
 
-interface IOutcome {
+export interface IOutcome {
   id: number;
   outcome_external_id: string;
   active: boolean;
