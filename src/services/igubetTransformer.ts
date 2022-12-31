@@ -1,13 +1,13 @@
 import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 
 const excludeIds = [
-  36, 75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3910, 3980, 3981, 4076, 4085,
+  36, 75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3891, 3910, 3960, 3980, 3981, 4076, 4085,
   4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4643, 4471, 4710, 4742, 4769, 4773, 4849, 4864, 4896, 4929, 5034,
-  23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372, 23619, 23995, 23972,
+  23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372, 23619, 23995, 23972, 
 ];
 
 // not the most common betting options. exclude for now, maybe implement in the future
-const excludeIdsForNow = [2, 103, 135, 4119];
+const excludeIdsForNow = [23875, 2, 14, 103, 135, 195, 539, 675, 4119, 3889];
 
 const allowedSpecifiers = [
   'total=0.5',
@@ -147,7 +147,40 @@ const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {
 };
 
 const formatMarketName = (market: IIgubetMarket) => {
-  return market.name + (market.specifier ? '    ' + market.specifier : '');
+
+  //return market.name;
+
+  if (market.specifier && market.specifier.includes('total=')) {
+
+    const limit = market.specifier.replace('total=', '');
+
+    return `${market.name} (${limit})`;
+  }
+
+  if (market.id === 108) {
+    return 'Home team to score in both halves';
+  }
+
+  
+  if (market.id === 196) {
+    return 'Away team to win both halves';
+  }
+
+  if (market.id === 23449) {
+    return 'Home team to win both halves';
+  }
+
+
+
+  if (market.id === 8) {
+    return 'Home team Odd/Even';
+  }
+
+  if (market.id === 3877) {
+    return 'Away team Odd/Even';
+  }
+
+  return market.name + (market.specifier ? ' ' + market.specifier : '');
 };
 
 const getMarketRules = (market: IIgubetMarket) => {
