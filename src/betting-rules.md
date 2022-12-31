@@ -205,6 +205,7 @@ X  - Bayern Munich must win by exactly one goal
 
 Void if the match is not completed.
 
+
 4.12.5. European Handicap (2 goals)
 
 Predict the result of the match after the handicap spread has been applied.
@@ -218,6 +219,7 @@ X Bayern Munich must win by exactly two goals
 2 Borussia Dortmund must not lose by more than one goal
 
 Void if the match is not completed.
+
 
 4.12.6. Asian Handicap
 
@@ -284,6 +286,7 @@ If the team that is receiving a 1.0 ball start:
     Loses by ≥2 goals All tickets on this selection are losers
 
 Void if the match is not completed. 
+
 
 4.12.7.1 Correct Score
 
@@ -508,6 +511,7 @@ Predict whether there will be extra-time plus at least one goal scored in extra-
 
 Void if the match is not completed.
 
+
 4.13.15. Both Teams to Score?
 
 Bet on whether both teams will score in the match or not:
@@ -543,29 +547,42 @@ Any reference to First Half or Second Half. Market outcomes is determined only b
 
 Live - settled if determined / Prematch - Void if match not completed.
 
-4.14.1. Halftime/Fulltime
+
+
+
+
+
+
+
+
+
+
+
+4.14.1. Halftime/Fulltime (✔️) ✅
 
 Predict the team to be leading at Half Time and Full Time
 
 Void if the match is not completed. 
 
-4.14.2. Team To Win Both Halves?
+4.14.2. Team To Win Both Halves? (✔️) ✅
 
 Respective team to score more goals than the opposition in both first and second halves.
 
 Void if the match is not completed.
 
-4.14.3. Team To Win Either Half?
+4.14.3. Team To Win Either Half? (✔️) ✅
 
 Bet on the respective team to score more goals than the away team in either the first or second halves.
 
 Live - settled if determined / Prematch - Void if match not completed.
 
-4.14.4. Team to Score in Both Halves
+4.14.4. Team to Score in Both Halves (✔️) ✅
 
 Bet on the respective team to score a goal in each half.
 
 Live - settled if determined / Prematch - Void if match not completed.
+
+
 
 4.14.5. Highest Scoring Half Team
 
@@ -584,22 +601,4 @@ Void if either half is not completed.
 Predict the exact score at half-time and full-time.
 
 Void if the match is not completed. 
-
-4.15. Interval Markets
-
-    Markets will be settled based on the goal time announced by TV. If this is not available, the time according to the match clock is considered.
-
-    Markets are settled based on the time the ball crosses the line and not the time the kick is made.
-
-    Corner interval markets are settled based on the time the corner kick is taken and not the time the corner is conceded or awarded.
-
-    Booking interval markets are settled based on the time the card is shown and not the time the infringement is made.
-
-    Offsides will be settled based on the time when the referee gives the decision. This rule will be applied on any video assistant referee (VAR) situation.
-
-    Penalty markets will be settled based on the time when the referee gives the decision. This rule will be applied on any video assistant referee (VAR) situation.
-
-    Penalties awarded but not taken are not considered.
-
-    For all 5 min/15 min interval markets, related to interval minutes 41- 45/31-45, events (goals, corners) in added injury or stoppage time will be accounted for.
 

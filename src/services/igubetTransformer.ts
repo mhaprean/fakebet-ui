@@ -1,10 +1,13 @@
 import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 
 const excludeIds = [
-  75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3910, 3980, 3981, 4076, 4085, 4144,
-  4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4643, 4471, 4742, 4769, 4773, 4849, 4896, 4929, 5034, 23328,
-  23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372, 23619, 23995, 23972,
+  36, 75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3910, 3980, 3981, 4076, 4085,
+  4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4643, 4471, 4710, 4742, 4769, 4773, 4849, 4864, 4896, 4929, 5034,
+  23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372, 23619, 23995, 23972,
 ];
+
+// not the most common betting options. exclude for now, maybe implement in the future
+const excludeIdsForNow = [2, 103, 135, 4119];
 
 const allowedSpecifiers = [
   'total=0.5',
@@ -60,12 +63,24 @@ export const outcomeExternalIds: { [key: string]: string } = {
   432: '2/X',
   434: '2/2',
 
+  784: 'None (0:0)', // which team to score
+  788: 'Only Home team',
+  790: 'Only Away team',
+  792: 'Both teams (GG)',
+
   794: '1 & under', // 1st half - 1x2 & total (1.5)
   796: '1 & over',
   798: 'X & under',
   800: 'X & over',
   802: '2 & under',
   804: '2 & over',
+
+  1711: 'Home', // id:5017# external_id:14 - Handicap 1:0 hcp=1:0
+  1712: 'Draw',
+  1713: 'Away',
+
+  1714: 'Home', // id:297# external_id:16 - Handicap hcp=-0.5
+  1715: 'Away',
 
   1718: '1X & GG', // double chance & both teams to score
   1719: '1X & NG',
@@ -80,6 +95,10 @@ export const outcomeExternalIds: { [key: string]: string } = {
   1727: '1X & over',
   1728: '12 & over',
   1729: 'X2 & over',
+
+  1758: 'Other & Home win', // multiscore different
+  1759: 'Other & Away win',
+  1803: 'Draw',
 
   1836: '1/1 & under', // half time / fulltime & total (1.5),
   1837: '1/X & under',
@@ -118,11 +137,17 @@ const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {
 
     return `${formatedName} ${limit}`;
   }
+
+  if ([297, 4947, 5106, 5017].includes(market.id)) {
+    const score = market.specifier.replace('hcp=', '');
+
+    return `${formatedName} (${score})`;
+  }
   return formatedName;
 };
 
 const formatMarketName = (market: IIgubetMarket) => {
-  return market.name + (market.specifier ? market.specifier : '');
+  return market.name + (market.specifier ? '    ' + market.specifier : '');
 };
 
 const getMarketRules = (market: IIgubetMarket) => {
@@ -156,6 +181,40 @@ const getMarketRules = (market: IIgubetMarket) => {
       `;
       break;
 
+    case 47:
+      rules = `
+      Predict the team to be leading at Half Time and Full Time
+
+      Void if the match is not completed. 
+      `;
+      break;
+
+    case 48:
+      rules = `
+      Respective team to score more goals than the opposition in both first and second halves.
+
+      Void if the match is not completed.
+      `;
+      break;
+        
+
+    case 51:
+      rules = `
+      Bet on the respective team to score more goals than the away team in either the first or second halves.
+
+      Void if the match is not completed.
+      `;
+      break;
+      
+    case 57:
+      rules = `
+      Bet on the respective team to score a goal in each half.
+
+      Void if the match is not completed.
+      `;
+      break;
+          
+                  
     default:
       break;
   }
@@ -166,6 +225,7 @@ const getMarketRules = (market: IIgubetMarket) => {
 export const transformIgubetMarkets = (markets: IIgubetMarket[]): IIgubetMarket[] => {
   const result = markets
     .filter((market) => !excludeIds.includes(market.id))
+    .filter((market) => !excludeIdsForNow.includes(market.id))
     .filter((market) => allowedSpecifiers.includes(market.specifier))
     .map((market) => {
       const newOutcomes = market.outcomes.map((outcome) => {

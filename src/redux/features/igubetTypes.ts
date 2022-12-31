@@ -67,6 +67,8 @@ export interface IOutcome {
   // custom fields
   formated_name?: string;
   formated_value?: string | number;
+  is_winner?: boolean;
+  is_validated?: boolean;
 }
 
 interface IMarket {
