@@ -1,13 +1,14 @@
 import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 
 const excludeIds = [
-  36, 75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3891, 3910, 3960, 3980, 3981, 4076, 4085,
-  4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4643, 4471, 4710, 4742, 4769, 4773, 4849, 4864, 4896, 4929, 5034,
-  23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372, 23619, 23995, 23972, 
+  17, 36, 75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3891, 3910, 3960, 3980,
+  3981, 4076, 4085, 4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4643, 4471, 4710, 4742, 4769, 4773,
+  4849, 4864, 4896, 4929, 5034, 23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372,
+  23619, 23995, 23972, 4155, 4145, 4228, 4336, 4487, 4944,
 ];
 
 // not the most common betting options. exclude for now, maybe implement in the future
-const excludeIdsForNow = [23875, 2, 14, 103, 135, 195, 539, 675, 4119, 3889];
+const excludeIdsForNow = [23875, 2, 14, 103, 104, 135, 195, 539, 675, 4119, 3889];
 
 const allowedSpecifiers = [
   'total=0.5',
@@ -147,12 +148,38 @@ const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {
 };
 
 const formatMarketName = (market: IIgubetMarket) => {
-
   //return market.name;
 
   if (market.specifier && market.specifier.includes('total=')) {
-
     const limit = market.specifier.replace('total=', '');
+
+    if (market.id === 3975) {
+      return `1st half - Home team total (${limit})`;
+    }
+
+    if (market.id === 360) {
+      return `2nd half - Home team total (${limit})`;
+    }
+
+    if (market.id === 209) {
+      return `1st half - Away team total (${limit})`;
+    }
+
+    if (market.id === 212) {
+      return `2nd half - Away team total (${limit})`;
+    }
+
+    if ([4081].includes(market.id)) {
+      return `Away team total (${limit})`;
+    }
+
+    if ([4043].includes(market.id)) {
+      return `Home team total (${limit})`;
+    }
+
+    if (market.id === 12) {
+      return `Away team to win or over 2.5`;
+    }
 
     return `${market.name} (${limit})`;
   }
@@ -161,7 +188,6 @@ const formatMarketName = (market: IIgubetMarket) => {
     return 'Home team to score in both halves';
   }
 
-  
   if (market.id === 196) {
     return 'Away team to win both halves';
   }
@@ -170,7 +196,26 @@ const formatMarketName = (market: IIgubetMarket) => {
     return 'Home team to win both halves';
   }
 
+  if (market.id === 4278) {
+    return 'Home team multigoals';
+  }
+  if (market.id === 4286) {
+    return 'Home team or both teams to score';
+  }
+  if (market.id === 4543) {
+    return 'Away team to win either half';
+  }
+  if (market.id === 4591) {
+    return 'Away team to score in both halves';
+  }
 
+  if (market.id === 5008) {
+    return 'Home team to win either half';
+  }
+
+  if (market.id === 23890) {
+    return 'Away team multigoals';
+  }
 
   if (market.id === 8) {
     return 'Home team Odd/Even';
@@ -229,7 +274,6 @@ const getMarketRules = (market: IIgubetMarket) => {
       Void if the match is not completed.
       `;
       break;
-        
 
     case 51:
       rules = `
@@ -238,7 +282,7 @@ const getMarketRules = (market: IIgubetMarket) => {
       Void if the match is not completed.
       `;
       break;
-      
+
     case 57:
       rules = `
       Bet on the respective team to score a goal in each half.
@@ -246,8 +290,7 @@ const getMarketRules = (market: IIgubetMarket) => {
       Void if the match is not completed.
       `;
       break;
-          
-                  
+
     default:
       break;
   }
