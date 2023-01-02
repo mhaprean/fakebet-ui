@@ -40,7 +40,7 @@ const App = () => {
               <Route path="/games" element={<div>games</div>} />
 
               <Route path="/sports" element={<IgubetSports />} />
-              <Route path="/igubet-categories" element={<IIgubetCategories />} />
+              <Route path="/sports/:sport/categories" element={<IIgubetCategories />} />
               <Route path="/igubet-categories/:id" element={<IgubetTournament />} />
 
               <Route path='/igubet-league/:id' element={<IgubetLeague />} />

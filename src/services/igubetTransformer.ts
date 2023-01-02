@@ -1,7 +1,7 @@
 import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 
 const excludeIds = [
-  17, 36, 75, 89, 222, 269, 284, 317, 359, 369, 379, 535, 542, 626, 631, 669, 815, 3891, 3910, 3960, 3980,
+  17, 36, 70, 75, 89, 222, 287, 269, 284, 317, 359, 369, 379, 399, 535, 542, 626, 631, 669, 815, 3891, 3910, 3960, 3980,
   3981, 4076, 4085, 4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4643, 4471, 4710, 4742, 4769, 4773,
   4849, 4864, 4896, 4929, 5034, 23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372,
   23619, 23995, 23972, 4155, 4145, 4228, 4336, 4487, 4944,
@@ -169,11 +169,11 @@ const formatMarketName = (market: IIgubetMarket) => {
       return `2nd half - Away team total (${limit})`;
     }
 
-    if ([4081].includes(market.id)) {
+    if (market.id === 4081) {
       return `Away team total (${limit})`;
     }
 
-    if ([4043].includes(market.id)) {
+    if (market.id === 4043) {
       return `Home team total (${limit})`;
     }
 
@@ -182,6 +182,13 @@ const formatMarketName = (market: IIgubetMarket) => {
     }
 
     return `${market.name} (${limit})`;
+  }
+
+  if (market.specifier && market.specifier.includes('hcp=')) {
+
+    const hcp = market.specifier.replace('hcp=', '');
+
+    return `${market.name} (${hcp})`;
   }
 
   if (market.id === 108) {
@@ -225,7 +232,11 @@ const formatMarketName = (market: IIgubetMarket) => {
     return 'Away team Odd/Even';
   }
 
-  return market.name + (market.specifier ? ' ' + market.specifier : '');
+  if (market.id === 49) {
+    return 'Correct score';
+  }
+
+  return market.name + (market.specifier ? 'AAAAAAAAAAAAAAAA ' + market.specifier : '');
 };
 
 const getMarketRules = (market: IIgubetMarket) => {
