@@ -715,6 +715,33 @@ const validateOddOrEven = (market: IIgubetMarket, periods: IOddspediaMatchInfoPe
   return { ...market, outcomes };
 };
 
+const validateHighestScoringHalf = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+
+  const first = periods[0].home + periods[0].away;
+  const second = periods[1].home + periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // first
+    if (outcome.id === 1440 && first > second) {
+      newOutcome.is_winner = true;
+    }
+    // second
+    if (outcome.id === 1441 && first < second) {
+      newOutcome.is_winner = true;
+    }
+    // equal
+    if (outcome.id === 1442 && first === second) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 /**
  * Function that validates all the markets from Igubet
  * @param markets - the markets array
@@ -801,6 +828,10 @@ export const validateMarkets = (
 
       case 393: // odd or even
         return validateOddOrEven(market, periods);
+
+      case 387: // highest scoring half
+        return validateHighestScoringHalf(market, periods);
+        
 
       default:
         break;
