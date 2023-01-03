@@ -165,6 +165,52 @@ const validateSecondHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatch
   return { ...market, outcomes };
 };
 
+const validateFirstHalfHomeTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home;
+
+  const total = homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    if (outcome.id === 28082 && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 28083 && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateFirstHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const awayScore = periods[0].away;
+
+  const total = awayScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    if (outcome.id === 1007 && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 1008 && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 
 export const validateMarkets = (
   markets: IIgubetMarket[],
@@ -192,6 +238,13 @@ export const validateMarkets = (
 
       case 4458: // 2nd half total goals
         return validateSecondHalfTotal(market, periods);
+
+      case 3975: // 1st half total goals of home team
+        return validateFirstHalfHomeTeamTotal(market, periods);
+
+      case 209: // 1st half total goals of away team
+        return validateFirstHalfAwayTeamTotal(market, periods);
+               
         
       default:
         break;
