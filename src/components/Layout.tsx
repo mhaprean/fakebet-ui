@@ -40,7 +40,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250 },
+            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
           }}
         >
           <Sidebar />

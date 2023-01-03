@@ -244,10 +244,7 @@ const getMarketRules = (market: IIgubetMarket) => {
   switch (market.market_external_id) {
     case 1: // 1x2
       rules = `
-      Predict the result of the match.
-
-      Void if the match is not completed. 
-      `;
+        Predict the result of the match.`;
       break;
 
     case 10: // Double chance
@@ -257,48 +254,36 @@ const getMarketRules = (market: IIgubetMarket) => {
       1X   If the match result is either home win or draw this option is a winner
       12   If the match result is either home win or away win this option is a winner
       X2   If the match result is either draw or away win this option is a winner
-      
-      Void if the match is not completed.
       `;
       break;
 
     case 11: // Draw no bet
       rules = `
       Predict which team will win the match. Tickets are void if the match result is a draw.
-
-      Void if the match is not completed.
       `;
       break;
 
     case 47:
       rules = `
       Predict the team to be leading at Half Time and Full Time
-
-      Void if the match is not completed. 
       `;
       break;
 
     case 48:
       rules = `
       Respective team to score more goals than the opposition in both first and second halves.
-
-      Void if the match is not completed.
       `;
       break;
 
     case 51:
       rules = `
       Bet on the respective team to score more goals than the away team in either the first or second halves.
-
-      Void if the match is not completed.
       `;
       break;
 
     case 57:
       rules = `
       Bet on the respective team to score a goal in each half.
-
-      Void if the match is not completed.
       `;
       break;
 

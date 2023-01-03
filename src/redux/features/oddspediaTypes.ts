@@ -338,3 +338,20 @@ export interface IOddspediaLeagueInfoData {
   runner_up?: any;
   top_scorer?: any;
 }
+
+
+
+export type IOddspediaMatchInfoPeriods = IMatchInfoPeriod[];
+
+interface ITiebreak {
+  home: number;
+  away: number;
+}
+
+export interface IMatchInfoPeriod {
+  period_type: string;
+  period_number: number;
+  home: number;
+  away: number;
+  tiebreak: null | ITiebreak;
+}

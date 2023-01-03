@@ -1,7 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
 import { useGetCategoriesQuery } from '../redux/features/igubetApi';
-import axios from 'axios';
-import { useEffect } from 'react';
 
 const IIgubetCategories = () => {
   const { sport } = useParams();

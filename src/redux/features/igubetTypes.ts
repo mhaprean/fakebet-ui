@@ -127,4 +127,5 @@ export interface IIgubetMarket {
   // custom fields
   rules?: string;
   formated_market_name?: string;
+  is_validated?: boolean;
 }
