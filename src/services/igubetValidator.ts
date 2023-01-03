@@ -345,8 +345,6 @@ const validate1x2AndTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfo
   return { ...market, outcomes };
 };
 
-
-
 const validateBothHalvesUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -366,6 +364,60 @@ const validateBothHalvesUnder = (market: IIgubetMarket, periods: IOddspediaMatch
     }
     // no
     if (outcome.id === 29922 && (firstHalf > limit || secondHalf > limit)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateBothHalvesOver = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const firstHalf = periods[0].home + periods[0].away;
+  const secondHalf = periods[1].home + periods[1].away;
+
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 1806 && firstHalf > limit && secondHalf > limit) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 1807 && (firstHalf < limit || secondHalf < limit)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateDrawOrUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 2493 && (homeScore === awayScore || total < limit)) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 2495 && homeScore !== awayScore && total > limit) {
       newOutcome.is_winner = true;
     }
 
@@ -429,6 +481,15 @@ export const validateMarkets = (
 
       case 4372: // both halves under
         return validateBothHalvesUnder(market, periods);
+
+      case 511: // both halves over
+        return validateBothHalvesOver(market, periods);
+
+      case 583: // X or under 
+        return validateDrawOrUnder(market, periods);
+
+
+        
       default:
         break;
     }
