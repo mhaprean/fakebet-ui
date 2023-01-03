@@ -236,7 +236,7 @@ const formatMarketName = (market: IIgubetMarket) => {
     return 'Correct score';
   }
 
-  return market.name + (market.specifier ? 'AAAAAAAAAAAAAAAA ' + market.specifier : '');
+  return market.name + (market.specifier ? ' ' + market.specifier : '');
 };
 
 const getMarketRules = (market: IIgubetMarket) => {
