@@ -345,6 +345,36 @@ const validate1x2AndTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfo
   return { ...market, outcomes };
 };
 
+
+
+const validateBothHalvesUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const firstHalf = periods[0].home + periods[0].away;
+  const secondHalf = periods[1].home + periods[1].away;
+
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 29921 && firstHalf < limit && secondHalf < limit) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 29922 && (firstHalf > limit || secondHalf > limit)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 /**
  * Function that validates all the markets from Igubet
  * @param markets - the markets array
@@ -396,6 +426,9 @@ export const validateMarkets = (
       case 4106: // 1X2 and total
         return validate1x2AndTotal(market, periods);
 
+
+      case 4372: // both halves under
+        return validateBothHalvesUnder(market, periods);
       default:
         break;
     }
