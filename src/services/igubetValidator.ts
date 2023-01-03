@@ -116,6 +116,56 @@ const validateTotalGoals = (market: IIgubetMarket, periods: IOddspediaMatchInfoP
   return { ...market, outcomes };
 };
 
+const validateFirstHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home;
+  const awayScore = periods[0].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    if (outcome.id === 153995 && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 153998 && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
+const validateSecondHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[1].home;
+  const awayScore = periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    if (outcome.id === 30294 && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 30295 && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
 export const validateMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -124,15 +174,25 @@ export const validateMarkets = (
     switch (market.id) {
       case 4761: // 1x2
         return validate1x2(market, periods);
+
       case 391: // both teams to score
         return validateBothTeamsToScore(market, periods);
 
       case 219: // total goals in match
         return validateTotalGoals(market, periods);
+
       case 4043: // home team total goals
         return validateHomeTeamTotal(market, periods);
+
       case 4081: // away team total goals
         return validateAwayTeamTotal(market, periods);
+
+      case 23391: // 1st half total goals
+        return validateFirstHalfTotal(market, periods);
+
+      case 4458: // 2nd half total goals
+        return validateSecondHalfTotal(market, periods);
+        
       default:
         break;
     }
