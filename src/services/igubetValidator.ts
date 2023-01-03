@@ -116,7 +116,10 @@ const validateTotalGoals = (market: IIgubetMarket, periods: IOddspediaMatchInfoP
   return { ...market, outcomes };
 };
 
-const validateFirstHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateFirstHalfTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[0].home;
   const awayScore = periods[0].away;
 
@@ -140,8 +143,10 @@ const validateFirstHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatchI
   return { ...market, outcomes };
 };
 
-
-const validateSecondHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateSecondHalfTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[1].home;
   const awayScore = periods[1].away;
 
@@ -165,7 +170,10 @@ const validateSecondHalfTotal = (market: IIgubetMarket, periods: IOddspediaMatch
   return { ...market, outcomes };
 };
 
-const validateFirstHalfHomeTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateFirstHalfHomeTeamTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[0].home;
 
   const total = homeScore;
@@ -188,7 +196,10 @@ const validateFirstHalfHomeTeamTotal = (market: IIgubetMarket, periods: IOddsped
   return { ...market, outcomes };
 };
 
-const validateFirstHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateFirstHalfAwayTeamTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const awayScore = periods[0].away;
 
   const total = awayScore;
@@ -211,7 +222,10 @@ const validateFirstHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddsped
   return { ...market, outcomes };
 };
 
-const validateSecondHalfHomeTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateSecondHalfHomeTeamTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[1].home;
 
   const total = homeScore;
@@ -237,7 +251,10 @@ const validateSecondHalfHomeTeamTotal = (market: IIgubetMarket, periods: IOddspe
   return { ...market, outcomes };
 };
 
-const validateSecondHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateSecondHalfAwayTeamTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const awayScore = periods[1].away;
 
   const total = awayScore;
@@ -260,6 +277,37 @@ const validateSecondHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddspe
   return { ...market, outcomes };
 };
 
+const validateDrawOrTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 32482 && (homeScore === awayScore || total > limit)) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 32483 && homeScore !== awayScore && total < limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+/**
+ * Function that validates all the markets from Igubet
+ * @param markets - the markets array
+ * @param periods - the periods from oddspedia (match outcome)
+ * @returns validated array of markets
+ */
 export const validateMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -292,12 +340,15 @@ export const validateMarkets = (
 
       case 209: // 1st half total goals of away team
         return validateFirstHalfAwayTeamTotal(market, periods);
-               
+
       case 360: // 2nd half total goals of home team
-        return validateSecondHalfHomeTeamTotal(market, periods); 
+        return validateSecondHalfHomeTeamTotal(market, periods);
 
       case 212: // 2nd half total goals of away team
-        return validateSecondHalfAwayTeamTotal(market, periods); 
+        return validateSecondHalfAwayTeamTotal(market, periods);
+
+      case 4996: // X or over 2.5
+        return validateDrawOrTotal(market, periods);
 
       default:
         break;
