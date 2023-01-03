@@ -345,13 +345,15 @@ const validate1x2AndTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfo
   return { ...market, outcomes };
 };
 
-const validateBothHalvesUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateBothHalvesUnder = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
 
   const firstHalf = periods[0].home + periods[0].away;
   const secondHalf = periods[1].home + periods[1].away;
-
 
   const limit = parseFloat(market.specifier.replace('total=', ''));
 
@@ -373,13 +375,15 @@ const validateBothHalvesUnder = (market: IIgubetMarket, periods: IOddspediaMatch
   return { ...market, outcomes };
 };
 
-const validateBothHalvesOver = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateBothHalvesOver = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
 
   const firstHalf = periods[0].home + periods[0].away;
   const secondHalf = periods[1].home + periods[1].away;
-
 
   const limit = parseFloat(market.specifier.replace('total=', ''));
 
@@ -418,6 +422,53 @@ const validateDrawOrUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfo
     }
     // no
     if (outcome.id === 2495 && homeScore !== awayScore && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateDoubleChanceAndTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1X & under
+    if (outcome.id === 28537 && homeScore >= awayScore && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    // 1X & over
+    if (outcome.id === 28540 && homeScore >= awayScore && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    // 12 & under
+    if (outcome.id === 28538 && homeScore !== awayScore && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    // 12 & over
+    if (outcome.id === 28541 && homeScore !== awayScore && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    // X2 & under
+    if (outcome.id === 28539 && homeScore <= awayScore && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    // X2 & over
+    if (outcome.id === 28542 && homeScore <= awayScore && total > limit) {
       newOutcome.is_winner = true;
     }
 
@@ -478,18 +529,19 @@ export const validateMarkets = (
       case 4106: // 1X2 and total
         return validate1x2AndTotal(market, periods);
 
+      case 4069: // double chance and total
+        return validateDoubleChanceAndTotal(market, periods);
 
+        
       case 4372: // both halves under
         return validateBothHalvesUnder(market, periods);
 
       case 511: // both halves over
         return validateBothHalvesOver(market, periods);
 
-      case 583: // X or under 
+      case 583: // X or under
         return validateDrawOrUnder(market, periods);
 
-
-        
       default:
         break;
     }
