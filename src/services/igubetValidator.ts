@@ -277,7 +277,7 @@ const validateSecondHalfAwayTeamTotal = (
   return { ...market, outcomes };
 };
 
-const validateDrawOrTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateDrawOrOver = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
 
@@ -478,7 +478,10 @@ const validateDoubleChanceAndTotal = (
   return { ...market, outcomes };
 };
 
-const validateFirstHalf1x2AndTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateFirstHalf1x2AndTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[0].home;
   const awayScore = periods[0].away;
 
@@ -521,7 +524,10 @@ const validateFirstHalf1x2AndTotal = (market: IIgubetMarket, periods: IOddspedia
   return { ...market, outcomes };
 };
 
-const validateSecondHalf1x2AndTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateSecondHalf1x2AndTotal = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const homeScore = periods[1].home;
   const awayScore = periods[1].away;
 
@@ -555,6 +561,151 @@ const validateSecondHalf1x2AndTotal = (market: IIgubetMarket, periods: IOddspedi
     }
     // 2 & over
     if (outcome.id === 32243 && homeScore < awayScore && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateAwayTeamToWinOrOver = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 24 && (homeScore < awayScore || total > limit)) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 25 && homeScore >= awayScore && total < limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateHomeTeamOddOrEven = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // odd
+    if (outcome.id === 15 && homeScore % 2 === 1) {
+      newOutcome.is_winner = true;
+    }
+    // even
+    if (outcome.id === 16 && homeScore % 2 === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateAwayTeamOddOrEven = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const awayScore = periods[0].away + periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // odd
+    if (outcome.id === 27801 && awayScore % 2 === 1) {
+      newOutcome.is_winner = true;
+    }
+    // even
+    if (outcome.id === 27802 && awayScore % 2 === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateFirstHalfOddOrEven = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const total = periods[0].home + periods[0].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // odd
+    if (outcome.id === 80 && total % 2 === 1) {
+      newOutcome.is_winner = true;
+    }
+    // even
+    if (outcome.id === 81 && total % 2 === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateSecondHalfOddOrEven = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const total = periods[1].home + periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // odd
+    if (outcome.id === 32620 && total % 2 === 1) {
+      newOutcome.is_winner = true;
+    }
+    // even
+    if (outcome.id === 32625 && total % 2 === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateOddOrEven = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const total = periods[0].home + periods[0].away + periods[1].home + periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // odd
+    if (outcome.id === 1454 && total % 2 === 1) {
+      newOutcome.is_winner = true;
+    }
+    // even
+    if (outcome.id === 1455 && total % 2 === 0) {
       newOutcome.is_winner = true;
     }
 
@@ -610,14 +761,17 @@ export const validateMarkets = (
         return validateSecondHalfAwayTeamTotal(market, periods);
 
       case 4996: // X or over 2.5
-        return validateDrawOrTotal(market, periods);
+        return validateDrawOrOver(market, periods);
+
+      case 12: // 2 or over 2.5
+        return validateAwayTeamToWinOrOver(market, periods);
 
       case 4106: // 1X2 and total
         return validate1x2AndTotal(market, periods);
 
       case 4069: // double chance and total
         return validateDoubleChanceAndTotal(market, periods);
-        
+
       case 4372: // both halves under
         return validateBothHalvesUnder(market, periods);
 
@@ -632,7 +786,22 @@ export const validateMarkets = (
 
       case 4917: // 1st half 1x2 & total
         return validateSecondHalf1x2AndTotal(market, periods);
-        
+
+      case 8: // home team odd or even
+        return validateHomeTeamOddOrEven(market, periods);
+
+      case 3877: // away team odd or even
+        return validateAwayTeamOddOrEven(market, periods);
+
+      case 38: // first half odd or even
+        return validateFirstHalfOddOrEven(market, periods);
+
+      case 5060: // second half odd or even
+        return validateSecondHalfOddOrEven(market, periods);
+
+      case 393: // odd or even
+        return validateOddOrEven(market, periods);
+
       default:
         break;
     }
