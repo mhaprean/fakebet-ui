@@ -211,6 +211,54 @@ const validateFirstHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddsped
   return { ...market, outcomes };
 };
 
+const validateSecondHalfHomeTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[1].home;
+
+  const total = homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // under
+    if (outcome.id === 1365 && total < limit) {
+      newOutcome.is_winner = true;
+    }
+
+    // over
+    if (outcome.id === 1366 && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateSecondHalfAwayTeamTotal = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const awayScore = periods[1].away;
+
+  const total = awayScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    if (outcome.id === 1011 && total < limit) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 1012 && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
 
 export const validateMarkets = (
   markets: IIgubetMarket[],
@@ -245,7 +293,12 @@ export const validateMarkets = (
       case 209: // 1st half total goals of away team
         return validateFirstHalfAwayTeamTotal(market, periods);
                
-        
+      case 360: // 2nd half total goals of home team
+        return validateSecondHalfHomeTeamTotal(market, periods); 
+
+      case 212: // 2nd half total goals of away team
+        return validateSecondHalfAwayTeamTotal(market, periods); 
+
       default:
         break;
     }
