@@ -246,6 +246,97 @@ const validateSecondHalfCorrectScore = (
   return { ...market, outcomes };
 };
 
+const validateMultiscores = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const score = `${homeScore}:${awayScore}`;
+
+  const allowedScores = [
+    '1:0',
+    '2:0',
+    '3:0',
+    '0:1',
+    '0:2',
+    '0:3',
+    '4:0',
+    '5:0',
+    '6:0',
+    '0:4',
+    '0:5',
+    '0:6',
+    '2:1',
+    '3:1',
+    '4:1',
+    '1:2',
+    '1:3',
+    '1:4',
+    '3:2',
+    '4:2',
+    '4:3',
+    '5:1',
+    '2:3',
+    '2:4',
+    '3:4',
+    '1:5',
+  ];
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1:0, 2:0, 3:0
+    if (outcome.id === 1465 && ['1:0', '2:0', '3:0'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 0:1, 0:2, 0:3
+    if (outcome.id === 1466 && ['0:1', '0:2', '0:3'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 4:0, 5:0, 6:0
+    if (outcome.id === 1467 && ['4:0', '5:0', '6:0'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 0:4, 0:5, 0:6
+    if (outcome.id === 1468 && ['0:4', '0:5', '0:6'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 2:1, 3:1, 4:1
+    if (outcome.id === 1469 && ['2:1', '3:1', '4:1'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 1:2, 1:3, 1:4
+    if (outcome.id === 1470 && ['1:2', '1:3', '1:4'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 3:2, 4:2, 4:3, 5:1
+    if (outcome.id === 1471 && ['3:2', '4:2', '4:3', '5:1'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+    // 2:3, 2:4, 3:4, 1:5
+    if (outcome.id === 1472 && ['2:3', '2:4', '3:4', '1:5'].includes(score)) {
+      newOutcome.is_winner = true;
+    }
+
+    // other & home win
+    if (outcome.id === 1473 && !allowedScores.includes(score) && homeScore > awayScore) {
+      newOutcome.is_winner = true;
+    }
+
+    // other & away win
+    if (outcome.id === 1474 && !allowedScores.includes(score) && homeScore < awayScore) {
+      newOutcome.is_winner = true;
+    }
+
+    // draw
+    if (outcome.id === 1475 && homeScore === awayScore) {
+      newOutcome.is_winner = true;
+    }
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 export const validateScoreMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -258,6 +349,10 @@ export const validateScoreMarkets = (
         return validateFirstHalfCorrectScore(market, periods);
       case 4508: // 2nd half - correct score
         return validateSecondHalfCorrectScore(market, periods);
+
+      case 398: // multiscores
+        return validateMultiscores(market, periods);
+        
       default:
         break;
     }
