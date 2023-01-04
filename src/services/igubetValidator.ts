@@ -844,7 +844,81 @@ const validateSecondHalfMultigoals = (
   return { ...market, outcomes };
 };
 
+const validateAwayTeamMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const awayScore = periods[0].away + periods[1].away;
 
+  const total = awayScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 159988 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 159989 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 159990 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 159991 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 159992 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateHomeTeamMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+
+  const total = homeScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 29607 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 29608 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 29609 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 29611 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 29612 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
 
 
 /**
@@ -942,9 +1016,17 @@ export const validateMarkets = (
 
       case 4514: // 1st half - multigoals
         return validateFirstHalfMultigoals(market, periods);
-      
+
       case 4888: // 2ns half - multigoals
         return validateSecondHalfMultigoals(market, periods);
+
+      case 4278: // home team multigoals
+        return validateHomeTeamMultigoals(market, periods);
+
+      case 23890: // away team multigoals
+        return validateAwayTeamMultigoals(market, periods);
+
+
 
       default:
         break;
