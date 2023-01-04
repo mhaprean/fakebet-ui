@@ -1,5 +1,6 @@
 import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 import { IOddspediaMatchInfoPeriods } from '../redux/features/oddspediaTypes';
+import { validateHalfMarkets } from './validators/halfValidators';
 
 const validate1x2 = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
@@ -1038,7 +1039,11 @@ export const validateMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
 ): IIgubetMarket[] => {
-  return markets.map((market, idx) => {
+
+
+  const validatedHalfMarkets = validateHalfMarkets(markets, periods);
+
+  return validatedHalfMarkets.map((market, idx) => {
     switch (market.id) {
       case 4761: // 1x2
         return validate1x2(market, periods);
@@ -1138,6 +1143,9 @@ export const validateMarkets = (
 
       case 4486: // multigoals
         return validateMultigoals(market, periods);
+
+
+
       default:
         break;
     }
