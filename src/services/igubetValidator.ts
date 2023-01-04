@@ -715,8 +715,10 @@ const validateOddOrEven = (market: IIgubetMarket, periods: IOddspediaMatchInfoPe
   return { ...market, outcomes };
 };
 
-const validateHighestScoringHalf = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
-
+const validateHighestScoringHalf = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
   const first = periods[0].home + periods[0].away;
   const second = periods[1].home + periods[1].away;
 
@@ -741,6 +743,109 @@ const validateHighestScoringHalf = (market: IIgubetMarket, periods: IOddspediaMa
 
   return { ...market, outcomes };
 };
+
+const validateAwayTeamToScoreInBothHalves = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 31203 && periods[0].away > 0 && periods[1].away > 0) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 31204 && (periods[0].away === 0 || periods[1].away === 0)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateFirstHalfMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home;
+  const awayScore = periods[0].away;
+
+  const total = awayScore + homeScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 30954 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 30955 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 30956 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 30957 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 30958 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateSecondHalfMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[1].home;
+  const awayScore = periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 32090 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 32091 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 32092 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 32093 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 32094 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
+
 
 /**
  * Function that validates all the markets from Igubet
@@ -831,7 +936,15 @@ export const validateMarkets = (
 
       case 387: // highest scoring half
         return validateHighestScoringHalf(market, periods);
-        
+
+      case 4591: // away team to score in both halves
+        return validateAwayTeamToScoreInBothHalves(market, periods);
+
+      case 4514: // 1st half - multigoals
+        return validateFirstHalfMultigoals(market, periods);
+      
+      case 4888: // 2ns half - multigoals
+        return validateSecondHalfMultigoals(market, periods);
 
       default:
         break;
