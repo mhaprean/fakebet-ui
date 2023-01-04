@@ -744,6 +744,28 @@ const validateHighestScoringHalf = (
   return { ...market, outcomes };
 };
 
+const validateHomeTeamToScoreInBothHalves = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 298 && periods[0].home > 0 && periods[1].home > 0) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 299 && (periods[0].home === 0 || periods[1].home === 0)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 const validateAwayTeamToScoreInBothHalves = (
   market: IIgubetMarket,
   periods: IOddspediaMatchInfoPeriods
@@ -920,6 +942,91 @@ const validateHomeTeamMultigoals = (
   return { ...market, outcomes };
 };
 
+const validateMultigoals = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = homeScore + awayScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 30652 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 30657 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-4 goals
+    if (outcome.id === 30659 && total <= 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-5 goals
+    if (outcome.id === 30661 && total <= 5 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-6 goals
+    if (outcome.id === 30663 && total <= 6 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+
+    // 2-3 goals
+    if (outcome.id === 30666 && total <= 3 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 2-4 goals
+    if (outcome.id === 30668 && total <= 4 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 2-5 goals
+    if (outcome.id === 30670 && total <= 5 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 2-6 goals
+    if (outcome.id === 30672 && total <= 6 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 3-4 goals
+    if (outcome.id === 30674 && total <= 4 && total >= 3) {
+      newOutcome.is_winner = true;
+    }
+    // 3-5 goals
+    if (outcome.id === 30675 && total <= 5 && total >= 3) {
+      newOutcome.is_winner = true;
+    }
+    // 3-6 goals
+    if (outcome.id === 30676 && total <= 6 && total >= 3) {
+      newOutcome.is_winner = true;
+    }
+    // 4-5 goals
+    if (outcome.id === 30678 && total <= 5 && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 4-6 goals
+    if (outcome.id === 30679 && total <= 6 && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 5-6 goals
+    if (outcome.id === 30681 && total <= 6 && total >= 5) {
+      newOutcome.is_winner = true;
+    }
+
+    // 7+ goals
+    if (outcome.id === 30682 && total >= 7) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 30684 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
 
 /**
  * Function that validates all the markets from Igubet
@@ -1011,6 +1118,9 @@ export const validateMarkets = (
       case 387: // highest scoring half
         return validateHighestScoringHalf(market, periods);
 
+      case 108: // home team to score in both halves
+        return validateHomeTeamToScoreInBothHalves(market, periods);
+
       case 4591: // away team to score in both halves
         return validateAwayTeamToScoreInBothHalves(market, periods);
 
@@ -1026,8 +1136,8 @@ export const validateMarkets = (
       case 23890: // away team multigoals
         return validateAwayTeamMultigoals(market, periods);
 
-
-
+      case 4486: // multigoals
+        return validateMultigoals(market, periods);
       default:
         break;
     }
