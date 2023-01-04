@@ -337,6 +337,56 @@ const validateAwayTeamToWinEitherHalf = (
   return { ...market, outcomes };
 };
 
+const validateFirstHalfBothTeamsToScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home;
+  const awayScore = periods[0].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 895 && homeScore > 0 && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 896 && (homeScore === 0 || awayScore === 0)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateSecondHalfBothTeamsToScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[1].home;
+  const awayScore = periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 153507 && homeScore > 0 && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 153508 && (homeScore === 0 || awayScore === 0)) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 
 export const validateHalfMarkets = (
   markets: IIgubetMarket[],
@@ -373,6 +423,12 @@ export const validateHalfMarkets = (
       case 4543: // away team to win either half
         return validateAwayTeamToWinEitherHalf(market, periods);
 
+      case 164: // 1st half both teams to score
+        return validateFirstHalfBothTeamsToScore(market, periods);
+
+      case 23333: // 2nd half both teams to score
+        return validateSecondHalfBothTeamsToScore(market, periods);
+    
       default:
         break;
     }
