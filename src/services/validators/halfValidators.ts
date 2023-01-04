@@ -285,6 +285,59 @@ const validateSecondHalfDoubleChanceandBothTeamsToScore = (
   return { ...market, outcomes };
 };
 
+const validateHomeTeamToWinEitherHalf = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const wonFirst = periods[0].home > periods[0].away;
+  const wonSecond = periods[1].home > periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 32505 && (wonFirst || wonSecond)) {
+      newOutcome.is_winner = true;
+    }
+
+    // no
+    if (outcome.id === 32508 && !wonFirst && !wonFirst) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateAwayTeamToWinEitherHalf = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const wonFirst = periods[0].home < periods[0].away;
+  const wonSecond = periods[1].home < periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 31066 && (wonFirst || wonSecond)) {
+      newOutcome.is_winner = true;
+    }
+
+    // no
+    if (outcome.id === 31070 && !wonFirst && !wonFirst) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
 export const validateHalfMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -313,6 +366,12 @@ export const validateHalfMarkets = (
 
       case 469: // 2nd half - double chance && GG
         return validateSecondHalfDoubleChanceandBothTeamsToScore(market, periods);
+
+      case 5008: // home team to win either half
+        return validateHomeTeamToWinEitherHalf(market, periods);
+
+      case 4543: // away team to win either half
+        return validateAwayTeamToWinEitherHalf(market, periods);
 
       default:
         break;
