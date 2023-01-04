@@ -114,6 +114,92 @@ const validateSecondHalfDoubleChance = (
   return { ...market, outcomes };
 };
 
+const validateFirstHalf1x2andBothTeamsToScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home;
+  const awayScore = periods[0].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1 & yes
+    if (outcome.id === 849 && homeScore > awayScore && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1 & no
+    if (outcome.id === 851 && homeScore > awayScore && awayScore === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    // X & yes
+    if (outcome.id === 854 && homeScore === awayScore && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // x & no
+    if (outcome.id === 855 && homeScore === 0 && awayScore === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    // 2 & yes
+    if (outcome.id === 856 && homeScore < awayScore && homeScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2 & no
+    if (outcome.id === 857 && homeScore < awayScore && homeScore === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+const validateSecondHalf1x2andBothTeamsToScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[1].home;
+  const awayScore = periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1 & yes
+    if (outcome.id === 1488 && homeScore > awayScore && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1 & no
+    if (outcome.id === 1489 && homeScore > awayScore && awayScore === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    // X & yes
+    if (outcome.id === 1490 && homeScore === awayScore && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // x & no
+    if (outcome.id === 1491 && homeScore === 0 && awayScore === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    // 2 & yes
+    if (outcome.id === 1492 && homeScore < awayScore && homeScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2 & no
+    if (outcome.id === 1493 && homeScore < awayScore && homeScore === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
 export const validateHalfMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -130,6 +216,12 @@ export const validateHalfMarkets = (
 
       case 392: // 2nd half double chance
         return validateSecondHalfDoubleChance(market, periods);
+
+      case 150: // 1st half 1x2 and GG
+        return validateFirstHalf1x2andBothTeamsToScore(market, periods);
+
+      case 406: // 2nd half 1x2 and GG
+        return validateSecondHalf1x2andBothTeamsToScore(market, periods);
       default:
         break;
     }
