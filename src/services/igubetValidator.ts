@@ -1091,6 +1091,38 @@ const validateHalftimeFulltime = (market: IIgubetMarket, periods: IOddspediaMatc
 };
 
 
+const validateDoubleChance = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1X
+    if (outcome.id === 31139 && homeScore >= awayScore) {
+      newOutcome.is_winner = true;
+    }
+    // 12
+    if (outcome.id === 31140 && homeScore !== awayScore) {
+      newOutcome.is_winner = true;
+    }
+
+    // X2
+    if (outcome.id === 31141 && homeScore <= awayScore) {
+      newOutcome.is_winner = true;
+    }
+    
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
 /**
  * Function that validates all the markets from Igubet
  * @param markets - the markets array
@@ -1113,6 +1145,9 @@ export const validateMarkets = (
     switch (market.id) {
       case 4761: // 1x2
         return validate1x2(market, periods);
+
+      case 4568: // double chance
+        return validateDoubleChance(market, periods);
 
       case 391: // both teams to score
         return validateBothTeamsToScore(market, periods);
