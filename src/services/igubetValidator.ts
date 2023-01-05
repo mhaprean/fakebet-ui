@@ -1031,6 +1031,66 @@ const validateMultigoals = (market: IIgubetMarket, periods: IOddspediaMatchInfoP
   return { ...market, outcomes };
 };
 
+
+const validateHalftimeFulltime = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const firstHalf = periods[0].home > periods[0].away ? '1' : (periods[0].home === periods[0].away ? 'X' : '2');
+  const final = homeScore > awayScore ? '1' : (homeScore === awayScore ? 'X' : '2');
+
+  const htimeFtime = `${firstHalf}/${final}`; 
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1/1
+    if (outcome.id === 1272 && htimeFtime === '1/1') {
+      newOutcome.is_winner = true;
+    }
+    // 1/X
+    if (outcome.id === 1273 && htimeFtime === '1/X') {
+      newOutcome.is_winner = true;
+    }
+    // 1/2
+    if (outcome.id === 1274 && htimeFtime === '1/2') {
+      newOutcome.is_winner = true;
+    }
+
+    // X/1
+    if (outcome.id === 1275 && htimeFtime === 'X/1') {
+      newOutcome.is_winner = true;
+    }
+    // X/X
+    if (outcome.id === 1276 && htimeFtime === 'X/X') {
+      newOutcome.is_winner = true;
+    }
+    // X/2
+    if (outcome.id === 1277 && htimeFtime === 'X/2') {
+      newOutcome.is_winner = true;
+    }
+
+    
+    // 2/1
+    if (outcome.id === 1278 && htimeFtime === '2/1') {
+      newOutcome.is_winner = true;
+    }
+    // 2/X
+    if (outcome.id === 1279 && htimeFtime === '2/X') {
+      newOutcome.is_winner = true;
+    }
+    // 2/2
+    if (outcome.id === 1280 && htimeFtime === '2/2') {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+
 /**
  * Function that validates all the markets from Igubet
  * @param markets - the markets array
@@ -1150,7 +1210,8 @@ export const validateMarkets = (
       case 4486: // multigoals
         return validateMultigoals(market, periods);
 
-
+      case 322: // halftime / fulltime
+        return validateHalftimeFulltime(market, periods);
 
       default:
         break;
