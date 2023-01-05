@@ -8,7 +8,7 @@ const excludeIds = [
 ];
 
 // not the most common betting options. exclude for now, maybe implement in the future
-const excludeIdsForNow = [23875, 2, 14, 103, 104, 135, 195, 539, 675, 4119, 3889, 4286];
+const excludeIdsForNow = [23875, 2, 14, 103, 104, 135, 195, 539, 675, 4119, 3889, 4286, 246];
 
 const allowedSpecifiers = [
   'total=0.5',
