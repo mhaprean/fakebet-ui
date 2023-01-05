@@ -8,7 +8,7 @@ const excludeIds = [
 ];
 
 // not the most common betting options. exclude for now, maybe implement in the future
-const excludeIdsForNow = [23875, 2, 14, 103, 104, 135, 195, 539, 675, 4119, 3889];
+const excludeIdsForNow = [23875, 2, 14, 103, 104, 135, 195, 539, 675, 4119, 3889, 4286];
 
 const allowedSpecifiers = [
   'total=0.5',
@@ -83,12 +83,12 @@ export const outcomeExternalIds: { [key: string]: string } = {
   1714: 'Home', // id:297# external_id:16 - Handicap hcp=-0.5
   1715: 'Away',
 
-  1718: '1X & GG', // double chance & both teams to score
-  1719: '1X & NG',
-  1720: '12 & GG',
-  1721: '12 & NG',
-  1722: 'X2 & GG',
-  1723: 'X2 & NG',
+  1718: '1X & Yes', // double chance & both teams to score
+  1719: '1X & No',
+  1720: '12 & Yes',
+  1721: '12 & No',
+  1722: 'X2 & Yes',
+  1723: 'X2 & No',
 
   1724: '1X & under', // double chance & total (1.5)
   1725: '12 & under',
