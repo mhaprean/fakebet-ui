@@ -241,7 +241,6 @@ const validateHalftimeFulltimeAndTotal = (
   return { ...market, outcomes };
 };
 
-
 const validateHalftimeFulltimeAndFirstHalfTotal = (
   market: IIgubetMarket,
   periods: IOddspediaMatchInfoPeriods
@@ -347,7 +346,6 @@ const validateHalftimeFulltimeAndFirstHalfTotal = (
   return { ...market, outcomes };
 };
 
-
 const validate1x2AndBothTeamsToScore = (
   market: IIgubetMarket,
   periods: IOddspediaMatchInfoPeriods
@@ -393,6 +391,45 @@ const validate1x2AndBothTeamsToScore = (
   return { ...market, outcomes };
 };
 
+const validateTotalGoalsAndBothTeamsToScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const bothScored = homeScore > 0 && awayScore > 0;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // over and yes
+    if (outcome.id === 1314 && total > limit && bothScored) {
+      newOutcome.is_winner = true;
+    }
+    // under and yes
+    if (outcome.id === 1315 && total < limit && bothScored) {
+      newOutcome.is_winner = true;
+    }
+
+    // over and no
+    if (outcome.id === 1316 && total > limit && !bothScored) {
+      newOutcome.is_winner = true;
+    }
+    // under and no
+    if (outcome.id === 1317 && total < limit && !bothScored) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
 
 export const validateComboMarkets = (
   markets: IIgubetMarket[],
@@ -400,10 +437,9 @@ export const validateComboMarkets = (
 ): IIgubetMarket[] => {
   return markets.map((market, idx) => {
     switch (market.id) {
-
       case 459: // 1x2 & GG
         return validate1x2AndBothTeamsToScore(market, periods);
-        
+
       case 47: // double chance & GG
         return validateDoubleChanceAndBothTeamsToScore(market, periods);
 
@@ -416,9 +452,11 @@ export const validateComboMarkets = (
       case 71: // halftime/fulltime & total (over or under)
         return validateHalftimeFulltimeAndTotal(market, periods);
 
-
-      case 146: // halfttime/fulltime & 1st half total 
+      case 146: // halfttime/fulltime & 1st half total
         return validateHalftimeFulltimeAndFirstHalfTotal(market, periods);
+
+      case 337: // total & both teams to score
+        return validateTotalGoalsAndBothTeamsToScore(market, periods);
       default:
         break;
     }
