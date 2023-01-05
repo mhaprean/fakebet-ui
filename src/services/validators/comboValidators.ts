@@ -431,6 +431,57 @@ const validateTotalGoalsAndBothTeamsToScore = (
   return { ...market, outcomes };
 };
 
+const validateDrawOrOver = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 32482 && (homeScore === awayScore || total > limit)) {
+      newOutcome.is_winner = true;
+    }
+    if (outcome.id === 32483 && homeScore !== awayScore && total < limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateDrawOrUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const limit = parseFloat(market.specifier.replace('total=', ''));
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // yes
+    if (outcome.id === 2493 && (homeScore === awayScore || total < limit)) {
+      newOutcome.is_winner = true;
+    }
+    // no
+    if (outcome.id === 2495 && homeScore !== awayScore && total > limit) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 export const validateComboMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -457,6 +508,13 @@ export const validateComboMarkets = (
 
       case 337: // total & both teams to score
         return validateTotalGoalsAndBothTeamsToScore(market, periods);
+
+      case 4996: // X or over 2.5
+        return validateDrawOrOver(market, periods);
+
+      case 583: // X or under
+        return validateDrawOrUnder(market, periods);
+
       default:
         break;
     }

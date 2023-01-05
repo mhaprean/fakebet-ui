@@ -337,6 +337,246 @@ const validateMultiscores = (market: IIgubetMarket, periods: IOddspediaMatchInfo
   return { ...market, outcomes };
 };
 
+const validateMultigoals = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = homeScore + awayScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 30652 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 30657 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-4 goals
+    if (outcome.id === 30659 && total <= 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-5 goals
+    if (outcome.id === 30661 && total <= 5 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-6 goals
+    if (outcome.id === 30663 && total <= 6 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+
+    // 2-3 goals
+    if (outcome.id === 30666 && total <= 3 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 2-4 goals
+    if (outcome.id === 30668 && total <= 4 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 2-5 goals
+    if (outcome.id === 30670 && total <= 5 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 2-6 goals
+    if (outcome.id === 30672 && total <= 6 && total >= 2) {
+      newOutcome.is_winner = true;
+    }
+    // 3-4 goals
+    if (outcome.id === 30674 && total <= 4 && total >= 3) {
+      newOutcome.is_winner = true;
+    }
+    // 3-5 goals
+    if (outcome.id === 30675 && total <= 5 && total >= 3) {
+      newOutcome.is_winner = true;
+    }
+    // 3-6 goals
+    if (outcome.id === 30676 && total <= 6 && total >= 3) {
+      newOutcome.is_winner = true;
+    }
+    // 4-5 goals
+    if (outcome.id === 30678 && total <= 5 && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 4-6 goals
+    if (outcome.id === 30679 && total <= 6 && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 5-6 goals
+    if (outcome.id === 30681 && total <= 6 && total >= 5) {
+      newOutcome.is_winner = true;
+    }
+
+    // 7+ goals
+    if (outcome.id === 30682 && total >= 7) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 30684 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateFirstHalfMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home;
+  const awayScore = periods[0].away;
+
+  const total = awayScore + homeScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 30954 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 30955 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 30956 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 30957 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 30958 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateSecondHalfMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[1].home;
+  const awayScore = periods[1].away;
+
+  const total = awayScore + homeScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 32090 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 32091 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 32092 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 32093 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 32094 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateAwayTeamMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const awayScore = periods[0].away + periods[1].away;
+
+  const total = awayScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 159988 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 159989 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 159990 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 159991 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 159992 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
+const validateHomeTeamMultigoals = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+
+  const total = homeScore;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 1-2 goals
+    if (outcome.id === 29607 && total < 3 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 1-3 goals
+    if (outcome.id === 29608 && total < 4 && total > 0) {
+      newOutcome.is_winner = true;
+    }
+    // 2-3 goals
+    if (outcome.id === 29609 && total < 4 && total > 1) {
+      newOutcome.is_winner = true;
+    }
+    // 4+ goals
+    if (outcome.id === 29611 && total > 3) {
+      newOutcome.is_winner = true;
+    }
+    // no goals
+    if (outcome.id === 29612 && total === 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 export const validateScoreMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -345,14 +585,31 @@ export const validateScoreMarkets = (
     switch (market.id) {
       case 76: // correct score
         return validateCorrectScore(market, periods);
+
       case 126: // 1st half - correct score
         return validateFirstHalfCorrectScore(market, periods);
+
       case 4508: // 2nd half - correct score
         return validateSecondHalfCorrectScore(market, periods);
 
       case 398: // multiscores
         return validateMultiscores(market, periods);
-        
+
+      case 4486: // multigoals
+        return validateMultigoals(market, periods);
+
+      case 4514: // 1st half - multigoals
+        return validateFirstHalfMultigoals(market, periods);
+
+      case 4888: // 2ns half - multigoals
+        return validateSecondHalfMultigoals(market, periods);
+
+      case 4278: // home team multigoals
+        return validateHomeTeamMultigoals(market, periods);
+
+      case 23890: // away team multigoals
+        return validateAwayTeamMultigoals(market, periods);
+
       default:
         break;
     }
