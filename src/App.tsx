@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import NotFoundPage from './pages/404';
+import CategoryPage from './pages/CategoryPage';
 import IIgubetCategories from './pages/IgubetCategories';
 import IgubetLeague from './pages/IgubetLeague';
 import IgubetMatch from './pages/IgubetMatch';
@@ -38,6 +39,9 @@ const App = () => {
               <Route path="/" element={<div>dashboard</div>} />
 
               <Route path="/sports/:sport/event/:event" element={<MatchPage />} />
+
+              <Route path="/sports/:sport/:category" element={<CategoryPage />} />
+
               <Route path="/sports/:sport/:category/:league" element={<LeaguePage />} />
 
               <Route path="/oddspedia-categories" element={<OddspediaCategories />} />

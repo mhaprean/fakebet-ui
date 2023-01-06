@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import { useGetMatchInfoQuery } from '../redux/features/oddspediaApi';
 
 const MatchPage = () => {
@@ -8,12 +9,40 @@ const MatchPage = () => {
     { matchKey: event || 1 },
     { refetchOnMountOrArgChange: true }
   );
+
+  const breadcrumbsArray: IBreadcrumb[] = [
+    {
+      name: 'Home',
+      to: '/',
+    },
+    {
+      name: matchInfoRes?.data.sport_name,
+      to: `/sports/${matchInfoRes?.data.sport_slug}`,
+    },
+    {
+      name: matchInfoRes?.data.category_name,
+      to: `/sports/${matchInfoRes?.data.sport_slug}/${matchInfoRes?.data.category_slug}`,
+    },
+    {
+      name: matchInfoRes?.data.league_name,
+      to: `/sports/${matchInfoRes?.data.sport_slug}/${matchInfoRes?.data.category_slug}/${matchInfoRes?.data.league_slug}`,
+    },
+    {
+      name: `${matchInfoRes?.data.ht_abbr} - ${matchInfoRes?.data.at_abbr}`,
+      to: '',
+    },
+  ];
+
   return (
     <div>
-      MatchPage
-      {isMatchInfoSucces && <div>
-        {matchInfoRes.data.ht} {matchInfoRes.data.at}
-        </div>}
+      {isMatchInfoSucces && (
+        <>
+          <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
+          <div>
+            {matchInfoRes.data.ht} {matchInfoRes.data.at}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,10 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
+import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { useGetLeagueInfoQuery, useGetMatchListQuery } from '../redux/features/oddspediaApi';
 
 const LeaguePage = () => {
   const { sport, category, league } = useParams();
 
-  const { data: leagueInfoRes, isLoading } = useGetLeagueInfoQuery(
+  const { data: leagueInfo, isLoading } = useGetLeagueInfoQuery(
     {
       category: category || '',
       league: league || '',
@@ -30,14 +31,36 @@ const LeaguePage = () => {
     { skip: !league }
   );
 
+  const breadcrumbsArray = [
+    {
+      name: 'Home',
+      to: '/',
+    },
+    {
+      name: leagueInfo?.data.sport_name,
+      to: `/sports/${leagueInfo?.data.sport_slug}`,
+    },
+    {
+      name: leagueInfo?.data.category_name,
+      to: `/sports/${leagueInfo?.data.sport_slug}/${leagueInfo?.data.category_slug}`,
+    },
+    {
+      name: leagueInfo?.data.league_name,
+      to: '',
+    },
+  ];
+
   return (
     <div>
-      LeaguePage
-      {isMatchListSucces && matchListResponse.data.matchList.map((match, idx) => <div key={idx} className='match'>
-      <Link to={`/sports/${sport}/event/${match.uri.split('-').pop()}`}>
-        {match.ht} - {match.at}
-      </Link>
-      </div>)}
+      <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
+      {isMatchListSucces &&
+        matchListResponse.data.matchList.map((match, idx) => (
+          <div key={idx} className="match">
+            <Link to={`/sports/${sport}/event/${match.uri.split('-').pop()}`}>
+              {match.ht} - {match.at}
+            </Link>
+          </div>
+        ))}
     </div>
   );
 };
