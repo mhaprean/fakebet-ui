@@ -241,13 +241,13 @@ const formatMarketName = (market: IIgubetMarket) => {
 
 const getMarketRules = (market: IIgubetMarket) => {
   let rules = '';
-  switch (market.market_external_id) {
-    case 1: // 1x2
+  switch (market.id) {
+    case 4761: // 1x2
       rules = `
         Predict the result of the match.`;
       break;
 
-    case 10: // Double chance
+    case 4568: // Double chance
       rules = `
       Bet on two of the three possible outcomes in the match:
 
@@ -257,34 +257,33 @@ const getMarketRules = (market: IIgubetMarket) => {
       `;
       break;
 
-    case 11: // Draw no bet
-      rules = `
-      Predict which team will win the match. Tickets are void if the match result is a draw.
-      `;
-      break;
-
-    case 47:
+    case 322: // halftime/fulltime
       rules = `
       Predict the team to be leading at Half Time and Full Time
       `;
       break;
 
-    case 48:
+    case 23449: // home team to win both halves
       rules = `
       Respective team to score more goals than the opposition in both first and second halves.
       `;
       break;
 
-    case 51:
+    case 4543: // away team to win either half
       rules = `
       Bet on the respective team to score more goals than the away team in either the first or second halves.
       `;
       break;
 
-    case 57:
+    case 4591: // away team to score in both halves
       rules = `
       Bet on the respective team to score a goal in each half.
       `;
+      break;
+
+    case 5017: // european handicap
+      rules = ``;
+
       break;
 
     default:
