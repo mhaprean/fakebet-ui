@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import { useGetMatchInfoQuery } from '../redux/features/oddspediaApi';
 
@@ -38,6 +39,8 @@ const MatchPage = () => {
       {isMatchInfoSucces && (
         <>
           <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
+
+          <MatchPageHeader match={matchInfoRes?.data} />
           <div>
             {matchInfoRes.data.ht} {matchInfoRes.data.at}
           </div>

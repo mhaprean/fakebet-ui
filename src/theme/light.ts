@@ -14,6 +14,7 @@ export const lightTheme = createTheme({
   },
   typography: {
     fontSize: 12,
+    fontFamily: 'Heebo',
     h1: {
       fontSize: 35,
     },
@@ -27,7 +28,8 @@ export const lightTheme = createTheme({
       fontSize: 20,
     },
     h5: {
-      fontSize: 16,
+      fontSize: 14,
+      fontWeight: 700,
     },
     h6: {
       fontSize: 14,
