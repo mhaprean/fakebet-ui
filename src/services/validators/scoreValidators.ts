@@ -577,6 +577,218 @@ const validateHomeTeamMultigoals = (
   return { ...market, outcomes };
 };
 
+const validateHalftimeFulltimeCorrectScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const firstHalfHome = periods[0].home;
+  const firstHalfAway = periods[0].away;
+
+  const firstHalfTotal = periods[0].home + periods[0].away;
+  const total = homeScore + awayScore;
+
+  const score = `${firstHalfHome}:${firstHalfAway} ${homeScore}:${awayScore}`;
+
+  const firstHalfScore = `${firstHalfHome}:${firstHalfAway}`;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // 0:0 0:0
+    if (outcome.id === 27955 && score === '0:0 0:0') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 0:1
+    if (outcome.id === 27956 && score === '0:0 0:1') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 0:2
+    if (outcome.id === 27957 && score === '0:0 0:2') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 0:3
+    if (outcome.id === 27958 && score === '0:0 0:3') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 1:0
+    if (outcome.id === 27959 && score === '0:0 1:0') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 1:1
+    if (outcome.id === 27960 && score === '0:0 1:1') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 1:2
+    if (outcome.id === 27961 && score === '0:0 1:2') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 2:0
+    if (outcome.id === 27962 && score === '0:0 2:0') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 2:1
+    if (outcome.id === 27963 && score === '0:0 2:1') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 3:0
+    if (outcome.id === 27964 && score === '0:0 3:0') {
+      newOutcome.is_winner = true;
+    }
+    // 0:0 4+
+    if (outcome.id === 27965 && firstHalfScore === '0:0' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 0:1
+    if (outcome.id === 27966 && score === '0:1 0:1') {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 0:2
+    if (outcome.id === 27967 && score === '0:1 0:2') {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 0:3
+    if (outcome.id === 27968 && score === '0:1 0:3') {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 1:1
+    if (outcome.id === 27969 && score === '0:1 1:1') {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 1:2
+    if (outcome.id === 27970 && score === '0:1 1:2') {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 2:1
+    if (outcome.id === 27971 && score === '0:1 2:1') {
+      newOutcome.is_winner = true;
+    }
+    // 0:1 4+
+    if (outcome.id === 27972 && firstHalfScore === '0:1' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 0:2 0:2
+    if (outcome.id === 27973 && score === '0:2 0:2') {
+      newOutcome.is_winner = true;
+    }
+    // 0:2 0:3
+    if (outcome.id === 27974 && score === '0:2 0:3') {
+      newOutcome.is_winner = true;
+    }
+    // 0:2 1:2
+    if (outcome.id === 27975 && score === '0:2 1:2') {
+      newOutcome.is_winner = true;
+    }
+    // 0:2 4+
+    if (outcome.id === 27976 && firstHalfScore === '0:2' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 0:3 0:3
+    if (outcome.id === 27977 && score === '0:3 0:3') {
+      newOutcome.is_winner = true;
+    }
+    // 0:3 4+
+    if (outcome.id === 27978 && firstHalfScore === '0:3' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 1:0
+    if (outcome.id === 27979 && score === '1:0 1:0') {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 1:1
+    if (outcome.id === 27980 && score === '1:0 1:1') {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 1:2
+    if (outcome.id === 27981 && score === '1:0 1:2') {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 2:0
+    if (outcome.id === 27982 && score === '1:0 2:0') {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 2:1
+    if (outcome.id === 27983 && score === '1:0 2:1') {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 3:0
+    if (outcome.id === 27984 && score === '1:0 3:0') {
+      newOutcome.is_winner = true;
+    }
+    // 1:0 4+
+    if (outcome.id === 27985 && firstHalfScore === '1:0' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 1:1 1:1
+    if (outcome.id === 27986 && score === '1:1 1:1') {
+      newOutcome.is_winner = true;
+    }
+    // 1:1 1:2
+    if (outcome.id === 27987 && score === '1:1 1:2') {
+      newOutcome.is_winner = true;
+    }
+    // 1:1 2:1
+    if (outcome.id === 27988 && score === '1:1 2:1') {
+      newOutcome.is_winner = true;
+    }
+    // 1:1 4+
+    if (outcome.id === 27989 && firstHalfScore === '1:1' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 1:2 1:2
+    if (outcome.id === 27990 && score === '1:2 1:2') {
+      newOutcome.is_winner = true;
+    }
+    // 1:2 4+
+    if (outcome.id === 27991 && firstHalfScore === '1:2' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 2:0 2:0
+    if (outcome.id === 27992 && score === '2:0 2:0') {
+      newOutcome.is_winner = true;
+    }
+    // 2:0 2:1
+    if (outcome.id === 27993 && score === '2:0 2:1') {
+      newOutcome.is_winner = true;
+    }
+    // 2:0 3:0
+    if (outcome.id === 27994 && score === '2:0 3:0') {
+      newOutcome.is_winner = true;
+    }
+    // 2:0 4+
+    if (outcome.id === 27995 && firstHalfScore === '2:0' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 2:1 2:1
+    if (outcome.id === 27996 && score === '2:1 2:1') {
+      newOutcome.is_winner = true;
+    }
+    // 2:1 4+
+    if (outcome.id === 27997 && firstHalfScore === '2:1' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+    // 3:0 3:0
+    if (outcome.id === 27998 && score === '3:0 3:0') {
+      newOutcome.is_winner = true;
+    }
+    // 3:0 4+
+    if (outcome.id === 27999 && firstHalfScore === '3:0' && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+
+    // 4+ 4+
+    if (outcome.id === 28000 && firstHalfTotal >= 4 && total >= 4) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 export const validateScoreMarkets = (
   markets: IIgubetMarket[],
   periods: IOddspediaMatchInfoPeriods
@@ -610,6 +822,9 @@ export const validateScoreMarkets = (
       case 23890: // away team multigoals
         return validateAwayTeamMultigoals(market, periods);
 
+      case 3938: // halftime/fulltime correct score
+        return validateHalftimeFulltimeCorrectScore(market, periods);
+        
       default:
         break;
     }
