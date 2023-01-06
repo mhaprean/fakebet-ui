@@ -2,6 +2,7 @@ import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 import { IOddspediaMatchInfoPeriods } from '../redux/features/oddspediaTypes';
 import { validateComboMarkets } from './validators/comboValidators';
 import { validateHalfMarkets } from './validators/halfValidators';
+import { validateHandicapMarkets } from './validators/handicapValidators';
 import { validateScoreMarkets } from './validators/scoreValidators';
 
 const validate1x2 = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
@@ -11,14 +12,15 @@ const validate1x2 = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods)
   const outcomes = market.outcomes.map((outcome, idx) => {
     const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
 
+    // home
     if (outcome.id === 31758 && homeScore > awayScore) {
       newOutcome.is_winner = true;
     }
-
+    // draw
     if (outcome.id === 31759 && homeScore === awayScore) {
       newOutcome.is_winner = true;
     }
-
+    // away
     if (outcome.id === 31760 && homeScore < awayScore) {
       newOutcome.is_winner = true;
     }
@@ -548,7 +550,9 @@ export const validateMarkets = (
 
   const validatedCombos = validateComboMarkets(validatedScores, periods);
 
-  return validatedCombos.map((market, idx) => {
+  const validateHandicap = validateHandicapMarkets(validatedCombos, periods);
+
+  return validateHandicap.map((market, idx) => {
     switch (market.id) {
       case 4761: // 1x2
         return validate1x2(market, periods);
