@@ -139,7 +139,7 @@ const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {
     return `${formatedName} ${limit}`;
   }
 
-  if ([297, 4947, 5106, 5017].includes(market.id)) {
+  if ([297, 23522, 4605, 4947, 5106, 5017].includes(market.id)) {
     const score = market.specifier.replace('hcp=', '');
 
     return `${formatedName} (${score})`;

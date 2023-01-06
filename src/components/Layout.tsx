@@ -2,6 +2,7 @@ import { Box, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useGetLeaguesQuery } from '../redux/features/oddspediaApi';
 import Navigation from './Navigation';
 import Sidebar from './Sidebar';
 
@@ -24,13 +25,15 @@ interface IPropsLayout {
 const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const { data: topLeaguesResponse } = useGetLeaguesQuery({ topLeaguesOnly: 1 });
+
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
   };
 
   return (
     <StyledLayout className="Layout">
-      <Box sx={{ width: { xs: 0, sm: 250}, flexShrink: 0}}>
+      <Box sx={{ width: { xs: 0, sm: 250 }, flexShrink: 0 }}>
         <Drawer
           variant="temporary"
           open={menuOpen}
@@ -43,7 +46,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
           }}
         >
-          <Sidebar />
+          <Sidebar leagues={topLeaguesResponse?.data || []} />
         </Drawer>
 
         <Drawer
@@ -54,11 +57,11 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
           }}
           open
         >
-          <Sidebar />
+          <Sidebar leagues={topLeaguesResponse?.data || []} />
         </Drawer>
       </Box>
 
-      <Box sx={{ flexGrow: 1, width: { xs: '100%',sm: `calc(100% - ${250}px)` }, paddingTop: '50px' }}>
+      <Box sx={{ flexGrow: 1, width: { xs: '100%', sm: `calc(100% - ${250}px)` }, paddingTop: '50px' }}>
         <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
         <Box className="page-content">
           <Outlet />

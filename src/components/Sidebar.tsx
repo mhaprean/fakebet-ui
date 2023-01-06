@@ -11,32 +11,81 @@ import {
   ListItemText,
   Divider,
   Toolbar,
+  Tabs,
+  Tab,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
+import { IOddspediaLeague } from '../redux/features/oddspediaTypes';
 
 const StyledSidebar = styled('div')`
   /* width: 250px; */
   width: 100%;
   height: 100%;
 
-  .logo {
+  .title {
     height: 50px;
     display: flex;
     align-items: center;
     padding: 0 16px;
   }
+
+  .league-image {
+    width: 20px;
+    height: 20px;
+  }
+
+  .league-name {
+    .MuiTypography-root {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 `;
 
-const Sidebar = () => {
+interface IPropsSidebar {
+  leagues: IOddspediaLeague[];
+}
+
+const Sidebar = ({ leagues }: IPropsSidebar) => {
   const location = useLocation();
+
   return (
     <StyledSidebar className="Sidebar">
-      <Box className="logo">
+      <Box className="title">
         <Typography variant="h6">Fakebet Admin</Typography>
       </Box>
 
-      <Box className="logo">
+      <Box className="title">
+        <Typography variant="h6">Top Leagues</Typography>
+      </Box>
+
+      <List>
+        {leagues.map((league, idx) => (
+          <Link key={idx} to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}>
+            <ListItem disablePadding>
+              <ListItemButton selected={location.pathname === '/'}>
+                <ListItemIcon>
+                  <img
+                    className="league-image"
+                    src={`https://cdn.oddspedia.com/images/leagues/small/${league.sport_slug}/${league.category_slug}/${league.league_slug}.png`}
+                    alt=""
+                  />
+                </ListItemIcon>
+
+                <ListItemText
+                  title={league.league_name}
+                  className="league-name"
+                  primary={league.league_name}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+
+      <Box className="title">
         <Typography variant="h6">Oddspedia</Typography>
       </Box>
 
@@ -73,7 +122,7 @@ const Sidebar = () => {
         </Link>
       </List>
       <Divider />
-      <Box className="logo">
+      <Box className="title">
         <Typography variant="h6">Igubet</Typography>
       </Box>
       <List>
@@ -97,7 +146,6 @@ const Sidebar = () => {
             </ListItemButton>
           </ListItem>
         </Link>
-
       </List>
     </StyledSidebar>
   );
