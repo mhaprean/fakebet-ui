@@ -51,11 +51,18 @@ interface IGetMatchListParams {
   sortBy?: string;
   status?: string;
   sport?: string;
+  category?: string;
+  league?: string;
   perPageDefault?: number;
   perPage?: number;
   page?: number;
   startDate?: string;
   endDate?: string;
+  geoCode?: string;
+
+  // optional
+  seasonId?: number;
+  round?: number;
 }
 
 interface IGetOddsNamesResponse {
@@ -121,9 +128,13 @@ export const oddspediaApi = createApi({
         perPageDefault = 150,
         perPage = 150,
         page = 1,
+        category = '',
+        league = '',
         sortBy = 'default',
         status = 'all',
         popularLeaguesOnly = 0,
+        startDate,
+        endDate,
       }: IGetMatchListParams) => {
         return {
           url: 'getMatchList',
@@ -132,12 +143,16 @@ export const oddspediaApi = createApi({
             language: 'en',
             excludeSpecialStatus,
             sport,
+            category,
+            league,
             status,
             page,
             perPage,
             perPageDefault,
             sortBy,
             popularLeaguesOnly,
+            startDate,
+            endDate,
           },
         };
       },
@@ -204,7 +219,12 @@ export const oddspediaApi = createApi({
   }),
 });
 
-export const { useGetLeaguesQuery, useGetCategoriesQuery, useGetMatchListQuery, useGetLeagueInfoQuery } =
-  oddspediaApi;
+export const {
+  useGetLeaguesQuery,
+  useGetCategoriesQuery,
+  useGetMatchListQuery,
+  useGetLeagueInfoQuery,
+  useGetMatchInfoQuery,
+} = oddspediaApi;
 
 export default oddspediaApi;
