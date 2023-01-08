@@ -63,7 +63,7 @@ interface IOddspediaMatchListLeague {
   has_scheme: boolean;
 }
 
-interface IOddspediaMatch {
+export interface IOddspediaMatch {
   id: number;
   md: string;
   ht: string;
@@ -108,6 +108,13 @@ interface IOddspediaMatch {
   aggregate_away_score: null;
   group_name: string;
   has_special_offer: null;
+
+
+  // custom
+  startTime?: string;
+  endTime?: string;
+  starttime?: string;
+  endtime?: string;
 }
 
 export interface IOddspediaGetMatchListData {
