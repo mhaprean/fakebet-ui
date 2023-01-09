@@ -65,7 +65,12 @@ const Sidebar = ({ leagues }: IPropsSidebar) => {
         {leagues.map((league, idx) => (
           <Link key={idx} to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}>
             <ListItem disablePadding>
-              <ListItemButton selected={location.pathname === '/'}>
+              <ListItemButton
+                selected={
+                  location.pathname ===
+                  `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
+                }
+              >
                 <ListItemIcon>
                   <img
                     className="league-image"

@@ -1,10 +1,11 @@
 import { IIgubetMarket, IOutcome } from '../redux/features/igubetTypes';
 
 const excludeIds = [
-  17, 36, 49, 70, 75, 89, 222, 247, 287, 269, 284, 295, 487, 317, 351, 359, 369, 379, 399, 535, 542, 605, 626, 631, 669, 815, 3891, 3910, 3960, 3980,
-  3981, 4076, 4085, 4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312, 4457, 4585, 4643, 4471, 4710, 4742, 4769, 4773,
-  4849, 4864, 4896, 4929, 5034, 23328, 23347, 23362, 23365, 23366, 23368, 23369, 23370, 23371, 23575, 23372, 23929, 
-  23619, 23995, 23972, 4155, 4145, 4228, 4336, 4487, 4944,
+  17, 36, 49, 70, 75, 89, 222, 247, 287, 269, 284, 295, 487, 317, 351, 359, 369, 379, 399, 535, 542, 605, 626,
+  631, 669, 815, 3891, 3910, 3960, 3980, 3981, 4076, 4085, 4144, 4164, 4197, 4238, 4239, 4240, 4241, 4312,
+  4457, 4585, 4643, 4471, 4710, 4742, 4769, 4773, 4849, 4864, 4896, 4929, 5034, 23328, 23347, 23362, 23365,
+  23366, 23368, 23369, 23370, 23371, 23575, 23372, 23929, 23619, 23995, 23972, 4155, 4145, 4228, 4336, 4487,
+  4944,
 ];
 
 // not the most common betting options. exclude for now, maybe implement in the future
@@ -142,7 +143,22 @@ const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {
   if ([297, 23522, 4605, 4947, 5106, 5017].includes(market.id)) {
     const score = market.specifier.replace('hcp=', '');
 
-    return `${formatedName} (${score})`;
+    // meaning that is european handicap, like 1:0 /  0:2 etc.
+    if (score.includes(':')) {
+      return `${formatedName} (${score})`;
+    }
+
+    const hcp = parseFloat(score);
+
+    const outcomeSpecifier = parseFloat(outcome.name.replace(')', '').split('(')[1]);
+
+    if (hcp === outcomeSpecifier) {
+      return `${formatedName} (${hcp < 0 ? hcp : '+' + hcp})`;
+    }
+
+    if (hcp === outcomeSpecifier * -1) {
+      return `${formatedName} (${-1 * hcp < 0 ? -1 * hcp : '+' + -1 * hcp})`;
+    }
   }
   return formatedName;
 };
@@ -185,7 +201,6 @@ const formatMarketName = (market: IIgubetMarket) => {
   }
 
   if (market.specifier && market.specifier.includes('hcp=')) {
-
     const hcp = market.specifier.replace('hcp=', '');
 
     return `${market.name} (${hcp})`;
