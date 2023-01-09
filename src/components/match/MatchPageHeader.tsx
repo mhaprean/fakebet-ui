@@ -103,6 +103,7 @@ const StyledMatchPageHeader = styled('div')`
 
     .remaining {
       font-size: 24px;
+      font-weight: ${props => props.theme.typography.fontWeightMedium};
 
       &.isLive {
         color: ${(props) => props.theme.palette.error.main};

@@ -10,6 +10,9 @@ export const darkTheme = createTheme({
 
     },
     primary: {
+      main: '#10b981',
+    },
+    secondary: {
       main: '#fc4747',
     },
     text: {

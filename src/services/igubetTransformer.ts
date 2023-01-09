@@ -22,6 +22,10 @@ const allowedSpecifiers = [
   'hcp=-1.5',
   'hcp=-2.5',
   'hcp=-3.5',
+  'hcp=0.5',
+  'hcp=1.5',
+  'hcp=2.5',
+  'hcp=3.5',
   'hcp=1:0',
   'hcp=0:1',
   'hcp=2:0',
@@ -310,8 +314,7 @@ const getMarketRules = (market: IIgubetMarket) => {
 
 export const transformIgubetMarkets = (markets: IIgubetMarket[]): IIgubetMarket[] => {
   const result = markets
-    .filter((market) => !excludeIds.includes(market.id))
-    .filter((market) => !excludeIdsForNow.includes(market.id))
+    .filter((market) => !excludeIds.includes(market.id) && !excludeIdsForNow.includes(market.id))
     .filter((market) => allowedSpecifiers.includes(market.specifier))
     .map((market) => {
       const newOutcomes = market.outcomes.map((outcome) => {

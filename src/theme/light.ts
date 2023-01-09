@@ -6,6 +6,12 @@ export const lightTheme = createTheme({
     background: {
       default: '#edf3f7',
     },
+    primary: {
+      main: '#10b981',
+    },
+    secondary: {
+      main: '#fc4747',
+    },
   },
   mixins: {
     toolbar: {

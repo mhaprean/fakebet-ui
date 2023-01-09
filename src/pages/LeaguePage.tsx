@@ -57,10 +57,7 @@ const LeaguePage = () => {
       {isMatchListSucces &&
         matchListResponse.data.matchList.map((match, idx) => (
           <div key={idx} className="match">
-            <Link to={`/sports/${sport}/event/${match.uri.split('-').pop()}`}>
-
-              <Match match={match} />
-            </Link>
+            <Match match={match} />
           </div>
         ))}
     </div>

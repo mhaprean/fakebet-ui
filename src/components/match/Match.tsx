@@ -170,7 +170,7 @@ const Match = ({ match }: IPropsMatch) => {
           </div>
         </div>
         <div className="more">
-          <Link to={`/sports/${matchSport.slug}/event/${match.id}`} style={{ textDecoration: 'none' }}>
+          <Link to={`/sports/${matchSport.slug}/event/${match.uri.split('-').pop()}`} style={{ textDecoration: 'none' }}>
             <Button className="seeAllButton" size="small" title={'See all'}>
               +See all
             </Button>

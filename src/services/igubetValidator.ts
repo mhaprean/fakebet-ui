@@ -368,7 +368,6 @@ const validateOddOrEven = (market: IIgubetMarket, periods: IOddspediaMatchInfoPe
   return { ...market, outcomes };
 };
 
-
 const validateHomeTeamToScoreInBothHalves = (
   market: IIgubetMarket,
   periods: IOddspediaMatchInfoPeriods
@@ -534,6 +533,39 @@ const validateFirstHalfResultOrMatchResult = (
   return { ...market, outcomes };
 };
 
+const validateWhichTeamToScore = (
+  market: IIgubetMarket,
+  periods: IOddspediaMatchInfoPeriods
+): IIgubetMarket => {
+  const homeScore = periods[0].home + periods[1].home;
+  const awayScore = periods[0].away + periods[1].away;
+
+  const outcomes = market.outcomes.map((outcome, idx) => {
+    const newOutcome: IOutcome = { ...outcome, is_validated: true, is_winner: false };
+
+    // none to score
+    if (outcome.id === 891 && homeScore === 0 && awayScore === 0) {
+      newOutcome.is_winner = true;
+    }
+    // home only
+    if (outcome.id === 892 && homeScore > 0 && awayScore === 0) {
+      newOutcome.is_winner = true;
+    }
+    // away only
+    if (outcome.id === 893 && homeScore === 0 && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+    // both to score
+    if (outcome.id === 894 && homeScore > 0 && awayScore > 0) {
+      newOutcome.is_winner = true;
+    }
+
+    return newOutcome;
+  });
+
+  return { ...market, outcomes };
+};
+
 /**
  * Function that validates all the markets from Igubet
  * @param markets - the markets array
@@ -607,6 +639,9 @@ export const validateMarkets = (
 
       case 8225098: // 1st half result or match result
         return validateFirstHalfResultOrMatchResult(market, periods);
+
+      case 163: // which team to score
+        return validateWhichTeamToScore(market, periods);
       default:
         break;
     }
