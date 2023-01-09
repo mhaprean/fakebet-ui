@@ -27,6 +27,12 @@ export interface IOddspediaCategory {
   match_count_prematch: number;
   match_count_inplay: number;
   order: number;
+
+  // custom fields
+  igubet_id?: number;
+  sportradar_id?: number;
+  igubet_name?: string;
+  igubet_country_code?: string;
 }
 
 interface IOddspediaMatchListSport {
