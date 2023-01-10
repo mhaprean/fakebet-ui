@@ -2,7 +2,7 @@ import { Box, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useGetLeaguesQuery } from '../redux/features/oddspediaApi';
+import { useGetCategoriesQuery, useGetLeaguesQuery } from '../redux/features/oddspediaApi';
 import Navigation from './Navigation';
 import Sidebar from './Sidebar';
 
@@ -27,6 +27,8 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
 
   const { data: topLeaguesResponse } = useGetLeaguesQuery({ topLeaguesOnly: 1 });
 
+  const { data: categoriesResponse, isLoading: isCategoriesLoading } = useGetCategoriesQuery({});
+
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
   };
@@ -46,7 +48,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
           }}
         >
-          <Sidebar leagues={topLeaguesResponse?.data || []} />
+          <Sidebar leagues={topLeaguesResponse?.data || []} categories={categoriesResponse?.data || []} />
         </Drawer>
 
         <Drawer
@@ -57,7 +59,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
           }}
           open
         >
-          <Sidebar leagues={topLeaguesResponse?.data || []} />
+          <Sidebar leagues={topLeaguesResponse?.data || []} categories={categoriesResponse?.data || []} />
         </Drawer>
       </Box>
 

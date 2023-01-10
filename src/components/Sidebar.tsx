@@ -16,7 +16,8 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
-import { IOddspediaLeague } from '../redux/features/oddspediaTypes';
+import { IOddspediaCategory, IOddspediaLeague } from '../redux/features/oddspediaTypes';
+import CategoryList from './sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`
   /* width: 250px; */
@@ -28,6 +29,20 @@ const StyledSidebar = styled('div')`
     display: flex;
     align-items: center;
     padding: 0 16px;
+  }
+
+  .top-league {
+    &.Mui-selected {
+      box-shadow: inset 4px 0 0 ${(props) => props.theme.palette.secondary.main};
+      background: none;
+    }
+
+    &:hover {
+      box-shadow: inset 4px 0 0 ${(props) => props.theme.palette.secondary.main};
+      background: ${props => props.theme.palette.action.hover};
+    }
+
+
   }
 
   .league-image {
@@ -42,13 +57,18 @@ const StyledSidebar = styled('div')`
       text-overflow: ellipsis;
     }
   }
+
+  .MuiListItemButton-root {
+    padding: 5px 10px;
+  }
 `;
 
 interface IPropsSidebar {
   leagues: IOddspediaLeague[];
+  categories: IOddspediaCategory[];
 }
 
-const Sidebar = ({ leagues }: IPropsSidebar) => {
+const Sidebar = ({ leagues, categories }: IPropsSidebar) => {
   const location = useLocation();
 
   return (
@@ -65,7 +85,7 @@ const Sidebar = ({ leagues }: IPropsSidebar) => {
         {leagues.map((league, idx) => (
           <Link key={idx} to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}>
             <ListItem disablePadding>
-              <ListItemButton
+              <ListItemButton className="top-league"
                 selected={
                   location.pathname ===
                   `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
@@ -84,11 +104,18 @@ const Sidebar = ({ leagues }: IPropsSidebar) => {
                   className="league-name"
                   primary={league.league_name}
                 />
+                                    {league.match_count_prematch}
               </ListItemButton>
             </ListItem>
           </Link>
         ))}
       </List>
+
+      <Box className="title">
+        <Typography variant="h6">All Countries</Typography>
+      </Box>
+
+      <CategoryList categories={categories} />
 
       <Box className="title">
         <Typography variant="h6">Oddspedia</Typography>
