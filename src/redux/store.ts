@@ -20,7 +20,7 @@ export const store = configureStore({
     [oddspediaApi.reducerPath]: oddspediaApi.reducer,
     [igubetApi.reducerPath]: igubetApi.reducer,
     [iguDetaApi.reducerPath]: iguDetaApi.reducer,
-    igudetaauth: persistedIguAuth,
+    iguDetaAuth: persistedIguAuth,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

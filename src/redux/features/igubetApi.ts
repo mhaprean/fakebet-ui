@@ -46,7 +46,7 @@ interface ICategoriesResponse {
   pagination: IIgubetPagination;
 }
 
-interface IMatchMarketsResponse {
+export interface IMatchMarketsResponse {
   data: IIgubetMarket[];
   pagination: IIgubetPagination;
 }

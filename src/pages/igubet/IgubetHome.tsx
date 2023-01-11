@@ -6,7 +6,7 @@ import { loginDeta } from '../../redux/features/iguDetaAuthSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const IgubetHome = () => {
-  const iguDetaAuthState = useAppSelector((state) => state.igudetaauth);
+  const iguDetaAuthState = useAppSelector((state) => state.iguDetaAuth);
   const dispatch = useAppDispatch();
 
   const [loginUser, response] = useLoginUserMutation();

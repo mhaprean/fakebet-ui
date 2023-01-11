@@ -89,8 +89,8 @@ interface IMarket {
 export interface IIgubetMatch {
   id: number;
   urn_id: string;
-  start_time: Date;
-  end_date: Date;
+  start_time: string;
+  end_date: string;
   status: number;
   type: string;
   stage: string;
