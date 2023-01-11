@@ -42,7 +42,42 @@ const getMatchTime = (match: IOddspediaMatch) => {
   return res;
 };
 
+const isDateValid = (day: string) => {
+  const date = moment(day);
+  return date.isValid();
+};
+
+const isToday = (day: string) => {
+  const date = moment(day);
+
+  return date.isSame(new Date(), 'day');
+};
+
+const getCurrentDate = () => {
+  const date = moment().format('YYYY-MM-DD');
+
+  return date;
+};
+
+const getMatchValidationDate = (day: string) => {
+  const date = moment.parseZone(day).add(2, 'hours').format('YYYY-MM-DDTHH:mm:ss[Z]');
+  return date;
+};
+
+const formatDateForEventPage = (day: string) => {
+  const date = moment(day).format('DD-MMM-YYYY HH:mm');
+
+  return date;
+};
+
+// 2023-01-11T20:00:00Z
+
 export const timeFormatService = {
   formatMatchDate,
   getMatchTime,
+  isDateValid,
+  isToday,
+  getCurrentDate,
+  getMatchValidationDate,
+  formatDateForEventPage,
 };
