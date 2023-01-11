@@ -28,9 +28,7 @@ export interface IIguDetaMatch {
   markets: IIgubetMarket[];
 }
 
-interface IAddMatchesResponse {
-
-}
+interface IAddMatchesResponse {}
 
 export const iguDetaApi = createApi({
   reducerPath: 'iguDetaApi',
@@ -72,6 +70,16 @@ export const iguDetaApi = createApi({
       }),
     }),
 
+    getIguDetaMatchMarkets: builder.query<{ match: IIguDetaMatch }, { matchId: number | string }>({
+      query: ({ matchId }) => {
+        return {
+          url: `matches/${matchId}`,
+          params: {
+            limit: 500,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -80,6 +88,7 @@ export const {
   useLoginUserMutation,
   useRegisterUserMutation,
   useAddMatchesMutation,
+  useGetIguDetaMatchMarketsQuery,
 } = iguDetaApi;
 
 export default iguDetaApi;

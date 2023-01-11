@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
+import Market from '../components/match/Market';
 import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
+import { useGetIguDetaMatchMarketsQuery } from '../redux/features/iguDetaApi';
 import { useGetMatchInfoQuery } from '../redux/features/oddspediaApi';
 
 const MatchPage = () => {
@@ -9,6 +11,11 @@ const MatchPage = () => {
   const { data: matchInfoRes, isSuccess: isMatchInfoSucces } = useGetMatchInfoQuery(
     { matchKey: event || 1 },
     { refetchOnMountOrArgChange: true }
+  );
+
+  const { data: matchIguDetaRes, isSuccess: isIguDetaSucces } = useGetIguDetaMatchMarketsQuery(
+    { matchId: matchInfoRes?.data?.sr_id || 0 },
+    { skip: !isMatchInfoSucces }
   );
 
   const breadcrumbsArray: IBreadcrumb[] = [
@@ -43,6 +50,11 @@ const MatchPage = () => {
           <MatchPageHeader match={matchInfoRes?.data} />
           <div>
             {matchInfoRes.data.ht} {matchInfoRes.data.at}
+          </div>
+          <div>
+            {matchIguDetaRes?.match.markets.map((market, idx) => (
+              <Market key={idx} market={market} open={idx < 5} />
+            ))}
           </div>
         </>
       )}
