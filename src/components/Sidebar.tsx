@@ -39,10 +39,8 @@ const StyledSidebar = styled('div')`
 
     &:hover {
       box-shadow: inset 4px 0 0 ${(props) => props.theme.palette.secondary.main};
-      background: ${props => props.theme.palette.action.hover};
+      background: ${(props) => props.theme.palette.action.hover};
     }
-
-
   }
 
   .league-image {
@@ -66,119 +64,103 @@ const StyledSidebar = styled('div')`
 interface IPropsSidebar {
   leagues: IOddspediaLeague[];
   categories: IOddspediaCategory[];
+  isIguAdmin?: boolean;
 }
 
-const Sidebar = ({ leagues, categories }: IPropsSidebar) => {
+const Sidebar = ({ leagues, categories, isIguAdmin = false }: IPropsSidebar) => {
   const location = useLocation();
 
   return (
     <StyledSidebar className="Sidebar">
       <Box className="title">
-        <Typography variant="h6">Fakebet Admin</Typography>
-      </Box>
-
-      <Box className="title">
-        <Typography variant="h6">Top Leagues</Typography>
-      </Box>
-
-      <List>
-        {leagues.map((league, idx) => (
-          <Link key={idx} to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}>
-            <ListItem disablePadding>
-              <ListItemButton className="top-league"
-                selected={
-                  location.pathname ===
-                  `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
-                }
-              >
-                <ListItemIcon>
-                  <img
-                    className="league-image"
-                    src={`https://cdn.oddspedia.com/images/leagues/small/${league.sport_slug}/${league.category_slug}/${league.league_slug}.png`}
-                    alt=""
-                  />
-                </ListItemIcon>
-
-                <ListItemText
-                  title={league.league_name}
-                  className="league-name"
-                  primary={league.league_name}
-                />
-                                    {league.match_count_prematch}
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        ))}
-      </List>
-
-      <Box className="title">
-        <Typography variant="h6">All Countries</Typography>
-      </Box>
-
-      <CategoryList categories={categories} />
-
-      <Box className="title">
-        <Typography variant="h6">Oddspedia</Typography>
-      </Box>
-
-      <List>
         <Link to={'/'}>
-          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === '/'}>
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
+          <Typography variant="h6">Fakebet Admin</Typography>
         </Link>
-        <Link to={'/oddspedia-categories'}>
-          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === '/categories'}>
-              <ListItemIcon>
-                <PublicIcon />
-              </ListItemIcon>
-              <ListItemText primary="Categories" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link to={'/games'}>
-          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === '/games'}>
-              <ListItemIcon>
-                <SportsSoccerIcon />
-              </ListItemIcon>
-              <ListItemText primary="Games" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
-      <Divider />
-      <Box className="title">
-        <Typography variant="h6">Igubet</Typography>
       </Box>
-      <List>
-        <Link to={'/sports'}>
-          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === '/sports'}>
-              <ListItemIcon>
-                <PublicIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sports" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link to={'/sports/1/categories'}>
-          <ListItem disablePadding>
-            <ListItemButton selected={location.pathname === '/sports/1/categories'}>
-              <ListItemIcon>
-                <PublicIcon />
-              </ListItemIcon>
-              <ListItemText primary="Igubet Footbal Categories" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-      </List>
+      <Divider />
+
+      {leagues.length > 0 && !isIguAdmin && (
+        <>
+          <Box className="title">
+            <Typography variant="h6">Top Leagues</Typography>
+          </Box>
+
+          <List>
+            {leagues.map((league, idx) => (
+              <Link
+                key={idx}
+                to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}
+              >
+                <ListItem disablePadding>
+                  <ListItemButton
+                    className="top-league"
+                    selected={
+                      location.pathname ===
+                      `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
+                    }
+                  >
+                    <ListItemIcon>
+                      <img
+                        className="league-image"
+                        src={`https://cdn.oddspedia.com/images/leagues/small/${league.sport_slug}/${league.category_slug}/${league.league_slug}.png`}
+                        alt=""
+                      />
+                    </ListItemIcon>
+
+                    <ListItemText
+                      title={league.league_name}
+                      className="league-name"
+                      primary={league.league_name}
+                    />
+                    {league.match_count_prematch}
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        </>
+      )}
+
+      {categories.length > 0 && !isIguAdmin && (
+        <>
+          <Box className="title">
+            <Typography variant="h6">All Countries</Typography>
+          </Box>
+
+          <CategoryList categories={categories} />
+        </>
+      )}
+
+      {isIguAdmin && (
+        <>
+
+          <Box className="title">
+            <Typography variant="h6">Igubet</Typography>
+          </Box>
+          <List>
+            <Link to={'/igubet/sports'}>
+              <ListItem disablePadding>
+                <ListItemButton selected={location.pathname === '/sports'}>
+                  <ListItemIcon>
+                    <PublicIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sports" />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+            <Link to={'/igubet/sports/1/categories'}>
+              <ListItem disablePadding>
+                <ListItemButton selected={location.pathname === '/sports/1/categories'}>
+                  <ListItemIcon>
+                    <PublicIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Igubet Footbal Categories" />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </List>
+        </>
+      )}
     </StyledSidebar>
   );
 };
