@@ -5,6 +5,7 @@ import { IMatchMarketsResponse, useGetMatchesQuery } from '../../redux/features/
 import { IIgubetMarket } from '../../redux/features/igubetTypes';
 import { IIguDetaMatch, useAddMatchesMutation } from '../../redux/features/iguDetaApi';
 import { transformIgubetMarkets } from '../../services/igubetTransformer';
+import { timeFormatService } from '../../services/timeFormaterService';
 
 function delay(t: number) {
   return new Promise((resolve) => setTimeout(resolve, t));
@@ -37,6 +38,8 @@ const IgubetLeague = () => {
         tournament_name: match.tournament.name,
         category_id: match.tournament.category.id,
         category_name: match.tournament.category.name,
+        is_validated: false,
+        validation_date: timeFormatService.getMatchValidationDate(match.start_time),
         markets: [],
       };
 

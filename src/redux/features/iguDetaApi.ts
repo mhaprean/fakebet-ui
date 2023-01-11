@@ -25,6 +25,8 @@ export interface IIguDetaMatch {
   tournament_name: string;
   category_id: number;
   category_name: string;
+  validation_date: string;
+  is_validated: boolean;
   markets: IIgubetMarket[];
 }
 

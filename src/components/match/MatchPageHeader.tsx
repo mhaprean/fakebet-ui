@@ -3,6 +3,7 @@ import { IOddspediaMatchInfo } from '../../redux/features/oddspediaTypes';
 import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import classNames from 'classnames';
+import { timeFormatService } from '../../services/timeFormaterService';
 
 interface IPropsMatchPageHeader {
   match: IOddspediaMatchInfo;
@@ -140,9 +141,7 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
         </div>
 
         <Typography sx={{ fontSize: 14 }} gutterBottom>
-          {' '}
-          20-Jan-2023 16:30
-          {/* {timeFormatService.formatDateForEventPage(match.starttime || match.md)} */}
+          {timeFormatService.formatDateForEventPage(match.starttime || match.md)}
         </Typography>
 
         <div className="event-container">
