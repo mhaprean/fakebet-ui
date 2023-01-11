@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useGetCategoriesQuery } from '../redux/features/igubetApi';
+import { useGetCategoriesQuery } from '../../redux/features/igubetApi';
 
 const IIgubetCategories = () => {
   const { sport } = useParams();
@@ -16,7 +16,7 @@ const IIgubetCategories = () => {
         categoriesRes &&
         categoriesRes.data.map((cat) => (
           <div key={cat.id}>
-            <Link to={`/igubet-categories/${cat.id}`}>{cat.name}</Link>
+            <Link to={`/igubet/categories/${cat.id}`}>{cat.name}</Link>
           </div>
         ))}
     </div>

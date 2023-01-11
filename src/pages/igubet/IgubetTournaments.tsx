@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useGetTournamentsQuery } from '../redux/features/igubetApi';
+import { useGetTournamentsQuery } from '../../redux/features/igubetApi';
 
 const IgubetTournament = () => {
   const { id } = useParams();
@@ -13,7 +13,7 @@ const IgubetTournament = () => {
         tournamentsRes &&
         tournamentsRes.data.map((tournament) => (
           <div key={tournament.id}>
-            <Link to={`/igubet-league/${tournament.id}`}>
+            <Link to={`/igubet/leagues/${tournament.id}`}>
               {tournament.name} ({tournament.id})
             </Link>
           </div>

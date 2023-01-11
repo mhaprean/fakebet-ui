@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { useGetMatchesQuery } from '../redux/features/igubetApi';
+import { useGetMatchesQuery } from '../../redux/features/igubetApi';
 
 const IgubetLeague = () => {
   const { id } = useParams();

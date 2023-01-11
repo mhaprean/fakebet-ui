@@ -2,10 +2,12 @@ import { Chip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Market from '../components/match/Market';
-import { useGetMatchMarketsQuery } from '../redux/features/igubetApi';
-import { IIgubetMarket } from '../redux/features/igubetTypes';
-import { transformIgubetMarkets } from '../services/igubetTransformer';
+import Market from '../../components/match/Market';
+import { useGetMatchMarketsQuery } from '../../redux/features/igubetApi';
+import { IIgubetMarket } from '../../redux/features/igubetTypes';
+import { IOddspediaMatchInfoPeriods } from '../../redux/features/oddspediaTypes';
+import { transformIgubetMarkets } from '../../services/igubetTransformer';
+import { validateMarkets } from '../../services/igubetValidator';
 
 const StyledMatch = styled('div')`
   max-width: 100%;
@@ -40,17 +42,20 @@ const IgubetMatch = () => {
   };
 
   const getfilteredMarkets = (markets: IIgubetMarket[]) => {
-    const transMarkets = transformIgubetMarkets(markets);
+    const transformedMarkets = transformIgubetMarkets(markets);
 
-    return transMarkets
+    console.log(JSON.stringify(transformedMarkets));
+
+    const oddspediaPeriods: IOddspediaMatchInfoPeriods = [
+      { period_type: 'regular_period', period_number: 1, home: 2, away: 0, tiebreak: null },
+      { period_type: 'regular_period', period_number: 2, home: 1, away: 1, tiebreak: null },
+    ];
+
+    const validatedMarkets = validateMarkets(transformedMarkets, oddspediaPeriods);
+
+    return validatedMarkets
       .filter((market, idx) => market.market_groups.includes(activeMarket))
-      .map((market, idx) => <Market key={idx} market={market} />);
-
-    // return markets
-    //   .filter((market) => !excludeIds.includes(market.id))
-    //   .filter((market) => allowedSpecifiers.includes(market.specifier))
-    //   .filter((market, idx) => market.market_groups.includes(activeMarket))
-    //   .map((market, idx) => <Market key={idx} market={market} />);
+      .map((market, idx) => <Market key={idx} market={market} open={idx < 5} />);
   };
 
   return (

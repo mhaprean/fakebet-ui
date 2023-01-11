@@ -2,11 +2,11 @@ import { Box, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useGetCategoriesQuery, useGetLeaguesQuery } from '../redux/features/oddspediaApi';
-import Navigation from './Navigation';
-import Sidebar from './Sidebar';
 
-const StyledLayout = styled('div')`
+import Navigation from '../components/Navigation';
+import Sidebar from '../components/Sidebar';
+
+const StyledIgubetLayout = styled('div')`
   min-height: 100vh;
   width: 100%;
 
@@ -17,24 +17,20 @@ const StyledLayout = styled('div')`
   }
 `;
 
-interface IPropsLayout {
+interface IPropsIgubetLayout {
   isDarkMode?: boolean;
   onThemeChange?: () => void;
 }
 
-const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
+const IgubetLayout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsIgubetLayout) => {
+
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const { data: topLeaguesResponse } = useGetLeaguesQuery({ topLeaguesOnly: 1 });
-
-  const { data: categoriesResponse, isLoading: isCategoriesLoading } = useGetCategoriesQuery({});
 
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
   };
 
-  return (
-    <StyledLayout className="Layout">
+  return     <StyledIgubetLayout className="Layout">
       <Box sx={{ width: { xs: 0, sm: 250 }, flexShrink: 0 }}>
         <Drawer
           variant="temporary"
@@ -48,7 +44,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
           }}
         >
-          <Sidebar leagues={topLeaguesResponse?.data || []} categories={categoriesResponse?.data || []} />
+          <Sidebar leagues={[]} categories={[]} isIguAdmin={true} />
         </Drawer>
 
         <Drawer
@@ -59,7 +55,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
           }}
           open
         >
-          <Sidebar leagues={topLeaguesResponse?.data || []} categories={categoriesResponse?.data || []} />
+          <Sidebar leagues={[]} categories={[]} isIguAdmin={true} />
         </Drawer>
       </Box>
 
@@ -69,8 +65,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }) => {
           <Outlet />
         </Box>
       </Box>
-    </StyledLayout>
-  );
+    </StyledIgubetLayout>;
 };
 
-export default Layout;
+export default IgubetLayout;

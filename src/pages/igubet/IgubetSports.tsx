@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGetSportsQuery } from '../redux/features/igubetApi';
+import { useGetSportsQuery } from '../../redux/features/igubetApi';
 
 const IgubetSports = () => {
   const { data: sportsResponse, isLoading } = useGetSportsQuery({});
@@ -11,7 +11,7 @@ const IgubetSports = () => {
         sportsResponse &&
         sportsResponse.data.map((sport) => (
           <div key={sport.id}>
-            <Link to={`/sports/${sport.id}/categories`}>{sport.name}</Link>
+            <Link to={`/igubet/sports/${sport.id}/categories`}>{sport.name}</Link>
           </div>
         ))}
     </div>
