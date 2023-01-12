@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import classNames from 'classnames';
 import { timeFormatService } from '../../services/timeFormaterService';
+import RecentForm from './RecentForm';
 
 interface IPropsMatchPageHeader {
   match: IOddspediaMatchInfo;
@@ -104,7 +105,7 @@ const StyledMatchPageHeader = styled('div')`
 
     .remaining {
       font-size: 24px;
-      font-weight: ${props => props.theme.typography.fontWeightMedium};
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
 
       &.isLive {
         color: ${(props) => props.theme.palette.error.main};
@@ -203,6 +204,12 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
               {match.at}
             </Typography>
           </div>
+        </div>
+
+        <div className="teams-recent-form">
+          {match && match.ht_form && match.at_form && (
+            <RecentForm home={match.ht} away={match.at} homeForm={match.ht_form} awayForm={match.at_form} />
+          )}
         </div>
       </div>
     </StyledMatchPageHeader>
