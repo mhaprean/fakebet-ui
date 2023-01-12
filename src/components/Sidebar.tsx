@@ -59,6 +59,36 @@ const StyledSidebar = styled('div')`
   .MuiListItemButton-root {
     padding: 5px 10px;
   }
+
+  .sidebar-content {
+    height: calc(100% - 52px);
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    &::-webkit-scrollbar-track {
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 20px;
+      background-clip: content-box;
+      border: none;
+    }
+
+    &:hover {
+      scrollbar-color: initial;
+
+      &::-webkit-scrollbar-thumb {
+        background-color: ${(props) => props.theme.palette.grey[400]};
+        border-radius: 20px;
+        background-clip: content-box;
+        border: none;
+      }
+    }
+  }
 `;
 
 interface IPropsSidebar {
@@ -78,89 +108,89 @@ const Sidebar = ({ leagues, categories, isIguAdmin = false }: IPropsSidebar) => 
         </Link>
       </Box>
       <Divider />
+      <div className="sidebar-content">
+        {leagues.length > 0 && !isIguAdmin && (
+          <>
+            <Box className="title">
+              <Typography variant="h6">Top Leagues</Typography>
+            </Box>
 
-      {leagues.length > 0 && !isIguAdmin && (
-        <>
-          <Box className="title">
-            <Typography variant="h6">Top Leagues</Typography>
-          </Box>
+            <List>
+              {leagues.map((league, idx) => (
+                <Link
+                  key={idx}
+                  to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}
+                >
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      className="top-league"
+                      selected={
+                        location.pathname ===
+                        `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
+                      }
+                    >
+                      <ListItemIcon>
+                        <img
+                          className="league-image"
+                          src={`https://cdn.oddspedia.com/images/leagues/small/${league.sport_slug}/${league.category_slug}/${league.league_slug}.png`}
+                          alt=""
+                        />
+                      </ListItemIcon>
 
-          <List>
-            {leagues.map((league, idx) => (
-              <Link
-                key={idx}
-                to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}
-              >
-                <ListItem disablePadding>
-                  <ListItemButton
-                    className="top-league"
-                    selected={
-                      location.pathname ===
-                      `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
-                    }
-                  >
-                    <ListItemIcon>
-                      <img
-                        className="league-image"
-                        src={`https://cdn.oddspedia.com/images/leagues/small/${league.sport_slug}/${league.category_slug}/${league.league_slug}.png`}
-                        alt=""
+                      <ListItemText
+                        title={league.league_name}
+                        className="league-name"
+                        primary={league.league_name}
                       />
-                    </ListItemIcon>
+                      {league.match_count_prematch}
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+              ))}
+            </List>
+          </>
+        )}
 
-                    <ListItemText
-                      title={league.league_name}
-                      className="league-name"
-                      primary={league.league_name}
-                    />
-                    {league.match_count_prematch}
+        {categories.length > 0 && !isIguAdmin && (
+          <>
+            <Box className="title">
+              <Typography variant="h6">All Countries</Typography>
+            </Box>
+
+            <CategoryList categories={categories} />
+          </>
+        )}
+
+        {isIguAdmin && (
+          <>
+            <Box className="title">
+              <Typography variant="h6">Igubet</Typography>
+            </Box>
+            <List>
+              <Link to={'/igubet/sports'}>
+                <ListItem disablePadding>
+                  <ListItemButton selected={location.pathname === '/sports'}>
+                    <ListItemIcon>
+                      <PublicIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sports" />
                   </ListItemButton>
                 </ListItem>
               </Link>
-            ))}
-          </List>
-        </>
-      )}
-
-      {categories.length > 0 && !isIguAdmin && (
-        <>
-          <Box className="title">
-            <Typography variant="h6">All Countries</Typography>
-          </Box>
-
-          <CategoryList categories={categories} />
-        </>
-      )}
-
-      {isIguAdmin && (
-        <>
-
-          <Box className="title">
-            <Typography variant="h6">Igubet</Typography>
-          </Box>
-          <List>
-            <Link to={'/igubet/sports'}>
-              <ListItem disablePadding>
-                <ListItemButton selected={location.pathname === '/sports'}>
-                  <ListItemIcon>
-                    <PublicIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Sports" />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-            <Link to={'/igubet/sports/1/categories'}>
-              <ListItem disablePadding>
-                <ListItemButton selected={location.pathname === '/sports/1/categories'}>
-                  <ListItemIcon>
-                    <PublicIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Igubet Footbal Categories" />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          </List>
-        </>
-      )}
+              <Link to={'/igubet/sports/1/categories'}>
+                <ListItem disablePadding>
+                  <ListItemButton selected={location.pathname === '/sports/1/categories'}>
+                    <ListItemIcon>
+                      <PublicIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Igubet Footbal Categories" />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            </List>
+          </>
+        )}
+      </div>
     </StyledSidebar>
   );
 };
