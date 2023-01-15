@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { IMatchMarketsResponse, useGetMatchesQuery } from '../../redux/features/igubetApi';
+import { IMatchMarketsResponse, useGetIguMatchesQuery } from '../../redux/features/igubetApi';
 import { IIgubetMarket } from '../../redux/features/igubetTypes';
 import { IIguDetaMatch, useAddMatchesMutation } from '../../redux/features/iguDetaApi';
 import { transformIgubetMarkets } from '../../services/igubetTransformer';
@@ -16,7 +16,7 @@ const IgubetLeague = () => {
 
   const [addIguDetaMatches, response] = useAddMatchesMutation();
 
-  const { data: matchesRes, isSuccess } = useGetMatchesQuery(
+  const { data: matchesRes, isSuccess } = useGetIguMatchesQuery(
     { tournament_id: id, limit: 100 },
     { skip: !id }
   );

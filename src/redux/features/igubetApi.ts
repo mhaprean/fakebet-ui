@@ -52,12 +52,12 @@ export interface IMatchMarketsResponse {
 }
 
 export const igubetApi = createApi({
-  reducerPath: 'igubetApi',
+  reducerPath: 'igubetapi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://igubet.com/api/v2/',
   }),
   endpoints: (builder) => ({
-    getSports: builder.query<ISportsResponse, { sport_type?: string; limit?: number }>({
+    getIguSports: builder.query<ISportsResponse, { sport_type?: string; limit?: number }>({
       query: ({ sport_type = 'regular', limit = 500 }) => {
         return {
           url: 'sports',
@@ -69,7 +69,7 @@ export const igubetApi = createApi({
       },
     }),
 
-    getCategories: builder.query<ICategoriesResponse, { sport_id?: number; limit?: number }>({
+    getIguCategories: builder.query<ICategoriesResponse, { sport_id?: number; limit?: number }>({
       query: ({ sport_id = 1, limit = 500 }) => {
         return {
           url: 'categories',
@@ -81,7 +81,7 @@ export const igubetApi = createApi({
       },
     }),
 
-    getTournaments: builder.query<ITournamentsResponse, { category_id: number | string; limit?: number }>({
+    getIguTournaments: builder.query<ITournamentsResponse, { category_id: number | string; limit?: number }>({
       query: ({ category_id, limit = 500 }) => {
         return {
           url: 'tournaments',
@@ -93,7 +93,7 @@ export const igubetApi = createApi({
       },
     }),
 
-    getMatches: builder.query<IMatchesResponse, IMatchesParams>({
+    getIguMatches: builder.query<IMatchesResponse, IMatchesParams>({
       query: ({
         bettable = true,
         limit = 10,
@@ -122,7 +122,7 @@ export const igubetApi = createApi({
       },
     }),
 
-    getMatchMarkets: builder.query<IMatchMarketsResponse, { matchId: number | string }>({
+    getIguMatchMarkets: builder.query<IMatchMarketsResponse, { matchId: number | string }>({
       query: ({ matchId }) => {
         return {
           url: `matches/${matchId}/markets`,
@@ -133,7 +133,7 @@ export const igubetApi = createApi({
       },
     }),
 
-    getMatchesResults: builder.query<IMatchesResponse, IMatchesParams>({
+    getIguMatchesResults: builder.query<IMatchesResponse, IMatchesParams>({
       query: ({
         limit = 50,
         match_status = 3,
@@ -157,12 +157,12 @@ export const igubetApi = createApi({
 });
 
 export const {
-  useGetMatchesQuery,
-  useGetTournamentsQuery,
-  useGetSportsQuery,
-  useGetCategoriesQuery,
-  useGetMatchMarketsQuery,
-  useGetMatchesResultsQuery,
+  useGetIguMatchesQuery,
+  useGetIguTournamentsQuery,
+  useGetIguSportsQuery,
+  useGetIguCategoriesQuery,
+  useGetIguMatchMarketsQuery,
+  useGetIguMatchesResultsQuery,
 } = igubetApi;
 
 export default igubetApi;

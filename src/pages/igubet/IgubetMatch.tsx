@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Market from '../../components/match/Market';
-import { useGetMatchMarketsQuery } from '../../redux/features/igubetApi';
+import { useGetIguMatchMarketsQuery } from '../../redux/features/igubetApi';
 import { IIgubetMarket } from '../../redux/features/igubetTypes';
 import { IOddspediaMatchInfoPeriods } from '../../redux/features/oddspediaTypes';
 import { transformIgubetMarkets } from '../../services/igubetTransformer';
@@ -31,7 +31,7 @@ const StyledMatch = styled('div')`
 const IgubetMatch = () => {
   const { sport, category, tournament, id } = useParams();
 
-  const { data: matchMarketsRes, isLoading } = useGetMatchMarketsQuery({ matchId: id || '' }, { skip: !id });
+  const { data: matchMarketsRes, isLoading } = useGetIguMatchMarketsQuery({ matchId: id || '' }, { skip: !id });
 
   const [activeMarket, setActiveMarket] = useState('top');
 

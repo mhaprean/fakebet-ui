@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useGetSportsQuery } from '../../redux/features/igubetApi';
+import { useGetIguSportsQuery } from '../../redux/features/igubetApi';
 
 const IgubetSports = () => {
-  const { data: sportsResponse, isLoading } = useGetSportsQuery({});
+  const { data: sportsResponse, isLoading } = useGetIguSportsQuery({});
   return (
     <div>
       {isLoading && <div>is loading...</div>}
