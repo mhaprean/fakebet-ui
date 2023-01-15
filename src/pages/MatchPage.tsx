@@ -4,6 +4,7 @@ import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import { useGetIguDetaMatchMarketsQuery } from '../redux/features/iguDetaApi';
 import { useGetMatchInfoQuery } from '../redux/features/oddspediaApi';
+import { timeFormatService } from '../services/timeFormaterService';
 
 const MatchPage = () => {
   const { event } = useParams();
@@ -52,7 +53,10 @@ const MatchPage = () => {
             {matchInfoRes.data.ht} {matchInfoRes.data.at}
           </div>
           <div>
-            {matchIguDetaRes?.match.markets.map((market, idx) => (
+            { timeFormatService.getMatchValidationDate(matchInfoRes.data.starttime)}
+          </div>
+          <div>
+            {matchIguDetaRes?.match?.markets.map((market, idx) => (
               <Market key={idx} market={market} open={idx < 5} />
             ))}
           </div>

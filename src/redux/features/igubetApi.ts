@@ -103,7 +103,7 @@ export const igubetApi = createApi({
         start_to,
         tournament_id,
         sport_key = 'soccer',
-        type = 'match'
+        type = 'match',
       }) => {
         return {
           url: 'matches',
@@ -116,7 +116,7 @@ export const igubetApi = createApi({
             start_to,
             tournament_id,
             sport_key,
-            type
+            type,
           },
         };
       },
@@ -132,6 +132,27 @@ export const igubetApi = createApi({
         };
       },
     }),
+
+    getMatchesResults: builder.query<IMatchesResponse, IMatchesParams>({
+      query: ({
+        limit = 50,
+        match_status = 3,
+        sort_by = 'start_time:desc',
+        tournament_id,
+        type = 'match',
+      }) => {
+        return {
+          url: 'matches',
+          params: {
+            limit,
+            match_status,
+            sort_by,
+            tournament_id,
+            type,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -141,6 +162,7 @@ export const {
   useGetSportsQuery,
   useGetCategoriesQuery,
   useGetMatchMarketsQuery,
+  useGetMatchesResultsQuery,
 } = igubetApi;
 
 export default igubetApi;

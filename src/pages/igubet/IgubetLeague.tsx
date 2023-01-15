@@ -67,7 +67,7 @@ const IgubetLeague = () => {
   };
 
   useEffect(() => {
-    getMatchesOddMarkets();
+    // getMatchesOddMarkets();
   }, [isSuccess]);
 
   useEffect(() => {}, [response]);

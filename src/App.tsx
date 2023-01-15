@@ -2,7 +2,7 @@ import { CssBaseline, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import IgubetLayout from './layouts/IgubetLayout';
+import IguWraper from './layouts/IguWraper';
 import Layout from './layouts/Layout';
 import NotFoundPage from './pages/404';
 import CategoryPage from './pages/CategoryPage';
@@ -53,18 +53,16 @@ const App = () => {
               <Route path="/oddspedia-categories/:id" element={<OddspediaLeagues />} />
               <Route path="/oddspedia/:sport/:category/:league" element={<OddspediaLeague />} />
 
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
+              <Route element={<IguWraper />}>
+                <Route path="/igubet" element={<IgubetHome />} />
+                <Route path="/igubet/sports" element={<IgubetSports />} />
+                <Route path="/igubet/sports/:sport/categories" element={<IIgubetCategories />} />
+                <Route path="/igubet/categories/:id" element={<IgubetTournament />} />
 
-            <Route element={<IgubetLayout isDarkMode={theme === 'dark'} onThemeChange={handleThemeChange} />}>
-            
-              <Route path="/igubet" element={<IgubetHome />} />
-              <Route path="/igubet/sports" element={<IgubetSports />} />
-              <Route path="/igubet/sports/:sport/categories" element={<IIgubetCategories />} />
-              <Route path="/igubet/categories/:id" element={<IgubetTournament />} />
+                <Route path="/igubet/leagues/:id" element={<IgubetLeague />} />
+                <Route path="/igubet/:sport/:category/:tournament/match/:id" element={<IgubetMatch />} />
+              </Route>
 
-              <Route path="/igubet/leagues/:id" element={<IgubetLeague />} />
-              <Route path="/igubet/:sport/:category/:tournament/match/:id" element={<IgubetMatch />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>

@@ -66,6 +66,10 @@ const StyledSidebar = styled('div')`
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
 
+    ${props => props.theme.breakpoints.up('md')} {
+      height: calc(100% - 2px);
+    }
+
     &::-webkit-scrollbar {
       width: 10px;
     }
@@ -95,19 +99,32 @@ interface IPropsSidebar {
   leagues: IOddspediaLeague[];
   categories: IOddspediaCategory[];
   isIguAdmin?: boolean;
+  onDrawerClose?: () => void;
+  isTemporary?: boolean;
 }
 
-const Sidebar = ({ leagues, categories, isIguAdmin = false }: IPropsSidebar) => {
+const Sidebar = ({
+  leagues,
+  categories,
+  isIguAdmin = false,
+  onDrawerClose = () => {},
+  isTemporary = false,
+}: IPropsSidebar) => {
   const location = useLocation();
 
   return (
     <StyledSidebar className="Sidebar">
-      <Box className="title">
-        <Link to={'/'}>
-          <Typography variant="h6">Fakebet Admin</Typography>
-        </Link>
-      </Box>
-      <Divider />
+      {isTemporary && (
+        <>
+          <Box className="title">
+            <Link to={'/'}>
+              <Typography variant="h6">Fakebet Admin</Typography>
+            </Link>
+          </Box>
+          <Divider />
+        </>
+      )}
+
       <div className="sidebar-content">
         {leagues.length > 0 && !isIguAdmin && (
           <>

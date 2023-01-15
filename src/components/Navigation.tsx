@@ -1,4 +1,4 @@
-import { AppBar, Box, Divider, IconButton, InputBase, Paper, Toolbar } from '@mui/material';
+import { AppBar, Box, Divider, IconButton, InputBase, Paper, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   LightModeOutlined,
@@ -7,14 +7,15 @@ import {
   Search as SearchIcon,
   SettingsOutlined,
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const StyledNavigation = styled(AppBar)`
-  
   /* box-shadow: none; */
-  background: ${props => props.theme.palette.background.paper};
+  background: ${(props) => props.theme.palette.background.paper};
 
   .toolbar {
     justify-content: space-between;
+    padding: 0 10px;
   }
   .left-group,
   .right-group {
@@ -45,21 +46,24 @@ const Navigation = ({
   onMenuToggle = () => {},
 }: IPropsNavigation) => {
   return (
-    <StyledNavigation
-      className="Navigation"
-      position="fixed"
-      variant='outlined'
-      elevation={0}
-      sx={{
-        width: { sm: `calc(100% - ${250}px)` },
-        ml: { sm: `${250}px` },
-      }}
-    >
+    <StyledNavigation className="Navigation" position="fixed" variant="outlined" elevation={0}>
       <Toolbar className="toolbar">
         <Box className="left-group">
-          <IconButton sx={{ display: { xs: 'flex', sm: 'none' }, marginRight: '15px' }} onClick={() => onMenuToggle()}>
+          <IconButton
+            sx={{ display: { xs: 'flex', md: 'none' }, marginRight: '15px' }}
+            onClick={() => onMenuToggle()}
+          >
             <MenuIcon sx={{ fontSize: '20px' }} />
           </IconButton>
+
+          <Box className="logo" sx={{ width: { md: '250px' } }}>
+            <Link to="/">
+              <Typography variant="h6" sx={{ marginRight: '20px' }} noWrap>
+                Fakebet Admin
+              </Typography>
+            </Link>
+          </Box>
+
           <Paper className="search-field" variant="elevation" elevation={1}>
             <InputBase placeholder="Search..." />
             <IconButton>
