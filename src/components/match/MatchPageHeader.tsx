@@ -5,9 +5,10 @@ import { Typography } from '@mui/material';
 import classNames from 'classnames';
 import { timeFormatService } from '../../services/timeFormaterService';
 import RecentForm from './RecentForm';
+import { IIgubetMatch } from '../../redux/features/igubetTypes';
 
 interface IPropsMatchPageHeader {
-  match: IOddspediaMatchInfo;
+  match: IIgubetMatch | null;
 }
 
 const StyledMatchPageHeader = styled('div')`
@@ -122,9 +123,13 @@ const StyledMatchPageHeader = styled('div')`
 `;
 
 const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
-  const targetDate = match ? match.starttime || match.md : '';
+  const targetDate = match ? match.start_time : '';
 
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
+
+  if (match === null) {
+    return <></>;
+  }
 
   return (
     <StyledMatchPageHeader className="MatchPageHeader">
@@ -132,43 +137,45 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
         <div className="event-league">
           <img
             style={{ width: 15 }}
-            src={`https://cdn.oddspedia.com/images/categories/${match.category_slug}.svg`}
+            src={`https://cdn.oddspedia.com/images/categories/${match.tournament.category.slug}.svg`}
             alt=""
           />
 
           <Typography sx={{ fontSize: 14 }} gutterBottom>
-            {match.league_name} - {match.round_name}
+            {match.tournament.name}
           </Typography>
         </div>
 
         <Typography sx={{ fontSize: 14 }} gutterBottom>
-          {timeFormatService.formatDateForEventPage(match.starttime || match.md)}
+          {timeFormatService.formatDateForEventPage(match.start_time)}
         </Typography>
 
         <div className="event-container">
           <div className="team home-team">
             <Typography variant="h5" component="span">
-              {match.ht}
+              {match.competitors.home.name}
             </Typography>
 
             <div className="team-image">
               <img
                 width="40"
                 height="40"
-                src={`https://cdn.oddspedia.com/images/teams/big/${match.sport_id}/${match.ht_id}.png`}
+                src={`${match.competitors.home.logo}`}
                 alt=""
               />
             </div>
           </div>
 
           <div className="event-date">
+          {/* { isLive: match.matchstatus === 2 } */}
             <Typography
-              className={classNames('remaining', { isLive: match.matchstatus === 2 })}
+              className={classNames('remaining', { isLive: false })}
               variant="h1"
               component="p"
               noWrap
             >
-              {match.hscore !== null ? `${match.hscore} - ${match.ascore}` : `? - ?`}
+              {/* {match.hscore !== null ? `${match.hscore} - ${match.ascore}` : `? - ?`} */}
+              {`? - ?`}
             </Typography>
 
             {/* <Typography className="preview" variant="body2" component="p">
@@ -181,13 +188,13 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
               {!isNaN(days) && days === 0 && `${hours}h ${minutes}m ${seconds}s`}
             </Typography>
 
-            {match.matchstatus === 2 && (
+            {/* {match.matchstatus === 2 && (
               <div className="live">
                 <Typography variant="caption" component="p">
                   Live
                 </Typography>
               </div>
-            )}
+            )} */}
           </div>
 
           <div className="team">
@@ -195,22 +202,22 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
               <img
                 width="40"
                 height="40"
-                src={`https://cdn.oddspedia.com/images/teams/big/${match.sport_id}/${match.at_id}.png`}
+                src={`${match.competitors.away.logo}`}
                 alt=""
               />
             </div>
 
             <Typography variant="h5" component="span">
-              {match.at}
+              {match.competitors.away.name}
             </Typography>
           </div>
         </div>
 
-        <div className="teams-recent-form">
+        {/* <div className="teams-recent-form">
           {match && match.ht_form && match.at_form && (
             <RecentForm home={match.ht} away={match.at} homeForm={match.ht_form} awayForm={match.at_form} />
           )}
-        </div>
+        </div> */}
       </div>
     </StyledMatchPageHeader>
   );
