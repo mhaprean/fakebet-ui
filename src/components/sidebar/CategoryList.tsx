@@ -1,9 +1,10 @@
 import { styled } from '@mui/material/styles';
+import { IIgubetCategory } from '../../redux/features/igubetTypes';
 import { IOddspediaCategory } from '../../redux/features/oddspediaTypes';
 import CategoryLeagueList from './CategoryLeagueList';
 
 interface IPropsCategoryList {
-  categories: IOddspediaCategory[];
+  categories: IIgubetCategory[];
   sportSlug?: string;
 }
 

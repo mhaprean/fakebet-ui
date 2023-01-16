@@ -16,7 +16,8 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
-import { IOddspediaCategory, IOddspediaLeague } from '../redux/features/oddspediaTypes';
+import { IIgubetCategory } from '../redux/features/igubetTypes';
+import { IOddspediaLeague } from '../redux/features/oddspediaTypes';
 import CategoryList from './sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`
@@ -66,7 +67,7 @@ const StyledSidebar = styled('div')`
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
 
-    ${props => props.theme.breakpoints.up('md')} {
+    ${(props) => props.theme.breakpoints.up('md')} {
       height: calc(100% - 2px);
     }
 
@@ -97,16 +98,15 @@ const StyledSidebar = styled('div')`
 
 interface IPropsSidebar {
   leagues: IOddspediaLeague[];
-  categories: IOddspediaCategory[];
   isIguAdmin?: boolean;
   onDrawerClose?: () => void;
   isTemporary?: boolean;
+  categories?: IIgubetCategory[];
 }
 
 const Sidebar = ({
   leagues,
-  categories,
-  isIguAdmin = false,
+  categories = [],
   onDrawerClose = () => {},
   isTemporary = false,
 }: IPropsSidebar) => {
@@ -126,7 +126,7 @@ const Sidebar = ({
       )}
 
       <div className="sidebar-content">
-        {leagues.length > 0 && !isIguAdmin && (
+        {leagues.length > 0 && (
           <>
             <Box className="title">
               <Typography variant="h6">Top Leagues</Typography>
@@ -168,45 +168,44 @@ const Sidebar = ({
           </>
         )}
 
-        {categories.length > 0 && !isIguAdmin && (
+
+        {categories.length > 0 && (
           <>
             <Box className="title">
-              <Typography variant="h6">All Countries</Typography>
+              <Typography variant="h6">All Countries Igu</Typography>
             </Box>
 
             <CategoryList categories={categories} />
           </>
         )}
 
-        {isIguAdmin && (
-          <>
-            <Box className="title">
-              <Typography variant="h6">Igubet</Typography>
-            </Box>
-            <List>
-              <Link to={'/igubet/sports'}>
-                <ListItem disablePadding>
-                  <ListItemButton selected={location.pathname === '/sports'}>
-                    <ListItemIcon>
-                      <PublicIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Sports" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-              <Link to={'/igubet/sports/1/categories'}>
-                <ListItem disablePadding>
-                  <ListItemButton selected={location.pathname === '/sports/1/categories'}>
-                    <ListItemIcon>
-                      <PublicIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Igubet Footbal Categories" />
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-            </List>
-          </>
-        )}
+        <>
+          <Box className="title">
+            <Typography variant="h6">Igubet</Typography>
+          </Box>
+          <List>
+            <Link to={'/igubet/sports'}>
+              <ListItem disablePadding>
+                <ListItemButton selected={location.pathname === '/sports'}>
+                  <ListItemIcon>
+                    <PublicIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Sports" />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+            <Link to={'/igubet/sports/1/categories'}>
+              <ListItem disablePadding>
+                <ListItemButton selected={location.pathname === '/sports/1/categories'}>
+                  <ListItemIcon>
+                    <PublicIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Igubet Footbal Categories" />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </List>
+        </>
       </div>
     </StyledSidebar>
   );

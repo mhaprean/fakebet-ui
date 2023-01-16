@@ -52,7 +52,7 @@ export interface IMatchMarketsResponse {
 }
 
 export const igubetApi = createApi({
-  reducerPath: 'igubetapi',
+  reducerPath: 'igubet_api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://igubet.com/api/v2/',
   }),

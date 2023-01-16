@@ -3,11 +3,13 @@ import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } 
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useGetIguTournamentsQuery } from '../../redux/features/igubetApi';
+import { IIgubetCategory } from '../../redux/features/igubetTypes';
 import { useGetLeaguesQuery } from '../../redux/features/oddspediaApi';
 import { IOddspediaCategory } from '../../redux/features/oddspediaTypes';
 
 interface IPropsCategoryLeagueList {
-  category: IOddspediaCategory;
+  category: IIgubetCategory;
   sportSlug: string;
 }
 
@@ -47,29 +49,22 @@ const StyledCategoryLeagueList = styled('div')`
 `;
 
 const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) => {
-  const { slug, name, match_count_prematch, id } = category;
+  const { slug, name, id } = category;
 
   const [open, setOpen] = useState(false);
 
   const {
-    data: leaguesResponse,
-    error: leaguesError,
-    isLoading: isLeaguesLoading,
-    isFetching: isLeaguesFetching,
-  } = useGetLeaguesQuery(
-    { topLeaguesOnly: 0, includeLeaguesWithoutMatches: 1, sport: sportSlug, category: category.id },
-    { skip: !open }
-  );
+    data: tournamentsResponse,
+    error: tournamentsError,
+    isLoading: isTournamentsLoading,
+    isFetching: isTournamentsFetching,
+  } = useGetIguTournamentsQuery({ category_id: category.id }, { skip: !open });
 
   const handleClick = () => {
     setOpen(!open);
   };
 
   const handleLeagueChange = () => {};
-
-  if (match_count_prematch === 0) {
-    return null;
-  }
 
   return (
     <StyledCategoryLeagueList className="CategoryLeagueList">
@@ -78,42 +73,33 @@ const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) =
           <img src={`https://cdn.oddspedia.com/images/categories/${slug}.svg`} alt="" />
         </ListItemIcon>
         <ListItemText primary={name} />
-        {open ? (
-          <ExpandLess />
-        ) : (
-          <>
-            ({match_count_prematch}) <ExpandMore />
-          </>
-        )}
+        {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {isLeaguesFetching && <div>is loading...</div>}
-          {leaguesResponse?.data
-            ?.filter((league) => league.match_count_prematch > 0)
-            .map((league) => (
-              <Link
-                onClick={handleLeagueChange}
-                className="LeagueLink"
-                key={league.league_slug}
-                to={`/sports/${sportSlug}/${league.category_slug}/${league.league_slug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <ListItem disablePadding>
-                  <ListItemButton className="league" key={league.league_slug} sx={{ pl: 4 }}>
-                    <ListItemIcon>
-                      <img
-                        src={`https://cdn.oddspedia.com/images/leagues/small/${sportSlug}/${league.category_slug}/${league.league_slug}.png`}
-                        alt=""
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={league.league_name} />
-                    {league.match_count_prematch}
-                  </ListItemButton>
-                </ListItem>
-              </Link>
-            ))}
+          {isTournamentsFetching && <div>is loading...</div>}
+          {tournamentsResponse?.data.map((tournament, idx) => (
+            <Link
+              onClick={handleLeagueChange}
+              className="LeagueLink"
+              key={tournament.urn_id}
+              to={`/sports/${tournament.sport.key}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <ListItem disablePadding>
+                <ListItemButton className="league" sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <img
+                      src={`https://cdn.oddspedia.com/images/leagues/small/${sportSlug}/${tournament.category.slug}/${tournament.slug}.png`}
+                      alt=""
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={tournament.name} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          ))}
         </List>
       </Collapse>
     </StyledCategoryLeagueList>

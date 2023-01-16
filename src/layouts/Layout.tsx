@@ -2,9 +2,10 @@ import { Box, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useGetCategoriesQuery, useGetLeaguesQuery } from '../redux/features/oddspediaApi';
+import { useGetLeaguesQuery } from '../redux/features/oddspediaApi';
 import Navigation from '../components/Navigation';
 import Sidebar from '../components/Sidebar';
+import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
 
 const StyledLayout = styled('div')`
   min-height: 100vh;
@@ -30,7 +31,9 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
 
   const { data: topLeaguesResponse } = useGetLeaguesQuery({ topLeaguesOnly: 1 });
 
-  const { data: categoriesResponse, isLoading: isCategoriesLoading } = useGetCategoriesQuery({});
+  const { data: categoriesResponseIgu, isLoading: isCategoriesIguLoading } = useGetIguCategoriesQuery({
+    sport_id: 1,
+  });
 
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
@@ -57,7 +60,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
               isTemporary={true}
               onDrawerClose={handleDrawerToggle}
               leagues={topLeaguesResponse?.data || []}
-              categories={categoriesResponse?.data || []}
+              categories={categoriesResponseIgu?.data || []}
             />
           </Drawer>
 
@@ -74,7 +77,10 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
             }}
             open
           >
-            <Sidebar leagues={topLeaguesResponse?.data || []} categories={categoriesResponse?.data || []} />
+            <Sidebar
+              leagues={topLeaguesResponse?.data || []}
+              categories={categoriesResponseIgu?.data || []}
+            />
           </Drawer>
         </Box>
 
