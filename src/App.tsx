@@ -43,11 +43,13 @@ const App = () => {
             >
               <Route path="/" element={<div>dashboard</div>} />
 
-              <Route path="/sports/:sport/event/:event" element={<MatchPage />} />
+              <Route path="/sports/:sport/league/:league_id/event/:event_id" element={<MatchPage />} />
 
               <Route path="/sports/:sport/:category" element={<CategoryPage />} />
 
-              <Route path="/sports/:sport/:category/:league" element={<LeaguePage />} />
+              <Route path="/sports/:sport/:category/:league_id" element={<LeaguePage />} />
+
+              <Route path="/sports/:sport/:category/:league_id/:league_slug" element={<LeaguePage />} />
 
               <Route path="/oddspedia-categories" element={<OddspediaCategories />} />
               <Route path="/oddspedia-categories/:id" element={<OddspediaLeagues />} />

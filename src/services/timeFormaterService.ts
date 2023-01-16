@@ -7,6 +7,10 @@ const formatMatchDate = (day: string) => {
   return date;
 };
 
+const formatMatchTime = (day: string) => {
+  return moment(day).format('HH:mm');
+}
+
 // the hour of the match
 const getMatchTime = (match: IOddspediaMatch) => {
   let res = moment(match.md).format('HH:mm');
@@ -73,6 +77,7 @@ const formatDateForEventPage = (day: string) => {
 // 2023-01-11T20:00:00Z
 
 export const timeFormatService = {
+  formatMatchTime,
   formatMatchDate,
   getMatchTime,
   isDateValid,

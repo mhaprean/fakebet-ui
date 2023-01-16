@@ -3,12 +3,12 @@ import { styled, alpha } from '@mui/material/styles';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { sportList } from '../../helpers/oddspediaSports';
-import { IOddspediaMatch } from '../../redux/features/oddspediaTypes';
+import { IIgubetMatch } from '../../redux/features/igubetTypes';
 import { timeFormatService } from '../../services/timeFormaterService';
 import SportIcon from '../SportIcon';
 
 export interface IPropsMatch {
-  match: IOddspediaMatch;
+  match: IIgubetMatch;
 }
 
 const StyledMatch = styled(Paper)`
@@ -107,70 +107,60 @@ const StyledMatch = styled(Paper)`
 `;
 
 const Match = ({ match }: IPropsMatch) => {
-  const matchSport = sportList[match.sport_id];
 
   return (
     <StyledMatch className="Match" variant="outlined" elevation={0}>
       <div className="match-header">
-        <SportIcon sportSlug={matchSport.slug || ''} />
+        <SportIcon sportSlug={match.tournament.sport.key || ''} />
         <Typography noWrap variant="caption">
-          {timeFormatService.formatMatchDate(match.md)}
+          {timeFormatService.formatMatchDate(match.start_time)}
         </Typography>
       </div>
       <div className="match-body">
         <div className="time">
-          <Typography variant="caption">{timeFormatService.getMatchTime(match)}</Typography>
+          <Typography variant="caption">{timeFormatService.formatMatchTime(match.start_time)}</Typography>
         </div>
         <div className="teams">
           <div className="team">
-            <img
-              src={`https://cdn.oddspedia.com/images/teams/medium/${match.sport_id}/${match.ht_id}.png`}
-              alt=""
-            />
+            <img src={`${match.competitors.home.logo}`} alt="" />
             <Typography
               noWrap
               variant="body2"
               className={classNames('team-name', { isWinner: match.winner === 1 })}
             >
-              {match.ht}
+              {match.competitors.home.name}
             </Typography>
 
-            {match.ht_red_cards
-              ? [...Array(match.ht_red_cards)].map((e, i) => (
-                  <div key={'redcard' + i} className="match__teams__team__red-card"></div>
-                ))
-              : null}
           </div>
           <div className="team">
-            <img
-              src={`https://cdn.oddspedia.com/images/teams/medium/${match.sport_id}/${match.at_id}.png`}
-              alt=""
-            />
+            <img src={`${match.competitors.away.logo}`} alt="" />
             <Typography
               noWrap
               variant="body2"
               className={classNames('team-name', { isWinner: match.winner === 2 })}
             >
-              {match.at}
+              {match.competitors.away.name}
             </Typography>
-
-            {match.at_red_cards
-              ? [...Array(match.at_red_cards)].map((e, i) => (
-                  <div key={'redcard' + i} className="match__teams__team__red-card"></div>
-                ))
-              : null}
           </div>
         </div>
+
         <div className="scores">
-          <div className="score">
-            <Typography variant="body2">{match.hscore}</Typography>
-          </div>
-          <div className="score">
-            <Typography variant="body2">{match.ascore}</Typography>
-          </div>
+          {match.statistics.period_score !== null && match.statistics.total_score !== null && (
+            <>
+              <div className="score">
+                <Typography variant="body2">{match.statistics.total_score.home}</Typography>
+              </div>
+              <div className="score">
+                <Typography variant="body2">{match.statistics.total_score.away}</Typography>
+              </div>
+            </>
+          )}
         </div>
         <div className="more">
-          <Link to={`/sports/${matchSport.slug}/event/${match.uri.split('-').pop()}`} style={{ textDecoration: 'none' }}>
+          <Link
+            to={`/sports/${match.tournament.sport.key}/league/${match.tournament.id}/event/${match.id}`}
+            style={{ textDecoration: 'none' }}
+          >
             <Button className="seeAllButton" size="small" title={'See all'}>
               +See all
             </Button>

@@ -48,10 +48,24 @@ export interface IIgutbetTournament {
   provider: string;
 }
 
+export interface ITotalScore {
+  home: number;
+  away: number;
+}
+
+export interface IPeriodScore {
+  home: number;
+  away: number;
+  period_key: string;
+  period_name: string;
+  number: number;
+  type: string;
+}
+
 interface IStatistics {
   clock?: any;
-  total_score?: any;
-  period_score?: any;
+  total_score: ITotalScore | null;
+  period_score: IPeriodScore[] | null;
   game_score?: any;
   max_period_number?: any;
   current_server?: any;
@@ -106,6 +120,10 @@ export interface IIgubetMatch {
   secondary_market: IMarket;
   has_video: boolean;
   provider: string;
+
+
+  // custom
+  winner?: number;
 }
 
 // match markets
@@ -129,3 +147,4 @@ export interface IIgubetMarket {
   formated_market_name?: string;
   is_validated?: boolean;
 }
+ 
