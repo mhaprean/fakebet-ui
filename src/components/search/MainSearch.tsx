@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
 import { useIguSearchQuery } from '../../redux/features/igubetApi';
-import Match from '../match/Match';
+import SearchedMatch from './SearchedMatch';
 
 interface IPropsMainSearch {
   onClose: () => void;
@@ -107,7 +107,7 @@ const MainSearch = ({ onClose }: IPropsMainSearch) => {
       </form>
       <div className="search-body">
         {isSearchResultsFetching && <div>is loading...</div>}
-        {searchResultSuccess && searchResults.map((match, idx) => <Match key={idx} match={match} />)}
+        {searchResultSuccess && searchResults.map((match, idx) => <SearchedMatch key={idx} match={match} />)}
       </div>
     </StyledMainSearch>
   );
