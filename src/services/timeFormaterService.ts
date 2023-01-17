@@ -97,6 +97,18 @@ const formatDateForMatchSearch = (day: string) => {
 
 // 2023-01-11T20:00:00Z
 
+
+const getStartEnd = () => {
+
+  const today = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
+  const to = moment().add(2, 'days').endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
+
+  return {
+    start: today,
+    end: to
+  }
+}
+
 export const timeFormatService = {
   formatMatchTime,
   formatMatchDate,
@@ -109,4 +121,11 @@ export const timeFormatService = {
   isSameDay,
   formatLeagueDay,
   formatDateForMatchSearch,
+  getStartEnd
 };
+
+
+// https://igubet.com/api/v2/matches?bettable=true&limit=10&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=soccer&start_from=2023-01-17T19:26:33.561Z&start_to=2023-01-20T19:26:33.561Z
+
+// al meu
+// https://igubet.com/api/v2/matches?bettable=true&limit=50&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=soccer&type=match&start_from=2023-01-19T21:44:09Z&start_to=2023-01-19T21:44:09Z
