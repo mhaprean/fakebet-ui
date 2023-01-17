@@ -9,7 +9,7 @@ import { useGetIguMatchesQuery, useGetIguMatchesResultsQuery } from '../redux/fe
 import { timeFormatService } from '../services/timeFormaterService';
 
 const LeaguePage = () => {
-  const { sport, category, league_id, league_slug } = useParams();
+  const { sport, category_id, category_slug, league_id, league_slug } = useParams();
 
   const {
     data: matchListResponse,
@@ -19,6 +19,7 @@ const LeaguePage = () => {
   } = useGetIguMatchesQuery(
     {
       tournament_id: league_id,
+      sport_key: sport
     },
     { skip: !league_id }
   );
@@ -32,6 +33,7 @@ const LeaguePage = () => {
   } = useGetIguMatchesResultsQuery(
     {
       tournament_id: league_id,
+      sport_key: sport
     },
     { skip: !league_id }
   );

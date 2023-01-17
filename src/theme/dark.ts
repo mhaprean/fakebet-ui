@@ -18,6 +18,10 @@ export const darkTheme = createTheme({
     text: {
       primary: '#feffff',
       secondary: '#d2d4d4', // #5c6794
+    },
+    action: {
+      selected: 'rgba(208, 218, 245, 0.16)',
+      hover: 'rgba(208, 218, 245, 0.08)',
     }
   },
   status: {

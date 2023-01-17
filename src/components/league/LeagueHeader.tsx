@@ -1,6 +1,8 @@
-import { Paper, Typography } from '@mui/material';
+import { IconButton, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { IIgutbetTournament } from '../../redux/features/igubetTypes';
+import { ArrowForward } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 interface IPropsLeagueHeader {
   tournament: IIgutbetTournament;
@@ -12,12 +14,16 @@ const StyledLeagueHeader = styled(Paper)`
   padding: 5px 10px;
   margin-top: 30px;
   box-shadow: none;
-  border: 1px solid ${props => props.theme.palette.divider};
+  border: 1px solid ${(props) => props.theme.palette.divider};
 
   .league {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+  }
+
+  .league-link {
+    margin-left: auto;
   }
 `;
 
@@ -30,13 +36,26 @@ const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
         alt=""
       />
       <div className="league">
-        <Typography className="league-name" noWrap variant="body2" component={'span'}>
-          {tournament.name}
-        </Typography>
-        <Typography className="league-country" noWrap variant="caption" component={'span'}>
-          {tournament.category.name}
-        </Typography>
+        <Link
+          to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+        >
+          <Typography className="league-name" noWrap variant="body2" component={'span'}>
+            {tournament.name}
+          </Typography>
+        </Link>
+        <Link to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}`}>
+          <Typography className="league-country" noWrap variant="caption" component={'span'}>
+            {tournament.category.name}
+          </Typography>
+        </Link>
       </div>
+      <Link className='league-link'
+        to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+      >
+        <IconButton>
+          <ArrowForward />
+        </IconButton>
+      </Link>
     </StyledLeagueHeader>
   );
 };
