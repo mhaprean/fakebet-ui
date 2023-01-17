@@ -179,7 +179,7 @@ const Sidebar = ({
           </>
         )}
 
-        <>
+        {/* <>
           <Box className="title">
             <Typography variant="h6">Igubet</Typography>
           </Box>
@@ -205,7 +205,7 @@ const Sidebar = ({
               </ListItem>
             </Link>
           </List>
-        </>
+        </> */}
       </div>
     </StyledSidebar>
   );

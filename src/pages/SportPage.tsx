@@ -30,11 +30,6 @@ const SportPage = () => {
       {isSuccess &&
         matchListResponse.data.map((match, idx) => (
           <React.Fragment key={idx}>
-            {/* {idx === 0 ||
-            !timeFormatService.isSameDay(match.start_time, matchListResponse.data[idx - 1].start_time) ? (
-              <DayHeader day={match.start_time} />
-            ) : null} */}
-
             {idx === 0 ||
             matchListResponse.data[idx].tournament.id !== matchListResponse.data[idx - 1].tournament.id ? (
               <LeagueHeader tournament={matchListResponse.data[idx].tournament} />

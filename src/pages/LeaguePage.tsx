@@ -23,6 +23,7 @@ const LeaguePage = () => {
     { skip: !league_id }
   );
 
+  
   const {
     data: matchListResultResponse,
     error: matchListResultError,
@@ -55,7 +56,7 @@ const LeaguePage = () => {
 
     breadcrumbsArray.push({
       name: matchListResponse.data[0].tournament.category.name,
-      to: `/sports/${matchListResponse.data[0].tournament.sport.key}/${matchListResponse.data[0].tournament.category.slug}`,
+      to: `/sports/${matchListResponse.data[0].tournament.sport.key}/${matchListResponse.data[0].tournament.category.id}/${matchListResponse.data[0].tournament.category.slug}`,
     });
     breadcrumbsArray.push({
       name: `${matchListResponse.data[0].tournament.name}`,

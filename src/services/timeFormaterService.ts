@@ -98,10 +98,10 @@ const formatDateForMatchSearch = (day: string) => {
 // 2023-01-11T20:00:00Z
 
 
-const getStartEnd = () => {
+const getStartEnd = (daysOffset = 2) => {
 
   const today = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
-  const to = moment().add(2, 'days').endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
+  const to = moment().add(daysOffset, 'days').endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
 
   return {
     start: today,

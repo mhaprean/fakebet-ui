@@ -14,9 +14,6 @@ import IgubetSports from './pages/igubet/IgubetSports';
 import IgubetTournament from './pages/igubet/IgubetTournaments';
 import LeaguePage from './pages/LeaguePage';
 import MatchPage from './pages/MatchPage';
-import OddspediaCategories from './pages/OddspediaCategories';
-import OddspediaLeague from './pages/OddspediaLeague';
-import OddspediaLeagues from './pages/OddspediaLeagues';
 import SearchPage from './pages/SearchPage';
 import SportPage from './pages/SportPage';
 import darkTheme from './theme/dark';
@@ -47,21 +44,17 @@ const App = () => {
 
               <Route path='/sports/:sport' element={<SportPage />} />
 
+              <Route path="/sports/:sport/:category_id/:category_slug" element={<CategoryPage />} />
+
+              <Route path="/sports/:sport/:category_id/:category_slug/:league_id" element={<LeaguePage />} />
+
+              <Route path="/sports/:sport/:category_id/:category_slug/:league_id/:league_slug" element={<LeaguePage />} />
+
               <Route path="/sports/:sport/league/:league_id/event/:event_id" element={<MatchPage />} />
-
-              <Route path="/sports/:sport/:category" element={<CategoryPage />} />
-
-              <Route path="/sports/:sport/:category/:league_id" element={<LeaguePage />} />
-
-              <Route path="/sports/:sport/:category/:league_id/:league_slug" element={<LeaguePage />} />
-
-              <Route path="/oddspedia-categories" element={<OddspediaCategories />} />
-              <Route path="/oddspedia-categories/:id" element={<OddspediaLeagues />} />
-              <Route path="/oddspedia/:sport/:category/:league" element={<OddspediaLeague />} />
 
               <Route path="/search" element={<SearchPage />} />
 
-              <Route element={<IguWraper />}>
+              {/* <Route element={<IguWraper />}>
                 <Route path="/igubet" element={<IgubetHome />} />
                 <Route path="/igubet/sports" element={<IgubetSports />} />
                 <Route path="/igubet/sports/:sport/categories" element={<IIgubetCategories />} />
@@ -69,7 +62,7 @@ const App = () => {
 
                 <Route path="/igubet/leagues/:id" element={<IgubetLeague />} />
                 <Route path="/igubet/:sport/:category/:tournament/match/:id" element={<IgubetMatch />} />
-              </Route>
+              </Route> */}
 
               <Route path="*" element={<NotFoundPage />} />
             </Route>

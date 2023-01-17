@@ -21,6 +21,7 @@ interface IMatchesResponse {
 
 interface IMatchesParams {
   tournament_id?: number | string;
+  category_id?: number | string;
   start_from?: string;
   start_to?: string;
   bettable?: boolean;
@@ -188,6 +189,32 @@ export const igubetApi = createApi({
         };
       },
     }),
+
+    getIguCategoryMatches: builder.query<IMatchesResponse, IMatchesParams>({
+      query: ({
+        limit = 50,
+        match_status = 0,
+        sort_by = 'start_time:asc', // 'start_time:asc',
+        sport_key = 'soccer',
+        type = 'match',
+        start_from,
+        start_to,
+        category_id = 8
+
+      }) => {
+        return {
+          url: `matches?bettable=true&limit=50&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=${sport_key}&category_id=${category_id}&type=match&start_from=${start_from}&start_to=${start_to}`,
+          // params: {
+          //   limit,
+          //   bettable: true,
+          //   match_status,
+          //   sort_by,
+          //   sport_key,
+          //   type,
+          // },
+        };
+      },
+    }),
   }),
 });
 
@@ -200,6 +227,7 @@ export const {
   useGetIguMatchesResultsQuery,
   useIguSearchQuery,
   useGetIguSportMatchesQuery,
+  useGetIguCategoryMatchesQuery
 } = igubetApi;
 
 export default igubetApi;
