@@ -20,7 +20,7 @@ const StyledMarketOutcomes = styled('div')`
     flex-basis: 30%;
     flex-grow: 1;
     min-width: 130px;
-    background: ${(props) => props.theme.palette.background.paper};
+    background: ${(props) => props.theme.palette.background.default};
     border-radius: 5px;
     text-transform: unset;
     border: 1px solid ${(props) => props.theme.palette.divider};

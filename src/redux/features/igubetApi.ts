@@ -133,6 +133,17 @@ export const igubetApi = createApi({
       },
     }),
 
+    iguSearch: builder.query<IIgubetMatch[], { term: string }>({
+      query: ({ term }) => {
+        return {
+          url: `search?q=${term}`,
+          params: {
+            limit: 50,
+          },
+        };
+      },
+    }),
+
     getIguMatchesResults: builder.query<IMatchesResponse, IMatchesParams>({
       query: ({
         limit = 50,
@@ -163,6 +174,7 @@ export const {
   useGetIguCategoriesQuery,
   useGetIguMatchMarketsQuery,
   useGetIguMatchesResultsQuery,
+  useIguSearchQuery
 } = igubetApi;
 
 export default igubetApi;

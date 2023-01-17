@@ -41,7 +41,11 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
 
   return (
     <StyledLayout className="Layout">
-      <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
+      <Navigation
+        isDarkMode={isDarkMode}
+        onThemeChange={onThemeChange}
+        onMenuToggle={handleDrawerToggle}
+      />
       <Box className="layout-content">
         <Box className="left-sidebar" sx={{ width: { xs: 0, md: 250 }, flexShrink: 0 }}>
           <Drawer

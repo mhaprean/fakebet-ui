@@ -1,5 +1,15 @@
-import { AppBar, Box, Divider, IconButton, InputBase, Paper, Toolbar, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {
+  AppBar,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  InputBase,
+  Paper,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import { styled, alpha } from '@mui/material/styles';
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -8,6 +18,17 @@ import {
   SettingsOutlined,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import MainSearch from './search/MainSearch';
+
+const StyledSearchDrawer = styled(Drawer)`
+  .MuiDrawer-paper {
+    background: ${(props) => props.theme.palette.background.paper};
+  }
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+`;
 
 const StyledNavigation = styled(AppBar)`
   /* box-shadow: none; */
@@ -23,15 +44,6 @@ const StyledNavigation = styled(AppBar)`
     justify-content: space-between;
     align-items: center;
   }
-
-  .search-field {
-    border-radius: 20px;
-    padding: 2px;
-    padding-left: 20px;
-    display: flex;
-    box-shadow: none;
-    border: 1px solid ${(props) => props.theme.palette.divider};
-  }
 `;
 
 interface IPropsNavigation {
@@ -45,6 +57,8 @@ const Navigation = ({
   onThemeChange = () => {},
   onMenuToggle = () => {},
 }: IPropsNavigation) => {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
     <StyledNavigation className="Navigation" position="fixed" variant="outlined" elevation={0}>
       <Toolbar className="toolbar">
@@ -64,14 +78,12 @@ const Navigation = ({
             </Link>
           </Box>
 
-          <Paper className="search-field" variant="elevation" elevation={1}>
-            <InputBase placeholder="Search..." />
-            <IconButton>
-              <SearchIcon sx={{ fontSize: '20px' }} />
-            </IconButton>
-          </Paper>
         </Box>
         <Box className="right-group">
+          <IconButton onClick={() => setSearchOpen(true)}>
+            <SearchIcon sx={{ fontSize: '20px' }} />
+          </IconButton>
+
           <IconButton onClick={onThemeChange}>
             {isDarkMode ? (
               <DarkModeOutlined sx={{ fontSize: '20px' }} />
@@ -84,6 +96,10 @@ const Navigation = ({
           </IconButton>
         </Box>
       </Toolbar>
+
+      <StyledSearchDrawer anchor={'top'} open={searchOpen} onClose={() => setSearchOpen(false)}>
+        <MainSearch onClose={() => setSearchOpen(false)} />
+      </StyledSearchDrawer>
     </StyledNavigation>
   );
 };
