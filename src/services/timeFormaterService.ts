@@ -11,6 +11,12 @@ const formatMatchTime = (day: string) => {
   return moment(day).format('HH:mm');
 }
 
+const formatLeagueDay = (day: string) => {
+  const date = moment(day).format('DD-MMMM');
+
+  return date;
+}
+
 // the hour of the match
 const getMatchTime = (match: IOddspediaMatch) => {
   let res = moment(match.md).format('HH:mm');
@@ -57,6 +63,14 @@ const isToday = (day: string) => {
   return date.isSame(new Date(), 'day');
 };
 
+
+const isSameDay = (day: string, day2: string) => {
+  
+  const isSame = moment(day).isSame(day2, 'day');
+
+  return isSame;
+}
+
 const getCurrentDate = () => {
   const date = moment().format('YYYY-MM-DD');
 
@@ -85,4 +99,6 @@ export const timeFormatService = {
   getCurrentDate,
   getMatchValidationDate,
   formatDateForEventPage,
+  isSameDay,
+  formatLeagueDay,
 };

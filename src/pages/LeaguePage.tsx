@@ -1,7 +1,19 @@
+import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Match from '../components/match/Match';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { useGetIguMatchesQuery, useGetIguMatchesResultsQuery } from '../redux/features/igubetApi';
+import { timeFormatService } from '../services/timeFormaterService';
+
+const DayHeader = styled('div')`
+  background: ${(props) => props.theme.palette.background.paper};
+  color: ${(props) => props.theme.palette.text.secondary};
+  padding: 5px;
+  padding-left: 10px;
+  margin-top: 25px;
+`;
 
 const LeaguePage = () => {
   const { sport, category, league_id, league_slug } = useParams();
@@ -35,40 +47,76 @@ const LeaguePage = () => {
       name: 'Home',
       to: '/',
     },
+
     // {
-    //   name: leagueInfo?.data.sport_name,
-    //   to: `/sports/${leagueInfo?.data.sport_slug}`,
-    // },
-    // {
-    //   name: leagueInfo?.data.category_name,
-    //   to: `/sports/${leagueInfo?.data.sport_slug}/${leagueInfo?.data.category_slug}`,
-    // },
-    // {
-    //   name: leagueInfo?.data.league_name,
+    //   name: 'league name here',
     //   to: '',
     // },
   ];
 
+  if (matchListResponse?.data && matchListResponse.data.length > 0) {
+    breadcrumbsArray.push({
+      name: matchListResponse.data[0].tournament.sport.name,
+      to: `/sports/${matchListResponse.data[0].tournament.sport.key}`,
+    });
+
+    breadcrumbsArray.push({
+      name: matchListResponse.data[0].tournament.category.name,
+      to: `/sports/${matchListResponse.data[0].tournament.sport.key}/${matchListResponse.data[0].tournament.category.slug}`,
+    });
+    breadcrumbsArray.push({
+      name: `${matchListResponse.data[0].tournament.name}`,
+      to: '',
+    });
+  }
+
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
-      {isMatchListSucces &&
+      {isMatchListSucces && (
         <>
-        <div>upcoming:</div>
-        {matchListResponse.data.map((match, idx) => (
-          <div key={idx} className="match">
-            <Match match={match} />
+          <div>
+            <Typography variant="h5" sx={{ marginTop: '20px' }}>
+              Upcoming games
+            </Typography>
           </div>
-        ))}
-        </>}
+          {matchListResponse.data.map((match, idx) => (
+            <React.Fragment key={idx}>
+              {idx === 0 ||
+              !timeFormatService.isSameDay(match.start_time, matchListResponse.data[idx - 1].start_time) ? (
+                <DayHeader className="DayHeader">
+                  {timeFormatService.formatLeagueDay(match.start_time)}
+                </DayHeader>
+              ) : null}
+
+              <div className="match">
+                <Match match={match} />
+              </div>
+            </React.Fragment>
+          ))}
+        </>
+      )}
 
       {isMatchListResultSucces && (
         <>
-        <div>results: </div>
+          <div>
+            <Typography variant="h5" sx={{ marginTop: '20px' }}>
+              Results:
+            </Typography>
+          </div>
           {matchListResultResponse.data.map((match, idx) => (
-            <div key={idx} className="match">
-              <Match match={match} />
-            </div>
+            <React.Fragment key={idx}>
+              {idx === 0 ||
+              !timeFormatService.isSameDay(match.start_time, matchListResultResponse.data[idx - 1].start_time) ? (
+                <DayHeader className="DayHeader">
+                  {timeFormatService.formatLeagueDay(match.start_time)}
+                </DayHeader>
+              ) : null}
+
+              <div className="match">
+                <Match match={match} />
+              </div>
+            </React.Fragment>
           ))}
         </>
       )}
