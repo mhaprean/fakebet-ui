@@ -4,8 +4,11 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { sportList } from '../../helpers/oddspediaSports';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';
+import { transformIgubetMarkets, transformIguSingleMarket } from '../../services/igubetTransformer';
 import { timeFormatService } from '../../services/timeFormaterService';
 import SportIcon from '../SportIcon';
+import Market from './Market';
+import MarketOutcomes from './MarketOutcomes';
 
 export interface IPropsMatch {
   match: IIgubetMatch;
@@ -202,7 +205,11 @@ const Match = ({ match }: IPropsMatch) => {
           </Link>
         </div>
       </div>
-      <div className="match-footer"></div>
+      <div className="match-footer">
+      {
+        match.main_market && <MarketOutcomes outcomes={transformIguSingleMarket(match.main_market).outcomes} />
+      }
+      </div>
     </StyledMatch>
   );
 };

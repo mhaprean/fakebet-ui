@@ -316,22 +316,25 @@ export const transformIgubetMarkets = (markets: IIgubetMarket[]): IIgubetMarket[
   const result = markets
     .filter((market) => !excludeIds.includes(market.id) && !excludeIdsForNow.includes(market.id))
     .filter((market) => allowedSpecifiers.includes(market.specifier))
-    .map((market) => {
-      const newOutcomes = market.outcomes.map((outcome) => {
-        return {
-          ...outcome,
-          formated_name: formatOddName(outcome, market),
-          formated_value: formatOddValue(outcome.odds),
-        };
-      });
-
-      return {
-        ...market,
-        outcomes: newOutcomes,
-        formated_market_name: formatMarketName(market),
-        rules: getMarketRules(market),
-      };
-    });
+    .map((market) => transformIguSingleMarket(market));
 
   return result;
 };
+
+export const transformIguSingleMarket = (market: IIgubetMarket): IIgubetMarket => {
+
+  const newOutcomes = market.outcomes.map((outcome) => {
+    return {
+      ...outcome,
+      formated_name: formatOddName(outcome, market),
+      formated_value: formatOddValue(outcome.odds),
+    };
+  });
+
+  return {
+    ...market,
+    outcomes: newOutcomes,
+    formated_market_name: formatMarketName(market),
+    rules: getMarketRules(market),
+  };
+}
