@@ -71,8 +71,30 @@ const StyledMatch = styled(Paper)`
     }
   }
 
+  .teams {
+    margin-right: auto;
+  }
+
+  .periods {
+    display: flex;
+    align-items: center;
+
+    .scores {
+      margin-right: 5px;
+      height: 100%;
+
+      .score {
+        text-align: center;
+
+        .MuiTypography-root {
+          font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+          color: ${(props) => props.theme.palette.text.secondary};
+        }
+      }
+    }
+  }
+
   .scores {
-    margin-left: auto;
     margin-right: 5px;
 
     .score {
@@ -107,7 +129,6 @@ const StyledMatch = styled(Paper)`
 `;
 
 const Match = ({ match }: IPropsMatch) => {
-
   return (
     <StyledMatch className="Match" variant="outlined" elevation={0}>
       <div className="match-header">
@@ -130,7 +151,6 @@ const Match = ({ match }: IPropsMatch) => {
             >
               {match.competitors.home.name}
             </Typography>
-
           </div>
           <div className="team">
             <img src={`${match.competitors.away.logo}`} alt="" />
@@ -142,6 +162,21 @@ const Match = ({ match }: IPropsMatch) => {
               {match.competitors.away.name}
             </Typography>
           </div>
+        </div>
+
+        <div className="periods">
+          {match.statistics.period_score &&
+            match.statistics.period_score.length > 0 &&
+            match.statistics.period_score.map((period, idx) => (
+              <div className="scores" key={idx}>
+                <div className="score">
+                  <Typography variant="body2">{period.home}</Typography>
+                </div>
+                <div className="score">
+                  <Typography variant="body2">{period.away}</Typography>
+                </div>
+              </div>
+            ))}
         </div>
 
         <div className="scores">
