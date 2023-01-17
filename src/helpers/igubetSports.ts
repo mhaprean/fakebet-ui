@@ -1,5 +1,7 @@
 import { IIgubetSport } from '../redux/features/igubetTypes';
 
+export const iguSportIds = [1,2,16,3,4];
+
 export const igubetSports: IIgubetSport[] = [
   {
     id: 1,

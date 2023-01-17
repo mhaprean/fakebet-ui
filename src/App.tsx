@@ -18,6 +18,7 @@ import OddspediaCategories from './pages/OddspediaCategories';
 import OddspediaLeague from './pages/OddspediaLeague';
 import OddspediaLeagues from './pages/OddspediaLeagues';
 import SearchPage from './pages/SearchPage';
+import SportPage from './pages/SportPage';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
 
@@ -43,6 +44,8 @@ const App = () => {
               element={<Layout isDarkMode={theme === 'dark'} onThemeChange={handleThemeChange} />}
             >
               <Route path="/" element={<div>dashboard</div>} />
+
+              <Route path='/sports/:sport' element={<SportPage />} />
 
               <Route path="/sports/:sport/league/:league_id/event/:event_id" element={<MatchPage />} />
 

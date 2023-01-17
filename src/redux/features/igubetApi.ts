@@ -164,6 +164,28 @@ export const igubetApi = createApi({
         };
       },
     }),
+
+    getIguSportMatches: builder.query<IMatchesResponse, IMatchesParams>({
+      query: ({
+        limit = 50,
+        match_status = 0,
+        sort_by = 'start_time:asc',
+        sport_key = 'soccer',
+        type = 'match',
+      }) => {
+        return {
+          url: 'matches',
+          params: {
+            limit,
+            bettable: true,
+            match_status,
+            sort_by,
+            sport_key,
+            type,
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -174,7 +196,8 @@ export const {
   useGetIguCategoriesQuery,
   useGetIguMatchMarketsQuery,
   useGetIguMatchesResultsQuery,
-  useIguSearchQuery
+  useIguSearchQuery,
+  useGetIguSportMatchesQuery,
 } = igubetApi;
 
 export default igubetApi;

@@ -2,21 +2,11 @@ import { Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import DayHeader from '../components/league/DayHeader';
 import Match from '../components/match/Match';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { useGetIguMatchesQuery, useGetIguMatchesResultsQuery } from '../redux/features/igubetApi';
 import { timeFormatService } from '../services/timeFormaterService';
-
-const DayHeader = styled(Paper)`
-  /* background: ${(props) => props.theme.palette.background.paper}; */
-  color: ${(props) => props.theme.palette.text.secondary};
-  padding: 5px;
-  padding-left: 10px;
-  margin-top: 25px;
-
-  box-shadow: none;
-  border: 1px solid ${(props) => props.theme.palette.divider};
-`;
 
 const LeaguePage = () => {
   const { sport, category, league_id, league_slug } = useParams();
@@ -87,9 +77,7 @@ const LeaguePage = () => {
             <React.Fragment key={idx}>
               {idx === 0 ||
               !timeFormatService.isSameDay(match.start_time, matchListResponse.data[idx - 1].start_time) ? (
-                <DayHeader className="DayHeader" variant='elevation' elevation={2}>
-                  {timeFormatService.formatLeagueDay(match.start_time)}
-                </DayHeader>
+                <DayHeader day={match.start_time} />
               ) : null}
 
               <div className="match">
@@ -110,10 +98,11 @@ const LeaguePage = () => {
           {matchListResultResponse.data.map((match, idx) => (
             <React.Fragment key={idx}>
               {idx === 0 ||
-              !timeFormatService.isSameDay(match.start_time, matchListResultResponse.data[idx - 1].start_time) ? (
-                <DayHeader className="DayHeader">
-                  {timeFormatService.formatLeagueDay(match.start_time)}
-                </DayHeader>
+              !timeFormatService.isSameDay(
+                match.start_time,
+                matchListResultResponse.data[idx - 1].start_time
+              ) ? (
+                <DayHeader day={match.start_time} />
               ) : null}
 
               <div className="match">
