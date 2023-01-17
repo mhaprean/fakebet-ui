@@ -2,7 +2,6 @@ import { Box, Chip, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useGetLeaguesQuery } from '../redux/features/oddspediaApi';
 import Navigation from '../components/Navigation';
 import Sidebar from '../components/Sidebar';
 import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
@@ -29,8 +28,6 @@ interface IPropsLayout {
 
 const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) => {
   const [menuOpen, setMenuOpen] = useState(false);
-
-  const { data: topLeaguesResponse } = useGetLeaguesQuery({ topLeaguesOnly: 1 });
 
   const { data: categoriesResponseIgu, isLoading: isCategoriesIguLoading } = useGetIguCategoriesQuery({
     sport_id: 1,
@@ -64,7 +61,6 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
             <Sidebar
               isTemporary={true}
               onDrawerClose={handleDrawerToggle}
-              leagues={topLeaguesResponse?.data || []}
               categories={categoriesResponseIgu?.data || []}
             />
           </Drawer>
@@ -83,7 +79,6 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
             open
           >
             <Sidebar
-              leagues={topLeaguesResponse?.data || []}
               categories={categoriesResponseIgu?.data || []}
             />
           </Drawer>
