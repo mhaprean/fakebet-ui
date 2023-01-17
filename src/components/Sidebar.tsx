@@ -1,5 +1,4 @@
-import { ChevronRightOutlined, Inbox as InboxIcon, Public as PublicIcon } from '@mui/icons-material';
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+
 import {
   Box,
   Paper,
@@ -10,14 +9,11 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  Toolbar,
-  Tabs,
-  Tab,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
+import { igubetSoccerTopLeagues } from '../helpers/igubetTopLeagues';
 import { IIgubetCategory } from '../redux/features/igubetTypes';
-import { IOddspediaLeague } from '../redux/features/oddspediaTypes';
 import CategoryList from './sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`
@@ -97,7 +93,6 @@ const StyledSidebar = styled('div')`
 `;
 
 interface IPropsSidebar {
-  leagues: IOddspediaLeague[];
   isIguAdmin?: boolean;
   onDrawerClose?: () => void;
   isTemporary?: boolean;
@@ -105,7 +100,6 @@ interface IPropsSidebar {
 }
 
 const Sidebar = ({
-  leagues,
   categories = [],
   onDrawerClose = () => {},
   isTemporary = false,
@@ -126,48 +120,36 @@ const Sidebar = ({
       )}
 
       <div className="sidebar-content">
-        {leagues.length > 0 && (
-          <>
-            <Box className="title">
-              <Typography variant="h6">Top Leagues</Typography>
-            </Box>
+        <>
+          <Box className="title">
+            <Typography variant="h6">Top Leagues</Typography>
+          </Box>
 
-            <List>
-              {leagues.map((league, idx) => (
-                <Link
-                  key={idx}
-                  to={`/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`}
-                >
-                  <ListItem disablePadding>
-                    <ListItemButton
-                      className="top-league"
-                      selected={
-                        location.pathname ===
-                        `/sports/${league.sport_slug}/${league.category_slug}/${league.league_slug}`
-                      }
-                    >
-                      <ListItemIcon>
-                        <img
-                          className="league-image"
-                          src={`https://cdn.oddspedia.com/images/leagues/small/${league.sport_slug}/${league.category_slug}/${league.league_slug}.png`}
-                          alt=""
-                        />
-                      </ListItemIcon>
+          <List>
+            {igubetSoccerTopLeagues.map((tournament, idx) => (
+              <Link
+                key={idx}
+                to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+              >
+                <ListItem disablePadding>
+                  <ListItemButton
+                    className="top-league"
+                    selected={
+                      location.pathname ===
+                      `/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`
+                    }
+                  >
+                    <ListItemIcon>
+                      <img className="league-image" src={`${tournament.image}`} alt="" />
+                    </ListItemIcon>
 
-                      <ListItemText
-                        title={league.league_name}
-                        className="league-name"
-                        primary={league.league_name}
-                      />
-                      {league.match_count_prematch}
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-              ))}
-            </List>
-          </>
-        )}
-
+                    <ListItemText title={tournament.name} className="league-name" primary={tournament.name} />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        </>
 
         {categories.length > 0 && (
           <>

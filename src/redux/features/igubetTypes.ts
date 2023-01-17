@@ -46,6 +46,9 @@ export interface IIgutbetTournament {
   category: IIgubetCategory;
   slug: string;
   provider: string;
+
+  // custom fields
+  image?: string;
 }
 
 export interface ITotalScore {

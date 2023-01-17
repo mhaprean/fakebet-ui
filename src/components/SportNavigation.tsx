@@ -46,10 +46,9 @@ const SportNavigation = () => {
   return (
     <StyledSportNavigation className="SportNavigation">
       {sports.map((sport, idx) => (
-        <Link to={`/sports/${sport.key}`}>
+        <Link to={`/sports/${sport.key}`} key={idx}>
           <Chip
             className={classNames('sport', { active: sport.key === sportSlug })}
-            key={idx}
             label={sport.name}
             icon={<SportIcon sportSlug={sport.key} />}
           />
