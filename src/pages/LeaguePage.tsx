@@ -69,7 +69,8 @@ const LeaguePage = () => {
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
-      {isMatchListSucces && (
+      {isMatchListLoading && <div>is loading...</div>}
+      {isMatchListSucces && !isMatchListLoading && (
         <>
           <div>
             <Typography variant="h5" sx={{ marginTop: '20px' }}>
@@ -91,7 +92,7 @@ const LeaguePage = () => {
         </>
       )}
 
-      {isMatchListResultSucces && (
+      {isMatchListResultSucces && !isMatchListLoading && (
         <>
           <div>
             <Typography variant="h5" sx={{ marginTop: '20px' }}>

@@ -1,4 +1,4 @@
-import { Box, Drawer } from '@mui/material';
+import { Box, Chip, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useGetLeaguesQuery } from '../redux/features/oddspediaApi';
 import Navigation from '../components/Navigation';
 import Sidebar from '../components/Sidebar';
 import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
+import SportNavigation from '../components/SportNavigation';
 
 const StyledLayout = styled('div')`
   min-height: 100vh;
@@ -90,6 +91,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
 
         <Box sx={{ flexGrow: 1, width: { xs: '100%', md: `calc(100% - ${250}px)` } }}>
           <Box className="page-content">
+          <SportNavigation />
             <Outlet />
           </Box>
         </Box>

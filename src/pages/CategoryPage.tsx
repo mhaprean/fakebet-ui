@@ -43,7 +43,8 @@ const CategoryPage = () => {
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
-      {isMatchListSucces &&
+      {isMatchListLoading && <div>is loading...</div>}
+      {isMatchListSucces && !isMatchListLoading &&
         matchListResponse.data.map((match, idx) => (
           <React.Fragment key={idx}>
             {idx === 0 ||

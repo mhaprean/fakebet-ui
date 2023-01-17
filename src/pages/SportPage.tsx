@@ -15,7 +15,7 @@ const SportPage = () => {
 
   const dates = timeFormatService.getStartEnd();
 
-  const { data: matchListResponse, isSuccess } = useGetIguSportMatchesQuery({
+  const { data: matchListResponse, isSuccess, isFetching } = useGetIguSportMatchesQuery({
     sport_key: sport,
     start_from: dates.start,
     start_to: dates.end,
@@ -27,7 +27,8 @@ const SportPage = () => {
           Upcoming {iguSport?.name} games
         </Typography>
       </div>
-      {isSuccess &&
+      {isFetching && <div>Is loading...</div>}
+      {isSuccess && !isFetching && 
         matchListResponse.data.map((match, idx) => (
           <React.Fragment key={idx}>
             {idx === 0 ||
