@@ -88,6 +88,13 @@ const formatDateForEventPage = (day: string) => {
   return date;
 };
 
+
+const formatDateForMatchSearch = (day: string) => {
+  const date = moment(day).format('DD.MM HH:mm');
+
+  return date;
+};
+
 // 2023-01-11T20:00:00Z
 
 export const timeFormatService = {
@@ -101,4 +108,5 @@ export const timeFormatService = {
   formatDateForEventPage,
   isSameDay,
   formatLeagueDay,
+  formatDateForMatchSearch,
 };

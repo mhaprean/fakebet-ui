@@ -16,7 +16,7 @@ const SportIcon = ({ sportSlug }: IPropsSportIcon) => {
   if (sportSlug === 'basketball') {
     return <SportsBasketballIcon className="SportIcon" />;
   }
-  if (sportSlug === 'football') {
+  if (sportSlug === 'soccer' ) {
     return <SportsSoccerIcon className="SportIcon" />;
   }
   if (sportSlug === 'handball') {

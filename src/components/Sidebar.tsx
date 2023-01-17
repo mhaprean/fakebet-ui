@@ -118,7 +118,7 @@ const Sidebar = ({
         <>
           <Box className="title">
             <Link to={'/'}>
-              <Typography variant="h6">Fakebet Admin</Typography>
+              <Typography variant="h6">Fakebet UI</Typography>
             </Link>
           </Box>
           <Divider />

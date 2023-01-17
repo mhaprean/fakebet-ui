@@ -73,7 +73,7 @@ const Navigation = ({
           <Box className="logo" sx={{ width: { md: '250px' } }}>
             <Link to="/">
               <Typography variant="h6" sx={{ marginRight: '20px' }} noWrap>
-                Fakebet Admin
+                Fakebet UI
               </Typography>
             </Link>
           </Box>
