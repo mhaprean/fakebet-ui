@@ -95,8 +95,11 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
           </Box>
         </Box>
 
-        <Box className="right-sidebar" sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0, display: {xs: 'none', lg: 'flex'} }}>
-          <div className='right-sidebar-content'>
+        <Box
+          className="right-sidebar"
+          sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0, display: { xs: 'none', lg: 'block' } }}
+        >
+          <div className="right-sidebar-content">
             <Betslip />
           </div>
         </Box>

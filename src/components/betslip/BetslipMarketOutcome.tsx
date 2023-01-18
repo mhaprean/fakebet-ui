@@ -45,7 +45,7 @@ const BetslipMarketOutcome = ({ outcome, match, market }: IPropsBetslipMarketOut
       market: market,
 
       outcome_id: outcome.id,
-      outcome_name: outcome.name,
+      outcome_name: outcome.formated_name || outcome.name,
       market_name: market.name,
       market_specifier: market.specifier,
 

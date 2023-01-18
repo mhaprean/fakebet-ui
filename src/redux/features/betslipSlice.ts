@@ -50,7 +50,7 @@ const calculateTotalOdds = (events: IBetEvent[]): number => {
   let totalOdds = 1;
 
   events.forEach((match: IBetEvent, idx) => {
-    // totalOdds = totalOdds * parseFloat(match.oddValue);
+    totalOdds = totalOdds * match.odds;
   });
 
   return parseFloat(totalOdds.toFixed(2));
@@ -148,6 +148,7 @@ export const betslipSlice = createSlice({
       state.betslip.totalOdds = 1;
       state.betslip.potentialGain = 100;
       state.betslip.stake = 100;
+      state.betslip.validationDate = '';
     },
   },
 });

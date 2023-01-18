@@ -1,13 +1,24 @@
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, InputBase, Paper, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import FlexBetween from '../atoms/FlexBetween';
 import classNames from 'classnames';
 import { useState } from 'react';
 import BetslipEvent from './BetslipEvent';
-import { useAppSelector } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { changeStake, clearBetslip } from '../../redux/features/betslipSlice';
 
 const StyledBetslip = styled('div')`
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+
+  .betslip-header {
+    box-shadow: none;
+    border: 1px solid ${(props) => props.theme.palette.divider};
+    padding: 5px;
+  }
+
   .betslip-subheader {
     display: flex;
     justify-content: space-between;
@@ -17,6 +28,12 @@ const StyledBetslip = styled('div')`
 
   .cancel-button {
     padding: 0px 5px;
+  }
+
+  .selection-list {
+    min-height: 150px;
+    overflow: auto;
+    background: ${(props) => props.theme.palette.background.paper};
   }
 
   .betslip-info {
@@ -73,28 +90,31 @@ const StyledBetslip = styled('div')`
       }
     }
   }
-
 `;
 
 const Betslip = () => {
-
-
   const betslipState = useAppSelector((rootState) => rootState.betslip);
-  
-  const eventsNr = 3;
+  const dispatch = useAppDispatch();
 
-  const [stake, setStake] = useState(100);
-  const onClearBetslip = () => {};
+  const stake  =  betslipState.betslip.stake;
+
+  const handleClearBetslip = () => {
+    dispatch(clearBetslip());
+  };
 
   const handlePlaceBet = () => {};
 
   const changeStakeViaButton = (newStake: number) => {
-    // onChangeStake(newStake);
+    dispatch(changeStake({ stake: newStake }));
   };
 
   const handleChangeStake = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStake = parseFloat(event.target.value);
-    setStake(newStake);
+
+    dispatch(changeStake({ stake: newStake }));
+
+
+
     // if (isNaN(newStake)) {
     //   setHasError(true);
     //   setErrorMessage('The stake should be a number');
@@ -107,26 +127,23 @@ const Betslip = () => {
 
   return (
     <StyledBetslip className="Betslip">
-      <Box className="betslip-header">
+      <Paper className="betslip-header" variant="elevation" elevation={2} square>
         <Typography variant="subtitle2">Betslip</Typography>
-      </Box>
+      </Paper>
 
       <Paper className="betslip-subheader" square variant="outlined">
         <Typography className="events-count" variant="body2">
-          Events: {eventsNr}
+          Events: {betslipState.betslip.events.length}
         </Typography>
-        <Button onClick={() => onClearBetslip()} className="cancel-button" endIcon={<DeleteIcon />}>
+        <Button onClick={handleClearBetslip} className="cancel-button" endIcon={<DeleteIcon />}>
           Cancel
         </Button>
       </Paper>
 
       <Box className="selection-list">
-
-        {
-          betslipState.betslip.events.map((event, idx) => <BetslipEvent key={idx} event={event} />)
-        }
-        
-
+        {betslipState.betslip.events.map((event, idx) => (
+          <BetslipEvent key={idx} event={event} />
+        ))}
       </Box>
       <Box className="betslip-controls">
         <Paper className="betslip-info" variant="outlined" square>
@@ -135,7 +152,7 @@ const Betslip = () => {
               Total odds:
             </Typography>
             <Typography className="value" variant="h6" component="label">
-              6.32
+              {betslipState.betslip.totalOdds}
             </Typography>
           </FlexBetween>
 
@@ -179,7 +196,7 @@ const Betslip = () => {
               Potential gain:
             </Typography>
             <Typography className="value" variant="h6" component="label">
-              632 $
+              {betslipState.betslip.potentialGain} $
             </Typography>
           </FlexBetween>
         </Paper>

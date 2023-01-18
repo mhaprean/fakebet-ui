@@ -8,7 +8,7 @@ const StyledMarketOutcome = styled(Button)`
   justify-content: space-between;
   flex-basis: 30%;
   flex-grow: 1;
-  min-width: 80px;
+  min-width: 70px;
   background: ${(props) => props.theme.palette.background.default};
   border-radius: 5px;
   text-transform: unset;
@@ -19,7 +19,7 @@ const StyledMarketOutcome = styled(Button)`
   }
 
   &.selected {
-    background: ${(props) => props.theme.palette.info.light};
+    background: ${(props) => props.theme.palette.primary.main};
   }
 
   .outcome-name {

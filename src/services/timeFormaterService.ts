@@ -1,21 +1,32 @@
 import moment from 'moment';
 import { IOddspediaMatch } from '../redux/features/oddspediaTypes';
 
-const formatMatchDate = (day: string) => {
-  const date = moment(day).format('ddd DD.MM');
+const isToday = (day: string) => {
+  const date = moment(day);
 
-  return date;
+  return date.isSame(new Date(), 'day');
+};
+
+const formatMatchDate = (day: string) => {
+  const date = moment(day);
+
+  const tomorrow = moment().add(1, 'day').endOf('day');
+
+  if (isToday(day)) return 'Today';
+  if (date < tomorrow) return 'Tomorrow';
+
+  return date.format('ddd DD.MM');
 };
 
 const formatMatchTime = (day: string) => {
   return moment(day).format('HH:mm');
-}
+};
 
 const formatLeagueDay = (day: string) => {
   const date = moment(day).format('DD-MMMM');
 
   return date;
-}
+};
 
 // the hour of the match
 const getMatchTime = (match: IOddspediaMatch) => {
@@ -57,19 +68,11 @@ const isDateValid = (day: string) => {
   return date.isValid();
 };
 
-const isToday = (day: string) => {
-  const date = moment(day);
-
-  return date.isSame(new Date(), 'day');
-};
-
-
 const isSameDay = (day: string, day2: string) => {
-  
   const isSame = moment(day).isSame(day2, 'day');
 
   return isSame;
-}
+};
 
 const getCurrentDate = () => {
   const date = moment().format('YYYY-MM-DD');
@@ -88,7 +91,6 @@ const formatDateForEventPage = (day: string) => {
   return date;
 };
 
-
 const formatDateForMatchSearch = (day: string) => {
   const date = moment(day).format('DD.MM HH:mm');
 
@@ -97,17 +99,15 @@ const formatDateForMatchSearch = (day: string) => {
 
 // 2023-01-11T20:00:00Z
 
-
 const getStartEnd = (daysOffset = 2) => {
-
   const today = moment().startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
   const to = moment().add(daysOffset, 'days').endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
 
   return {
     start: today,
-    end: to
-  }
-}
+    end: to,
+  };
+};
 
 export const timeFormatService = {
   formatMatchTime,
@@ -121,9 +121,8 @@ export const timeFormatService = {
   isSameDay,
   formatLeagueDay,
   formatDateForMatchSearch,
-  getStartEnd
+  getStartEnd,
 };
-
 
 // https://igubet.com/api/v2/matches?bettable=true&limit=10&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=soccer&start_from=2023-01-17T19:26:33.561Z&start_to=2023-01-20T19:26:33.561Z
 
