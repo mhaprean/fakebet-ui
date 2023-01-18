@@ -7,6 +7,7 @@ import Sidebar from '../components/Sidebar';
 import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
 import SportNavigation from '../components/SportNavigation';
 import Betslip from '../components/betslip/Betslip';
+import MobileBottomNavigation from '../components/navigation/MobileBottomNavigation';
 
 const StyledLayout = styled('div')`
   min-height: 100vh;
@@ -104,6 +105,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
           </div>
         </Box>
       </Box>
+      <MobileBottomNavigation />
     </StyledLayout>
   );
 };
