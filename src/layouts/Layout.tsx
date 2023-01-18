@@ -6,6 +6,7 @@ import Navigation from '../components/Navigation';
 import Sidebar from '../components/Sidebar';
 import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
 import SportNavigation from '../components/SportNavigation';
+import Betslip from '../components/betslip/Betslip';
 
 const StyledLayout = styled('div')`
   min-height: 100vh;
@@ -18,6 +19,14 @@ const StyledLayout = styled('div')`
 
   .page-content {
     padding: 10px;
+  }
+
+  .right-sidebar-content {
+    ${(props) => props.theme.breakpoints.up('md')} {
+      position: sticky;
+      top: 64px;
+      padding: 10px;
+    }
   }
 `;
 
@@ -39,11 +48,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
 
   return (
     <StyledLayout className="Layout">
-      <Navigation
-        isDarkMode={isDarkMode}
-        onThemeChange={onThemeChange}
-        onMenuToggle={handleDrawerToggle}
-      />
+      <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
       <Box className="layout-content">
         <Box className="left-sidebar" sx={{ width: { xs: 0, md: 250 }, flexShrink: 0 }}>
           <Drawer
@@ -78,20 +83,22 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
             }}
             open
           >
-            <Sidebar
-              categories={categoriesResponseIgu?.data || []}
-            />
+            <Sidebar categories={categoriesResponseIgu?.data || []} />
           </Drawer>
         </Box>
 
         <Box sx={{ flexGrow: 1, width: { xs: '100%', md: `calc(100% - ${250}px)` } }}>
           <Box className="page-content">
-          <SportNavigation />
+            <SportNavigation />
             <Outlet />
           </Box>
         </Box>
 
-        <Box className="right-sidebar" sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0 }}></Box>
+        <Box className="right-sidebar" sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0 }}>
+          <div className='right-sidebar-content'>
+            <Betslip />
+          </div>
+        </Box>
       </Box>
     </StyledLayout>
   );

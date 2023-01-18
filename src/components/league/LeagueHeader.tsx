@@ -11,7 +11,7 @@ interface IPropsLeagueHeader {
 const StyledLeagueHeader = styled(Paper)`
   align-items: center;
   display: flex;
-  padding: 5px 10px;
+  padding: 0px 10px;
   margin-top: 30px;
   box-shadow: none;
   border: 1px solid ${(props) => props.theme.palette.divider};

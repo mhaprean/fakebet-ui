@@ -129,6 +129,12 @@ const StyledMatch = styled(Paper)`
       text-align: center;
     }
   }
+
+  .match-footer {
+    .MarketOutcomes {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const Match = ({ match }: IPropsMatch) => {
