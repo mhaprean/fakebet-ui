@@ -8,7 +8,7 @@ const StyledMarketOutcome = styled(Button)`
   justify-content: space-between;
   flex-basis: 30%;
   flex-grow: 1;
-  min-width: 130px;
+  min-width: 80px;
   background: ${(props) => props.theme.palette.background.default};
   border-radius: 5px;
   text-transform: unset;
@@ -33,19 +33,20 @@ const StyledMarketOutcome = styled(Button)`
 
 interface IPropsMarketOutcome {
   outcome: IOutcome;
-  onSelect?: (outcome: IOutcome) => void;
+  onSelect?: () => void;
   isSelected?: boolean;
+  className?: string;
 }
 
-const MarketOutcome = ({ outcome, onSelect = () => {}, isSelected = false }: IPropsMarketOutcome) => {
+const MarketOutcome = ({ outcome, onSelect = () => {}, isSelected = false, className = '' }: IPropsMarketOutcome) => {
   return (
     <StyledMarketOutcome
-      className={classNames('MarketOutcome', {
+      className={classNames('MarketOutcome', className, {
         winner: outcome.is_winner,
         selected: isSelected,
       })}
       key={outcome.id}
-      onClick={() => onSelect(outcome)}
+      onClick={() => onSelect()}
     >
       <Typography className="outcome-name" variant="body2">
         {outcome.formated_name}

@@ -83,7 +83,7 @@ export interface IOutcome {
 
   // custom fields
   formated_name?: string;
-  formated_value?: string | number;
+  formated_value?: number;
   is_winner?: boolean;
   is_validated?: boolean;
 }

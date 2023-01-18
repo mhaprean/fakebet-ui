@@ -26,6 +26,7 @@ const StyledLayout = styled('div')`
       position: sticky;
       top: 64px;
       padding: 10px;
+      width: 100%;
     }
   }
 `;
@@ -94,7 +95,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
           </Box>
         </Box>
 
-        <Box className="right-sidebar" sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0 }}>
+        <Box className="right-sidebar" sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0, display: {xs: 'none', lg: 'flex'} }}>
           <div className='right-sidebar-content'>
             <Betslip />
           </div>

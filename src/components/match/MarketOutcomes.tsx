@@ -1,11 +1,13 @@
 import { Button, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import classNames from 'classnames';
-import { IOutcome } from '../../redux/features/igubetTypes';
+import { IIgubetMarket, IIgubetMatch, IOutcome } from '../../redux/features/igubetTypes';
+import BetslipMarketOutcome from '../betslip/BetslipMarketOutcome';
 import MarketOutcome from './MarketOutcome';
 
 interface IPropsMarketOutcomes {
-  outcomes: IOutcome[];
+  match: IIgubetMatch;
+  market: IIgubetMarket;
 }
 
 const StyledMarketOutcomes = styled('div')`
@@ -16,11 +18,11 @@ const StyledMarketOutcomes = styled('div')`
   margin-bottom: 20px;
 `;
 
-const MarketOutcomes = ({ outcomes }: IPropsMarketOutcomes) => {
+const MarketOutcomes = ({ match, market }: IPropsMarketOutcomes) => {
   return (
     <StyledMarketOutcomes className="MarketOutcomes">
-      {outcomes.map((outcome, idx) => (
-        <MarketOutcome key={idx} outcome={outcome} />
+      {market.outcomes.map((outcome, idx) => (
+        <BetslipMarketOutcome key={idx} outcome={outcome} match={match} market={market} />
       ))}
     </StyledMarketOutcomes>
   );

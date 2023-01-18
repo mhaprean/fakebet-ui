@@ -4,6 +4,8 @@ import { Delete as DeleteIcon } from '@mui/icons-material';
 import FlexBetween from '../atoms/FlexBetween';
 import classNames from 'classnames';
 import { useState } from 'react';
+import BetslipEvent from './BetslipEvent';
+import { useAppSelector } from '../../redux/hooks';
 
 const StyledBetslip = styled('div')`
   .betslip-subheader {
@@ -71,9 +73,14 @@ const StyledBetslip = styled('div')`
       }
     }
   }
+
 `;
 
 const Betslip = () => {
+
+
+  const betslipState = useAppSelector((rootState) => rootState.betslip);
+  
   const eventsNr = 3;
 
   const [stake, setStake] = useState(100);
@@ -113,7 +120,14 @@ const Betslip = () => {
         </Button>
       </Paper>
 
-      <Box className="selection-list">event list here</Box>
+      <Box className="selection-list">
+
+        {
+          betslipState.betslip.events.map((event, idx) => <BetslipEvent key={idx} event={event} />)
+        }
+        
+
+      </Box>
       <Box className="betslip-controls">
         <Paper className="betslip-info" variant="outlined" square>
           <FlexBetween>

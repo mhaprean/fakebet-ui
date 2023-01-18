@@ -213,7 +213,7 @@ const Match = ({ match }: IPropsMatch) => {
       </div>
       <div className="match-footer">
       {
-        match.main_market && <MarketOutcomes outcomes={transformIguSingleMarket(match.main_market).outcomes} />
+        match.main_market && <MarketOutcomes match={match} market={transformIguSingleMarket(match.main_market)} />
       }
       </div>
     </StyledMatch>

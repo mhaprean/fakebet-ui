@@ -3,7 +3,7 @@ import { Box, Button, Collapse, Paper, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import { useState } from 'react';
-import { IIgubetMarket, IOutcome } from '../../redux/features/igubetTypes';
+import { IIgubetMarket, IIgubetMatch, IOutcome } from '../../redux/features/igubetTypes';
 import MarketOutcomes from './MarketOutcomes';
 
 const StyledMarket = styled('div')`
@@ -20,10 +20,11 @@ const StyledMarket = styled('div')`
 
 interface IMarketProps {
   market: IIgubetMarket;
+  match: IIgubetMatch;
   open?: boolean;
 }
 
-const Market = ({ market, open = false }: IMarketProps) => {
+const Market = ({ market, open = false, match }: IMarketProps) => {
   const [isOpen, setIsOpen] = useState(open);
   const [selectedOutcome, setSelectedOutcome] = useState(0);
 
@@ -50,7 +51,7 @@ const Market = ({ market, open = false }: IMarketProps) => {
           {market.rules}
         </Typography> */}
 
-        <MarketOutcomes outcomes={market.outcomes} />
+        <MarketOutcomes match={match} market={market} />
 
       </Collapse>
     </StyledMarket>

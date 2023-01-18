@@ -1,12 +1,12 @@
 import { Chip } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Market from '../components/match/Market';
 import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import { useGetIguMatchesQuery, useGetIguMatchMarketsQuery } from '../redux/features/igubetApi';
-import { IIgubetMarket } from '../redux/features/igubetTypes';
+import { IIgubetMarket, IIgubetMatch } from '../redux/features/igubetTypes';
 import { useGetIguDetaMatchMarketsQuery } from '../redux/features/iguDetaApi';
 import { useGetMatchInfoQuery } from '../redux/features/oddspediaApi';
 import { transformIgubetMarkets } from '../services/igubetTransformer';
@@ -33,6 +33,8 @@ const StyledMatchPage = styled('div')`
 
 const MatchPage = () => {
   const { league_id, event_id, sport } = useParams();
+
+  const [match, setMatch] = useState<IIgubetMatch | null>(null);
 
   const {
     data: matchListResponse,
@@ -94,15 +96,27 @@ const MatchPage = () => {
   //   },
   // ];
 
-  const getfilteredMarkets = (markets: IIgubetMarket[]) => {
+  const getfilteredMarkets = (markets: IIgubetMarket[], match: IIgubetMatch) => {
     const transformedMarkets = transformIgubetMarkets(markets);
 
     console.log(JSON.stringify(transformedMarkets));
 
     return transformedMarkets
       .filter((market, idx) => market.market_groups.includes(activeMarket))
-      .map((market, idx) => <Market key={idx} market={market} open={idx < 5} />);
+      .map((market, idx) => <Market key={idx} market={market} open={idx < 5} match={match} />);
   };
+
+  useEffect(() => {
+    // matchListResponse.data.find((game) => game.id + '' === event_id) || null
+
+    if (isMatchListSucces) {
+      const currentMatch = matchListResponse.data.find((game) => game.id + '' === event_id);
+
+      if (currentMatch) {
+        setMatch(currentMatch);
+      }
+    }
+  }, [isMatchListSucces, matchListResponse]);
 
   return (
     <StyledMatchPage className="MatchPage">
@@ -123,9 +137,7 @@ const MatchPage = () => {
         </>
       )} */}
 
-      {isMatchListSucces && (
-        <MatchPageHeader match={matchListResponse.data.find((game) => game.id + '' === event_id) || null} />
-      )}
+      {isMatchListSucces && <MatchPageHeader match={match} />}
 
       <>
         <div className="chips">
@@ -140,7 +152,7 @@ const MatchPage = () => {
         </div>
 
         <div className="content">
-          {!isLoading && matchMarketsRes && getfilteredMarkets(matchMarketsRes.data)}
+          {!isLoading && matchMarketsRes && match && getfilteredMarkets(matchMarketsRes.data, match)}
         </div>
       </>
     </StyledMatchPage>

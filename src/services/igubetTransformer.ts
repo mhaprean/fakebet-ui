@@ -127,7 +127,7 @@ export const outcomeExternalIds: { [key: string]: string } = {
 };
 
 const formatOddValue = (val: number) => {
-  return (val / 1000).toFixed(2);
+  return +(val / 1000).toFixed(2);
 };
 
 const formatOddName = (outcome: IOutcome, market: IIgubetMarket) => {

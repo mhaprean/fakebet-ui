@@ -6,6 +6,7 @@ import oddspediaApi from './features/oddspediaApi';
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import iguDetaApi from './features/iguDetaApi';
+import betslipSlice from './features/betslipSlice';
 
 const persistConfig = {
   key: 'root',
@@ -15,12 +16,15 @@ const persistConfig = {
 
 const persistedIguAuth = persistReducer(persistConfig, iguDetaAuthSlice);
 
+const persistedBetslip = persistReducer(persistConfig, betslipSlice);
+
 export const store = configureStore({
   reducer: {
     [oddspediaApi.reducerPath]: oddspediaApi.reducer,
     [igubetApi.reducerPath]: igubetApi.reducer,
     [iguDetaApi.reducerPath]: iguDetaApi.reducer,
     iguDetaAuth: persistedIguAuth,
+    betslip: persistedBetslip,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
