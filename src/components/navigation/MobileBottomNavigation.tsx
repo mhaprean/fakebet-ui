@@ -18,6 +18,10 @@ const StyledMobileBottomNav = styled(Paper)`
     max-width: 250px;
     min-width: 30px;
   }
+
+  .MuiBottomNavigation-root {
+    background: ${props => props.theme.palette.background.default};
+  }
 `;
 
 const MobileBottomNavigation = () => {
@@ -30,7 +34,7 @@ const MobileBottomNavigation = () => {
   const handleNavigation = (path: string) => {};
 
   return (
-    <StyledMobileBottomNav className="MobileBottomNavigation" elevation={2} square>
+    <StyledMobileBottomNav className="MobileBottomNavigation" variant='outlined' square>
       <BottomNavigation
         showLabels
         value={value}

@@ -34,6 +34,13 @@ const StyledNavigation = styled(AppBar)`
   /* box-shadow: none; */
   background: ${(props) => props.theme.palette.background.paper};
 
+  background: ${props => props.theme.navigation.main};
+  color: ${props => props.theme.navigation.text};
+
+  .MuiSvgIcon-root {
+    color: ${props => props.theme.navigation.text};
+  }
+
   .toolbar {
     justify-content: space-between;
     padding: 0 10px;
@@ -64,13 +71,13 @@ const Navigation = ({
       <Toolbar className="toolbar">
         <Box className="left-group">
           <IconButton
-            sx={{ display: { xs: 'flex', md: 'none' }, marginRight: '15px' }}
+            sx={{ display: { xs: 'flex', lg: 'none' }, marginRight: '15px' }}
             onClick={() => onMenuToggle()}
           >
             <MenuIcon sx={{ fontSize: '20px' }} />
           </IconButton>
 
-          <Box className="logo" sx={{ width: { md: '250px' } }}>
+          <Box className="logo" sx={{ width: { lg: '250px' } }}>
             <Link to="/">
               <Typography variant="h6" sx={{ marginRight: '20px' }} noWrap>
                 Fakebet UI

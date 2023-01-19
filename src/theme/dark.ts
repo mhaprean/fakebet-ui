@@ -5,7 +5,7 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
-      paper: '#161d2f',
+      paper: '#212c47', // #2b395c
       default: '#10141f',
 
     },
@@ -24,8 +24,12 @@ export const darkTheme = createTheme({
       hover: 'rgba(208, 218, 245, 0.08)',
     }
   },
-  status: {
-    danger: red[900],
+  navigation: {
+    main: '#181d24',
+    dark: '#10141a',
+    light: '#161d2f',
+    text: '#fff',
+    textSecondary: '#fcfeff',
   },
   mixins: {
     toolbar: {
@@ -33,8 +37,12 @@ export const darkTheme = createTheme({
     },
   },
   typography: {
-    fontSize: 12,
-    fontFamily: 'Heebo',
+
+    fontFamily: '"Heebo", sans-serif',
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 700,
     h1: {
       fontSize: 35,
     },

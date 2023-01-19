@@ -13,14 +13,25 @@ export const lightTheme = createTheme({
       main: '#fc4747',
     },
   },
+  navigation: {
+    main: '#e3e9ee',
+    dark: '#1a3150',
+    light: '#e3e9ee',
+    // text: '#fff',
+    textSecondary: '#556a80',
+  },
   mixins: {
     toolbar: {
       minHeight: '50px',
     },
   },
   typography: {
-    fontSize: 12,
-    fontFamily: 'Heebo',
+
+    fontFamily: '"Heebo", sans-serif',
+    fontWeightLight: 400,
+    fontWeightRegular: 500,
+    fontWeightMedium: 500,
+    fontWeightBold: 700,
     h1: {
       fontSize: 35,
     },

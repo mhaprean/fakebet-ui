@@ -14,6 +14,12 @@ const StyledSportNavigation = styled('div')`
 
   scrollbar-width: thin;
 
+  flex-wrap: nowrap;
+
+  ${(props) => props.theme.breakpoints.up('md')} {
+    flex-wrap: wrap;
+  }
+
   &::-webkit-scrollbar {
     width: 10px;
     height: 10px;

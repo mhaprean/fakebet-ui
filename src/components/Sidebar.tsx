@@ -63,7 +63,7 @@ const StyledSidebar = styled('div')`
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
 
-    ${(props) => props.theme.breakpoints.up('md')} {
+    ${(props) => props.theme.breakpoints.up('lg')} {
       height: calc(100% - 2px);
     }
 

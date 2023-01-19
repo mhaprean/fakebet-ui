@@ -16,10 +16,21 @@ const StyledLeagueHeader = styled(Paper)`
   box-shadow: none;
   border: 1px solid ${(props) => props.theme.palette.divider};
 
+  background: ${props => props.theme.navigation.light};
+
   .league {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+  }
+
+  .league-name {
+    font-weight: ${props => props.theme.typography.fontWeightMedium};
+  }
+
+  .league-country {
+    color: ${props => props.theme.palette.text.secondary};
+    font-weight: ${props => props.theme.typography.fontWeightMedium};
   }
 
   .league-link {
@@ -29,7 +40,7 @@ const StyledLeagueHeader = styled(Paper)`
 
 const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
   return (
-    <StyledLeagueHeader className="LeagueHeader" variant="elevation" elevation={3}>
+    <StyledLeagueHeader className="LeagueHeader" variant="outlined">
       <img
         style={{ width: 15 }}
         src={`https://cdn.oddspedia.com/images/categories/${tournament.category.slug}.svg`}

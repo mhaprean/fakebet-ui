@@ -30,6 +30,19 @@ const StyledLayout = styled('div')`
       width: 100%;
     }
   }
+
+  .right-sidebar {
+    flex-basis: 0;
+    width: 0;
+
+    ${(props) => props.theme.breakpoints.up('md')} {
+      flex-shrink: 0;
+      flex-grow: 0;
+      flex-basis: 320px;
+      max-width: 320px;
+      display: block;
+    }
+  }
 `;
 
 interface IPropsLayout {
@@ -52,7 +65,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
     <StyledLayout className="Layout">
       <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
       <Box className="layout-content">
-        <Box className="left-sidebar" sx={{ width: { xs: 0, md: 250 }, flexShrink: 0 }}>
+        <Box className="left-sidebar" sx={{ width: { xs: 0, lg: 250 }, flexShrink: 0 }}>
           <Drawer
             variant="temporary"
             open={menuOpen}
@@ -61,7 +74,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
               keepMounted: true, // Better open performance on mobile.
             }}
             sx={{
-              display: { xs: 'block', md: 'none' },
+              display: { xs: 'block', lg: 'none' },
               '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
             }}
           >
@@ -75,7 +88,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
           <Drawer
             variant="permanent"
             sx={{
-              display: { xs: 'none', md: 'block' },
+              display: { xs: 'none', lg: 'block' },
               '& .MuiDrawer-paper': {
                 boxSizing: 'border-box',
                 width: 250,
@@ -89,17 +102,14 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
           </Drawer>
         </Box>
 
-        <Box sx={{ flexGrow: 1, width: { xs: '100%', md: `calc(100% - ${250}px)` } }}>
+        <Box sx={{ flexGrow: 1, width: { xs: '100%', lg: `calc(100% - ${250}px)` } }}>
           <Box className="page-content">
             <SportNavigation />
             <Outlet />
           </Box>
         </Box>
 
-        <Box
-          className="right-sidebar"
-          sx={{ width: { xs: 0, lg: 320 }, flexShrink: 0, display: { xs: 'none', lg: 'block' } }}
-        >
+        <Box className="right-sidebar">
           <div className="right-sidebar-content">
             <Betslip />
           </div>
