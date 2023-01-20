@@ -20,6 +20,8 @@ interface IPropsBetslipControlls {
 }
 
 const StyledBetslipControlls = styled(Box)`
+  margin-top: auto;
+  
   .betslip-info {
     padding: 5px;
     margin-bottom: 5px;

@@ -32,7 +32,7 @@ const StyledMatchPage = styled('div')`
 `;
 
 const MatchPage = () => {
-  const { league_id, event_id, sport } = useParams();
+  const { sport, league_id, event_id } = useParams();
 
   const [match, setMatch] = useState<IIgubetMatch | null>(null);
 
@@ -44,6 +44,7 @@ const MatchPage = () => {
   } = useGetIguMatchesQuery(
     {
       tournament_id: league_id,
+      sport_key: sport,
     },
     { skip: !league_id }
   );

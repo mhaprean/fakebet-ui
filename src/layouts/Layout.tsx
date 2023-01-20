@@ -20,6 +20,7 @@ const StyledLayout = styled('div')`
 
   .page-content {
     padding: 10px;
+    padding-bottom: 180px;
   }
 
   .right-sidebar-content {

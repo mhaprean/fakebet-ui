@@ -1,61 +1,27 @@
-import {
-  Badge,
-  Box,
-  Button,
-  IconButton,
-  InputBase,
-  Paper,
-  SwipeableDrawer,
-  TextField,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Paper, SwipeableDrawer, Typography, useMediaQuery } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
-import {
-  Delete as DeleteIcon,
-  ExpandLess,
-  ExpandMore,
-  PostAdd as PostAddIcon,
-  Close as CloseIcon,
-} from '@mui/icons-material';
-import FlexBetween from '../atoms/FlexBetween';
-import classNames from 'classnames';
 import { useState } from 'react';
 import BetslipEvent from './BetslipEvent';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { changeStake, clearBetslip } from '../../redux/features/betslipSlice';
 import BetslipControlls from './BetslipControlls';
+import BetslipSubheader from './BetslipSubheader';
+import BetslipMobilePreview from './BetslipMobilePreview';
 
 const BetslipMobile = styled(Paper)`
   position: fixed;
   left: 0;
   bottom: 56px;
-  padding: 5px 10px;
+  padding: 0;
   width: 100%;
   z-index: 300;
 
-  color: ${(props) => props.theme.palette.primary.contrastText};
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   background: ${(props) => props.theme.navigation.main};
   color: ${(props) => props.theme.navigation.text};
-
-  .BetslipInfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 90px;
-    min-width: 40px;
-    align-items: center;
-    text-align: center;
-
-    &.isFirst {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
 `;
 
 const StyledBottomDrawer = styled(SwipeableDrawer)`
@@ -78,53 +44,13 @@ const StyledBottomDrawer = styled(SwipeableDrawer)`
     flex-direction: column;
     justify-content: space-between;
 
-    .infos {
-      padding: 5px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: pink;
-      background: ${(props) => props.theme.navigation.main};
-      color: ${(props) => props.theme.navigation.text};
-
-      .BetslipInfo {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        max-width: 90px;
-        min-width: 40px;
-        align-items: center;
-        text-align: center;
-
-        &.isFirst {
-          flex-direction: row;
-          justify-content: space-between;
-        }
-      }
-
-      &:after {
-        content: '';
-        width: 50px;
-        height: 5px;
-        background: ${(props) => props.theme.palette.primary.main};
-        border-radius: 20px;
-        position: absolute;
-        top: -10px;
-        left: calc(50% - 25px);
-      }
+    .BetslipControlls {
+      padding: 5px 5px 20px;
     }
 
-    .content {
-      height: calc(100% - 170px);
-      overflow-y: auto;
-
-      .BetslipEvent {
-        margin: 5px;
-      }
-
-      .MuiButton-root {
-        min-width: 30px;
-      }
+    .selection-list {
+      height: 100%;
+      overflow: auto;
     }
   }
 `;
@@ -151,17 +77,11 @@ const StyledBetslip = styled('div')`
     background: ${(props) => props.theme.navigation.light};
   }
 
-  .cancel-button {
-    padding: 0px 5px;
-  }
-
   .selection-list {
     min-height: 150px;
     overflow: auto;
     background: ${(props) => props.theme.palette.background.paper};
   }
-
-
 `;
 
 const Betslip = () => {
@@ -189,47 +109,14 @@ const Betslip = () => {
       <>
         {betslipState.betslip.events.length > 0 && (
           <BetslipMobile className="BetslipMobile" square variant="outlined">
-            <div className="BetslipInfo isFirst">
-              {!open ? (
-                <IconButton color="inherit" onClick={() => setOpen(true)}>
-                  <ExpandLess />
-                </IconButton>
-              ) : (
-                <IconButton color="inherit" onClick={() => setOpen(false)}>
-                  <ExpandMore />
-                </IconButton>
-              )}
-
-              <Badge badgeContent={betslipState.betslip.events.length} color="secondary">
-                <PostAddIcon color="inherit" />
-              </Badge>
-            </div>
-            <div className="BetslipInfo">
-              <Typography className="label" variant="caption">
-                Odds
-              </Typography>
-              <Typography className="value" variant="caption">
-                {betslipState.betslip.totalOdds.toFixed(2)}
-              </Typography>
-            </div>
-
-            <div className="BetslipInfo">
-              <Typography className="label" variant="caption">
-                Stake
-              </Typography>
-              <Typography className="value" variant="caption">
-                {betslipState.betslip.stake}
-              </Typography>
-            </div>
-
-            <div className="BetslipInfo">
-              <Typography className="label" variant="caption">
-                Potential gain
-              </Typography>
-              <Typography className="value" variant="caption">
-                {betslipState.betslip.potentialGain.toFixed(2)} $
-              </Typography>
-            </div>
+            <BetslipMobilePreview
+              open={open}
+              setOpen={setOpen}
+              totalOdds={betslipState.betslip.totalOdds}
+              potentialGain={betslipState.betslip.potentialGain}
+              stake={betslipState.betslip.stake}
+              eventsNr={betslipState.betslip.events.length}
+            />
           </BetslipMobile>
         )}
 
@@ -247,52 +134,17 @@ const Betslip = () => {
           }}
         >
           <div className="wrapper">
-            <div className="box">
-              <div className="infos">
-                <div className="BetslipInfo isFirst">
-                  {!open ? (
-                    <IconButton color="inherit" onClick={() => setOpen(true)}>
-                      <ExpandLess />
-                    </IconButton>
-                  ) : (
-                    <IconButton color="inherit" onClick={() => setOpen(false)}>
-                      <ExpandMore />
-                    </IconButton>
-                  )}
+            <BetslipMobilePreview
+              open={open}
+              setOpen={setOpen}
+              totalOdds={betslipState.betslip.totalOdds}
+              potentialGain={betslipState.betslip.potentialGain}
+              stake={betslipState.betslip.stake}
+              eventsNr={betslipState.betslip.events.length}
+            />
 
-                  <Badge badgeContent={betslipState.betslip.events.length} color="secondary">
-                    <PostAddIcon color="inherit" />
-                  </Badge>
-                </div>
+            <BetslipSubheader eventsNr={betslipState.betslip.events.length} onClear={handleClearBetslip} />
 
-                <div className="BetslipInfo">
-                  <Typography className="Label" variant="caption">
-                    Odds
-                  </Typography>
-                  <Typography className="Value" variant="caption">
-                    {betslipState.betslip.totalOdds.toFixed(2)}
-                  </Typography>
-                </div>
-
-                <div className="BetslipInfo">
-                  <Typography className="Label" variant="caption">
-                    Stake
-                  </Typography>
-                  <Typography className="Value" variant="caption">
-                    {betslipState.betslip.stake}
-                  </Typography>
-                </div>
-
-                <div className="BetslipInfo">
-                  <Typography className="Label" variant="caption">
-                    Potential gain
-                  </Typography>
-                  <Typography className="Value" variant="caption">
-                    {betslipState.betslip.potentialGain.toFixed(2)} $
-                  </Typography>
-                </div>
-              </div>
-            </div>
             <Box className="selection-list">
               {betslipState.betslip.events.map((event, idx) => (
                 <BetslipEvent key={idx} event={event} />
@@ -316,14 +168,7 @@ const Betslip = () => {
         <Typography variant="subtitle2">Betslip</Typography>
       </Paper>
 
-      <Paper className="betslip-subheader" square variant="outlined">
-        <Typography className="events-count" variant="body2">
-          Events: {betslipState.betslip.events.length}
-        </Typography>
-        <Button onClick={handleClearBetslip} className="cancel-button" endIcon={<DeleteIcon />}>
-          Cancel
-        </Button>
-      </Paper>
+      <BetslipSubheader eventsNr={betslipState.betslip.events.length} onClear={handleClearBetslip} />
 
       <Box className="selection-list">
         {betslipState.betslip.events.map((event, idx) => (
