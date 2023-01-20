@@ -13,6 +13,7 @@ export interface IPropsPageBreadcrumbs {
 }
 
 const StyledBreadcrumbs = styled('div')`
+  margin: 10px 0;
   .MuiBreadcrumbs-separator {
     margin: 0;
   }

@@ -14,10 +14,10 @@ export const lightTheme = createTheme({
     },
   },
   navigation: {
-    main: '#e3e9ee',
+    main: '#1a3150',
     dark: '#1a3150',
     light: '#e3e9ee',
-    // text: '#fff',
+    text: '#fff',
     textSecondary: '#556a80',
   },
   mixins: {

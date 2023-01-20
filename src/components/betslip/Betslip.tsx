@@ -24,6 +24,7 @@ import { useState } from 'react';
 import BetslipEvent from './BetslipEvent';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { changeStake, clearBetslip } from '../../redux/features/betslipSlice';
+import BetslipControlls from './BetslipControlls';
 
 const BetslipMobile = styled(Paper)`
   position: fixed;
@@ -160,60 +161,7 @@ const StyledBetslip = styled('div')`
     background: ${(props) => props.theme.palette.background.paper};
   }
 
-  .betslip-info {
-    padding: 5px;
-    margin-bottom: 5px;
-  }
 
-  .stake {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-
-    .MuiButton-root {
-      padding: 0 5px;
-      min-width: 20px;
-      text-transform: none;
-
-      border-radius: 3px;
-
-      margin-left: 5px;
-    }
-
-    .currency {
-      margin-left: auto;
-    }
-
-    .MuiOutlinedInput-input {
-      padding: 0;
-      padding-right: 5px;
-      width: 50px;
-      font-size: 12px;
-      text-align: right;
-      border: none;
-      height: 25px;
-      border-radius: 2px;
-    }
-
-    .stake-input {
-      margin-left: 5px;
-
-      .MuiOutlinedInput-notchedOutline {
-        border-width: 1px !important;
-      }
-
-      input::-webkit-outer-spin-button,
-      input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-
-      /* Firefox */
-      input[type='number'] {
-        -moz-appearance: textfield;
-      }
-    }
-  }
 `;
 
 const Betslip = () => {
@@ -231,25 +179,8 @@ const Betslip = () => {
     dispatch(clearBetslip());
   };
 
-  const handlePlaceBet = () => {};
-
-  const changeStakeViaButton = (newStake: number) => {
+  const handleChangeStake = (newStake: number) => {
     dispatch(changeStake({ stake: newStake }));
-  };
-
-  const handleChangeStake = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newStake = parseFloat(event.target.value);
-
-    dispatch(changeStake({ stake: newStake }));
-
-    // if (isNaN(newStake)) {
-    //   setHasError(true);
-    //   setErrorMessage('The stake should be a number');
-    // } else {
-    //   setHasError(false);
-    //   setErrorMessage('');
-    // }
-    // onChangeStake(newStake);
   };
 
   // mobile view for the betslip
@@ -367,6 +298,12 @@ const Betslip = () => {
                 <BetslipEvent key={idx} event={event} />
               ))}
             </Box>
+            <BetslipControlls
+              potentialGain={betslipState.betslip.potentialGain}
+              stake={stake}
+              totalOdds={betslipState.betslip.totalOdds}
+              onChangeStake={handleChangeStake}
+            />
           </div>
         </StyledBottomDrawer>
       </>
@@ -393,67 +330,12 @@ const Betslip = () => {
           <BetslipEvent key={idx} event={event} />
         ))}
       </Box>
-      <Box className="betslip-controls">
-        <Paper className="betslip-info" variant="outlined" square>
-          <FlexBetween>
-            <Typography className="label" variant="h6" component="label">
-              Total odds:
-            </Typography>
-            <Typography className="value" variant="h6" component="label">
-              {betslipState.betslip.totalOdds}
-            </Typography>
-          </FlexBetween>
-
-          <div className="stake">
-            <Typography className="label" variant="h6" component="label">
-              Stake:
-            </Typography>
-            <Button
-              onClick={() => changeStakeViaButton(10)}
-              className={classNames('stake-value', { isSelected: stake === 10 })}
-            >
-              10
-            </Button>
-            <Button
-              onClick={() => changeStakeViaButton(50)}
-              className={classNames('stake-value', { isSelected: stake === 50 })}
-            >
-              50
-            </Button>
-            <Button
-              onClick={() => changeStakeViaButton(100)}
-              className={classNames('stake-value', { isSelected: stake === 100 })}
-            >
-              100
-            </Button>
-
-            <Typography className="label currency" variant="h6" component="label">
-              $
-            </Typography>
-            <TextField
-              className="stake-input"
-              value={stake || ''}
-              onChange={handleChangeStake}
-              variant="outlined"
-              type={'number'}
-            />
-          </div>
-
-          <FlexBetween>
-            <Typography className="label" variant="h6" component="label">
-              Potential gain:
-            </Typography>
-            <Typography className="value" variant="h6" component="label">
-              {betslipState.betslip.potentialGain} $
-            </Typography>
-          </FlexBetween>
-        </Paper>
-        <div>
-          <Button onClick={handlePlaceBet} className="submit-button" variant="contained" fullWidth>
-            Place bet
-          </Button>
-        </div>
-      </Box>
+      <BetslipControlls
+        potentialGain={betslipState.betslip.potentialGain}
+        stake={stake}
+        totalOdds={betslipState.betslip.totalOdds}
+        onChangeStake={handleChangeStake}
+      />
     </StyledBetslip>
   );
 };

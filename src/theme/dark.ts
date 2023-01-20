@@ -25,9 +25,9 @@ export const darkTheme = createTheme({
     }
   },
   navigation: {
-    main: '#181d24',
-    dark: '#10141a',
-    light: '#161d2f',
+    main: '#1e263b',
+    dark: '#1e263b', // 10141a
+    light: '#1e263b',
     text: '#fff',
     textSecondary: '#fcfeff',
   },
