@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   Divider,
   Drawer,
   IconButton,
@@ -20,6 +21,9 @@ import {
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import MainSearch from './search/MainSearch';
+import LoginRegister from './auth/LoginRegister';
+import { useAppSelector } from '../redux/hooks';
+import { useGetMyProfileQuery } from '../redux/features/strapiApi';
 
 const StyledSearchDrawer = styled(Drawer)`
   .MuiDrawer-paper {
@@ -34,11 +38,11 @@ const StyledNavigation = styled(AppBar)`
   /* box-shadow: none; */
   background: ${(props) => props.theme.palette.background.paper};
 
-  background: ${props => props.theme.navigation.main};
-  color: ${props => props.theme.navigation.text};
+  background: ${(props) => props.theme.navigation.main};
+  color: ${(props) => props.theme.navigation.text};
 
   .MuiSvgIcon-root {
-    color: ${props => props.theme.navigation.text};
+    color: ${(props) => props.theme.navigation.text};
   }
 
   .toolbar {
@@ -66,6 +70,10 @@ const Navigation = ({
 }: IPropsNavigation) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const authState = useAppSelector((rootState) => rootState.auth);
+
+  const {data, isLoading } = useGetMyProfileQuery({}, {skip: !authState.isAuth});
+
   return (
     <StyledNavigation className="Navigation" position="fixed" variant="outlined" elevation={0}>
       <Toolbar className="toolbar">
@@ -84,9 +92,11 @@ const Navigation = ({
               </Typography>
             </Link>
           </Box>
-
         </Box>
         <Box className="right-group">
+          {/* This is the modal that handles login/register */}
+          {!authState.isAuth && <LoginRegister />}
+
           <IconButton onClick={() => setSearchOpen(true)}>
             <SearchIcon sx={{ fontSize: '20px' }} />
           </IconButton>

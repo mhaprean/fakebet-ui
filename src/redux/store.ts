@@ -7,6 +7,8 @@ import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
 import iguDetaApi from './features/iguDetaApi';
 import betslipSlice from './features/betslipSlice';
+import authSlice from './features/authSlice';
+import { strapi } from './features/strapiApi';
 
 const persistConfig = {
   key: 'root',
@@ -15,21 +17,23 @@ const persistConfig = {
 };
 
 const persistedIguAuth = persistReducer(persistConfig, iguDetaAuthSlice);
-
 const persistedBetslip = persistReducer(persistConfig, betslipSlice);
+const persistedAuth = persistReducer(persistConfig, authSlice);
 
 export const store = configureStore({
   reducer: {
     [oddspediaApi.reducerPath]: oddspediaApi.reducer,
     [igubetApi.reducerPath]: igubetApi.reducer,
     [iguDetaApi.reducerPath]: iguDetaApi.reducer,
+    [strapi.reducerPath]: strapi.reducer,
+    auth: persistedAuth,
     iguDetaAuth: persistedIguAuth,
     betslip: persistedBetslip,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat([oddspediaApi.middleware, igubetApi.middleware, iguDetaApi.middleware]),
+    }).concat([oddspediaApi.middleware, igubetApi.middleware, iguDetaApi.middleware, strapi.middleware]),
 });
 
 export type AppDispatch = typeof store.dispatch;
