@@ -2,7 +2,7 @@ import { Box, Chip, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Navigation from '../components/Navigation';
+import Navigation from '../components/navigation/Navigation';
 import Sidebar from '../components/Sidebar';
 import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
 import SportNavigation from '../components/SportNavigation';

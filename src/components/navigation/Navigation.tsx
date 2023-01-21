@@ -19,11 +19,13 @@ import {
   SettingsOutlined,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import MainSearch from './search/MainSearch';
-import LoginRegister from './auth/LoginRegister';
-import { useAppSelector } from '../redux/hooks';
-import { useGetMyProfileQuery } from '../redux/features/strapiApi';
+import { useEffect, useState } from 'react';
+import MainSearch from '../search/MainSearch';
+import LoginRegister from '../auth/LoginRegister';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useGetMyProfileQuery } from '../../redux/features/strapiApi';
+import AccountMenu from './AccountMenu';
+import { setUser } from '../../redux/features/authSlice';
 
 const StyledSearchDrawer = styled(Drawer)`
   .MuiDrawer-paper {
@@ -72,7 +74,18 @@ const Navigation = ({
 
   const authState = useAppSelector((rootState) => rootState.auth);
 
-  const {data, isLoading } = useGetMyProfileQuery({}, {skip: !authState.isAuth});
+  const { data: myProfile, isLoading, isSuccess } = useGetMyProfileQuery({}, { skip: !authState.isAuth });
+
+  const dispatch = useAppDispatch();
+
+
+  useEffect(() => {
+
+    if (myProfile) {
+      dispatch(setUser({user: myProfile}));
+    }
+
+  }, [isSuccess]);
 
   return (
     <StyledNavigation className="Navigation" position="fixed" variant="outlined" elevation={0}>
@@ -111,6 +124,8 @@ const Navigation = ({
           <IconButton>
             <SettingsOutlined sx={{ fontSize: '20px' }} />
           </IconButton>
+
+          {authState.isAuth && <AccountMenu />}
         </Box>
       </Toolbar>
 
