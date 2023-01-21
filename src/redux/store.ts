@@ -9,6 +9,7 @@ import iguDetaApi from './features/iguDetaApi';
 import betslipSlice from './features/betslipSlice';
 import authSlice from './features/authSlice';
 import { strapi } from './features/strapiApi';
+import settingsSlice from './features/settingsSlice';
 
 const persistConfig = {
   key: 'root',
@@ -19,6 +20,7 @@ const persistConfig = {
 const persistedIguAuth = persistReducer(persistConfig, iguDetaAuthSlice);
 const persistedBetslip = persistReducer(persistConfig, betslipSlice);
 const persistedAuth = persistReducer(persistConfig, authSlice);
+const persistedSettings = persistReducer(persistConfig, settingsSlice);
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +28,7 @@ export const store = configureStore({
     [igubetApi.reducerPath]: igubetApi.reducer,
     [iguDetaApi.reducerPath]: iguDetaApi.reducer,
     [strapi.reducerPath]: strapi.reducer,
+    settings: persistedSettings,
     auth: persistedAuth,
     iguDetaAuth: persistedIguAuth,
     betslip: persistedBetslip,
