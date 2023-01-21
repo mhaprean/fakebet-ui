@@ -49,7 +49,6 @@ interface IUserRegisterPayload {
   preffered_theme?: string;
 }
 
-
 interface IAddTicketResponse {
   data: any;
 }
@@ -58,6 +57,63 @@ interface IAddTicketPayload {
   betslip: IBetslip;
   user_id: number;
   current_balance: number;
+}
+
+interface IStrapiBet {
+  id: number;
+  attributes: {
+    is_validated: boolean;
+    is_winner: boolean;
+    market_id: string;
+    market_name: string;
+    market_specifier: string;
+    outcome_id: string;
+    outcome_name: string;
+    outcome_odds: number;
+    match_date: string;
+    createdAt: string;
+    updatedAt: string;
+    home_team: string;
+    home_logo: string;
+    away_team: string;
+    away_logo: string;
+    tournament_id: number;
+    tournament_name: string;
+    sport_key: string;
+    category_slug: string;
+    category_name: string;
+    category_id: number;
+    validation_date: string;
+  };
+}
+
+interface IStrapiTicket {
+  id: number;
+  attributes: {
+    is_validated: boolean;
+    is_winner: boolean;
+    potential_gain: number;
+    stake: number;
+    total_odds: number;
+    current_balance: number;
+    validation_date: string;
+
+    bets: {
+      data: IStrapiBet[];
+    };
+  };
+}
+
+interface IStrapiTicketsResponse {
+  data: IStrapiTicket[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
 }
 
 export const strapi = createApi({
@@ -117,7 +173,6 @@ export const strapi = createApi({
       },
     }),
 
-
     addCustomTicket: builder.mutation<IAddTicketResponse, IAddTicketPayload>({
       query: ({ betslip, user_id, current_balance }) => ({
         url: `custom-ticket`,
@@ -126,6 +181,15 @@ export const strapi = createApi({
       }),
       invalidatesTags: ['Account'],
     }),
+
+    getTickets: builder.query<IStrapiTicketsResponse, { queryString?: string }>({
+      query: ({ queryString = '' }) => {
+        return {
+          url: `tickets?${queryString}`,
+        };
+      },
+    }),
+
 
   }),
 });
@@ -137,4 +201,5 @@ export const {
   useLoginMutation,
   useRegisterMutation,
   useAddCustomTicketMutation,
+  useGetTicketsQuery,
 } = strapi;

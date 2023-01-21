@@ -31,7 +31,9 @@ const MobileBottomNavigation = () => {
 
   const navigate = useNavigate();
 
-  const handleNavigation = (path: string) => {};
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
 
   return (
     <StyledMobileBottomNav className="MobileBottomNavigation" variant='outlined' square>

@@ -9,6 +9,7 @@ import LeaguePage from './pages/LeaguePage';
 import MatchPage from './pages/MatchPage';
 import SearchPage from './pages/SearchPage';
 import SportPage from './pages/SportPage';
+import TicketsPage from './pages/TicketsPage';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
 
@@ -49,6 +50,10 @@ const App = () => {
               <Route path="/sports/:sport/league/:league_id/event/:event_id" element={<MatchPage />} />
 
               <Route path="/search" element={<SearchPage />} />
+
+              <Route path="/tickets" element={<TicketsPage />} />
+
+
 
               <Route path="*" element={<NotFoundPage />} />
             </Route>
