@@ -149,25 +149,14 @@ const LoginRegister = () => {
         username: values.username,
         email: values.email,
         password: values.password,
+        preffered_theme: 'dark',
+        current_balance: 10000,
+        image: `/images/${randomIntFromInterval(1, 70)}.jpg`,
       };
 
       const res = await registerStrapi(newUser).unwrap();
 
       if (res && res.user && res.jwt) {
-        const newAcc = {
-          user_id: res.user.id,
-          current_balance: 10000,
-          user: [res.user.id],
-          preffered_theme: 'dark',
-          user_image: `/images/${randomIntFromInterval(1, 70)}.jpg`,
-        };
-
-        const createAccount = await createAccountStrapi(newAcc).unwrap();
-
-        const updateAccount = await updateAccountStrapi({
-          id: createAccount.data.id,
-          data: newAcc,
-        }).unwrap();
 
         dispatch(loginUser({ user: res.user, access_token: res.jwt }));
 
