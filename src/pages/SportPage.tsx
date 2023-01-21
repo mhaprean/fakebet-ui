@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material';
-import React from 'react';
+import { Button, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DayHeader from '../components/league/DayHeader';
 import LeagueHeader from '../components/league/LeagueHeader';
@@ -11,14 +11,23 @@ import { timeFormatService } from '../services/timeFormaterService';
 const SportPage = () => {
   const { sport } = useParams();
 
+  const [page, setPage] = useState(1);
+
   const iguSport = igubetSports.find((sp) => sp.key === sport);
 
   const dates = timeFormatService.getStartEnd();
 
-  const { data: matchListResponse, isSuccess, isFetching } = useGetIguSportMatchesQuery({
+
+  const {
+    data: matchListResponse,
+    isSuccess,
+    isLoading,
+    isFetching,
+  } = useGetIguSportMatchesQuery({
     sport_key: sport,
     start_from: dates.start,
     start_to: dates.end,
+    page: page,
   });
   return (
     <div>
@@ -27,8 +36,8 @@ const SportPage = () => {
           Upcoming {iguSport?.name} games
         </Typography>
       </div>
-      {isFetching && <div>Is loading...</div>}
-      {isSuccess && !isFetching && 
+      {isSuccess &&
+        !isLoading &&
         matchListResponse.data.map((match, idx) => (
           <React.Fragment key={idx}>
             {idx === 0 ||
@@ -41,6 +50,13 @@ const SportPage = () => {
             </div>
           </React.Fragment>
         ))}
+
+      {isFetching && <div>Loading...</div>}
+      {matchListResponse && !isFetching && matchListResponse.pagination.last_page > page && (
+        <Button onClick={() => setPage(page + 1)} className="show-more" size="small" sx={{ marginTop: '20px' }}>
+          Show more
+        </Button>
+      )}
     </div>
   );
 };

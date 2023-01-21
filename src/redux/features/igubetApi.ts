@@ -30,6 +30,8 @@ interface IMatchesParams {
   sort_by?: string;
   sport_key?: string;
   type?: string;
+
+  page?: number;
 }
 
 interface ITournamentsResponse {
@@ -174,10 +176,11 @@ export const igubetApi = createApi({
         sport_key = 'soccer',
         type = 'match',
         start_from,
-        start_to
+        start_to,
+        page = 1,
       }) => {
         return {
-          url: `matches?bettable=true&limit=50&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=${sport_key}&type=match&start_from=${start_from}&start_to=${start_to}`,
+          url: `matches?bettable=true&limit=50&page=${page}&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=${sport_key}&type=match&start_from=${start_from}&start_to=${start_to}`,
           // params: {
           //   limit,
           //   bettable: true,
@@ -187,6 +190,22 @@ export const igubetApi = createApi({
           //   type,
           // },
         };
+      },
+      serializeQueryArgs: ({ endpointName, queryArgs }) => {
+        return endpointName; // + queryArgs.start_from + queryArgs.start_to;
+      },
+      // Always merge incoming data to the cache entry
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return (
+          currentArg?.sport_key !== previousArg?.sport_key ||
+          currentArg?.start_from !== previousArg?.start_from ||
+          currentArg?.start_to !== previousArg?.start_to || 
+          currentArg?.page !== previousArg?.page
+        );
       },
     }),
 
@@ -199,8 +218,7 @@ export const igubetApi = createApi({
         type = 'match',
         start_from,
         start_to,
-        category_id = 8
-
+        category_id = 8,
       }) => {
         return {
           url: `matches?bettable=true&limit=50&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=${sport_key}&category_id=${category_id}&type=match&start_from=${start_from}&start_to=${start_to}`,
@@ -227,7 +245,7 @@ export const {
   useGetIguMatchesResultsQuery,
   useIguSearchQuery,
   useGetIguSportMatchesQuery,
-  useGetIguCategoryMatchesQuery
+  useGetIguCategoryMatchesQuery,
 } = igubetApi;
 
 export default igubetApi;
