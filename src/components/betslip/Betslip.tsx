@@ -7,6 +7,7 @@ import { changeStake, clearBetslip } from '../../redux/features/betslipSlice';
 import BetslipControlls from './BetslipControlls';
 import BetslipSubheader from './BetslipSubheader';
 import BetslipMobilePreview from './BetslipMobilePreview';
+import { useAddCustomTicketMutation } from '../../redux/features/strapiApi';
 
 const BetslipMobile = styled(Paper)`
   position: fixed;
@@ -88,6 +89,8 @@ const Betslip = () => {
   const [open, setOpen] = useState(false);
 
   const betslipState = useAppSelector((rootState) => rootState.betslip);
+  const authState = useAppSelector((rootState) => rootState.auth);
+
   const dispatch = useAppDispatch();
 
   const stake = betslipState.betslip.stake;
@@ -95,12 +98,67 @@ const Betslip = () => {
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
 
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [betSuccess, setBetSuccess] = useState(false);
+
+  const [addCustomTicket, { isLoading, data }] = useAddCustomTicketMutation();
+
   const handleClearBetslip = () => {
     dispatch(clearBetslip());
   };
 
   const handleChangeStake = (newStake: number) => {
     dispatch(changeStake({ stake: newStake }));
+  };
+
+  const handlePlaceBet = async () => {
+    if (isLoading) {
+      return false;
+    }
+    if (!authState.isAuth || !authState.user) {
+      setErrorMessage('You need to login before placing a bet');
+      setHasError(true);
+      return false;
+    }
+
+    if (stake > authState.user.current_balance) {
+      setErrorMessage(
+        'The stake should be less or equal to current balance. Maximum allowed stake is: ' +
+          authState.user.current_balance
+      );
+      setHasError(true);
+    }
+
+    if (betslipState.betslip.events.length === 0) {
+      setErrorMessage('Add an event before placing the bet.');
+      setHasError(true);
+    }
+
+    if (
+      betslipState.betslip.totalOdds > 1 &&
+      authState &&
+      authState.user.current_balance >= stake &&
+      stake > 0
+    ) {
+      const insertTicket = await addCustomTicket({
+        betslip: betslipState.betslip,
+        user_id: authState.user.id,
+        current_balance: authState.user.current_balance,
+      }).unwrap();
+
+      if (insertTicket.data.ticket) {
+        setErrorMessage('');
+        setHasError(false);
+        dispatch(clearBetslip());
+        setBetSuccess(true);
+
+        setTimeout(() => {
+          setBetSuccess(false);
+          setOpen(false);
+        }, 3000);
+      }
+    }
   };
 
   // mobile view for the betslip
@@ -155,6 +213,7 @@ const Betslip = () => {
               stake={stake}
               totalOdds={betslipState.betslip.totalOdds}
               onChangeStake={handleChangeStake}
+              onPlaceBet={handlePlaceBet}
             />
           </div>
         </StyledBottomDrawer>
@@ -180,6 +239,7 @@ const Betslip = () => {
         stake={stake}
         totalOdds={betslipState.betslip.totalOdds}
         onChangeStake={handleChangeStake}
+        onPlaceBet={handlePlaceBet}
       />
     </StyledBetslip>
   );

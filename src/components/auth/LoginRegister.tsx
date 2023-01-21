@@ -24,10 +24,8 @@ import {
   VisibilityOff as VisibilityOffIcon,
 } from '@mui/icons-material';
 import {
-  useCreateAccountMutation,
   useLoginMutation,
   useRegisterMutation,
-  useUpdateAccountMutation,
 } from '../../redux/features/strapiApi';
 import { useAppDispatch } from '../../redux/hooks';
 import { loginUser } from '../../redux/features/authSlice';
@@ -128,10 +126,6 @@ const LoginRegister = () => {
     useRegisterMutation();
 
   const [loginStrapi, { isLoading: isLoginLoading, isSuccess: isSuccessLogin }] = useLoginMutation();
-
-  const [createAccountStrapi, { isLoading: isCreateAccountLoading }] = useCreateAccountMutation();
-
-  const [updateAccountStrapi, { isLoading: isUpdateAccountLoading }] = useUpdateAccountMutation();
 
   const dispatch = useAppDispatch();
 
@@ -331,7 +325,7 @@ const LoginRegister = () => {
                 </Button>
               ) : (
                 <Button type="submit" variant="contained" size="large" style={{ marginTop: 20 }} fullWidth>
-                  {isRegisterLoading || isCreateAccountLoading ? 'Loading...' : 'Register'}
+                  {isRegisterLoading ? 'Loading...' : 'Register'}
                 </Button>
               )}
             </div>

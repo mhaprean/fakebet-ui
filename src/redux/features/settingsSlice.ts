@@ -1,16 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IStrapiAccount } from './strapiApi';
 
 interface SettingsState {
   language: string;
   themeName: string;
-  accountInfo: IStrapiAccount | null;
 }
 
 const initialState: SettingsState = {
   language: 'en',
   themeName: 'dark',
-  accountInfo: null,
 };
 
 export const settingsSlice = createSlice({

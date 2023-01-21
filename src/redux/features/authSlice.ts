@@ -22,7 +22,10 @@ const authSlice = createSlice({
       state.isAuth = true;
       state.token = action.payload.access_token;
     },
-    logout: (state, action) => {
+    setUser: (state, action: PayloadAction<{ user: IStrapiUser; }>) => {
+      state.user = action.payload.user;
+    },
+    logout: (state) => {
       state.user = null;
       state.isAuth = false;
       state.token = null;
@@ -30,6 +33,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { loginUser, logout } = authSlice.actions;
+export const { loginUser, logout, setUser } = authSlice.actions;
 
 export default authSlice.reducer;

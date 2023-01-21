@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
+import { IBetslip } from './betslipSlice';
 
 export interface IStrapiUser {
   id: number;
@@ -14,6 +15,10 @@ export interface IStrapiUser {
   tickets: any[];
   account: null;
   bets: any[];
+
+  current_balance: number;
+  preffered_theme: string;
+  image: string;
 }
 
 interface IStrapiLocalError {
@@ -37,48 +42,28 @@ interface IAuthLocalRegisterResponse {
   error?: IStrapiLocalError;
 }
 
-interface IStrapiAccount {
-  id: number;
-  current_balance: number;
-  statistics: null;
-  preffered_theme: string;
-  favorites: null;
-  user_image: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-  user_id: number;
-}
-
-interface ICreateAccountResponse {
-  data: {
-    id: 7;
-    attributes: Omit<IStrapiAccount, 'id'>;
-  };
-}
-
-interface IUpdateAccountResponse {}
-
 interface IUserRegisterPayload {
   username: string;
   email: string;
   password: string;
+  preffered_theme?: string;
 }
 
-interface ICreateAccountPayload {
-  current_balance: number;
-  user: number | number[];
-  preffered_theme?: string;
-  user_image?: string;
 
-  statistics?: any; // this is a json object
-  favorites?: any; // this is a json object
+interface IAddTicketResponse {
+  data: any;
+}
+
+interface IAddTicketPayload {
+  betslip: IBetslip;
+  user_id: number;
+  current_balance: number;
 }
 
 export const strapi = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://192.168.100.6:1337/api/',
+    baseUrl: 'http://localhost:1337/api/',
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
 
@@ -99,9 +84,9 @@ export const strapi = createApi({
       query: () => {
         return {
           url: 'users/me',
-          params: {
-            populate: '*',
-          },
+          // params: {
+          //   populate: '*',
+          // },
         };
       },
 
@@ -132,28 +117,16 @@ export const strapi = createApi({
       },
     }),
 
-    createAccount: builder.mutation<ICreateAccountResponse, ICreateAccountPayload>({
-      query(body) {
-        return {
-          url: `accounts`,
-          method: 'POST',
-          body: {
-            data: body,
-          },
-        };
-      },
+
+    addCustomTicket: builder.mutation<IAddTicketResponse, IAddTicketPayload>({
+      query: ({ betslip, user_id, current_balance }) => ({
+        url: `custom-ticket`,
+        method: 'POST',
+        body: { betslip, user_id, current_balance },
+      }),
+      invalidatesTags: ['Account'],
     }),
 
-    updateAccount: builder.mutation<
-      IUpdateAccountResponse,
-      { id: number; data: Partial<ICreateAccountPayload> }
-    >({
-      query: ({ id, data }) => ({
-        url: `accounts/${id}`,
-        method: 'PUT',
-        body: { data },
-      }),
-    }),
   }),
 });
 
@@ -163,6 +136,5 @@ export const {
   useGetMyProfileQuery,
   useLoginMutation,
   useRegisterMutation,
-  useCreateAccountMutation,
-  useUpdateAccountMutation,
+  useAddCustomTicketMutation,
 } = strapi;

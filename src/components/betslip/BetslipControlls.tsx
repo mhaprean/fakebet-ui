@@ -83,7 +83,7 @@ const BetslipControlls = ({
   potentialGain,
   stake,
   onChangeStake,
-  onPlaceBet,
+  onPlaceBet = () => {},
   hasError,
   setHasError,
   errorMessage,
@@ -108,8 +108,6 @@ const BetslipControlls = ({
   const changeStakeViaButton = (newStake: number) => {
     onChangeStake(newStake);
   };
-
-  const handlePlaceBet = () => {};
 
   return (
     <StyledBetslipControlls className="BetslipControlls">
@@ -168,7 +166,7 @@ const BetslipControlls = ({
         </FlexBetween>
       </Paper>
       <div>
-        <Button onClick={handlePlaceBet} className="submit-button" variant="contained" fullWidth>
+        <Button onClick={onPlaceBet} className="submit-button" variant="contained" fullWidth>
           Place bet
         </Button>
       </div>
