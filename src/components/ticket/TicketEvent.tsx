@@ -1,0 +1,212 @@
+import { Paper, Tooltip, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { IStrapiBet } from '../../redux/features/strapiApi';
+import { timeFormatService } from '../../services/timeFormaterService';
+import SportIcon from '../SportIcon';
+
+import { CheckCircle as CheckCircleIcon, Cancel as CancelIcon } from '@mui/icons-material';
+
+interface IPropsTicketEvent {
+  bet: IStrapiBet;
+}
+
+const StyledTicketEvent = styled(Paper)`
+  margin-top: -1px;
+  padding: 5px;
+  /* background: ${(props) => props.theme.palette.background.default}; */
+
+  &.isWin {
+    border-left: 2px solid ${(props) => props.theme.palette.success.main};
+  }
+  &.isLost {
+    border-left: 2px solid ${(props) => props.theme.palette.error.main};
+  }
+
+  .event-header {
+    display: flex;
+    align-items: center;
+
+    .market-name {
+      color: ${(props) => props.theme.palette.text.secondary};
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+    }
+
+    .SportIcon {
+      font-size: 14px;
+      margin-right: 5px;
+    }
+
+    .odd-value {
+      margin-right: 5px;
+      margin-left: auto;
+      /* color: ${(props) => props.theme.palette.primary.light}; */
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+    }
+  }
+
+  .event-body {
+    display: flex;
+
+    .event-time {
+      max-width: 40px;
+      color: ${(props) => props.theme.palette.text.secondary};
+    }
+
+    .team {
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      .odd-value {
+        margin: auto 0;
+        font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+      }
+    }
+  }
+
+  .validation-result {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+
+    .win {
+      color: ${(props) => props.theme.palette.success.main};
+    }
+    .lost {
+      color: ${(props) => props.theme.palette.error.main};
+    }
+  }
+  .Odds {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+  }
+
+  .event-footer {
+    display: flex;
+    align-items: center;
+    color: ${(props) => props.theme.palette.text.secondary};
+
+    img {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      margin-right: 5px;
+    }
+
+    .PeriodName {
+      color: ${(props) => props.theme.palette.text.secondary};
+      margin-left: auto;
+    }
+    .OddLeague {
+      margin-left: 10px;
+    }
+  }
+
+  .teams {
+    overflow: auto;
+  }
+
+  .Periods {
+    margin-left: auto;
+    flex-shrink: 0;
+    margin-right: 10px;
+
+    display: flex;
+
+    .Period {
+      color: ${(props) => props.theme.palette.text.disabled};
+      margin: 0 2px;
+      text-align: center;
+
+      &.Final {
+        color: ${(props) => props.theme.palette.text.primary};
+      }
+    }
+
+    .Score {
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+    }
+  }
+`;
+
+const TicketEvent = ({ bet }: IPropsTicketEvent) => {
+  return (
+    <StyledTicketEvent className="TicketEvent" square variant="outlined">
+      <div className="event-header">
+        <SportIcon sportSlug={bet.attributes.sport_key} />
+        <Typography className="market-name" variant="body2" noWrap component="span">
+          {bet.attributes.market_name}
+        </Typography>
+
+        <Typography className="odd-value" variant="body2" noWrap component="span">
+          {bet.attributes.outcome_name} @ {parseFloat('' + bet.attributes.outcome_odds).toFixed(2)}
+        </Typography>
+      </div>
+      <div className="event-body">
+        <div className="event-time">
+          <Typography className="" variant="caption" component="div">
+            {timeFormatService.formatDateForTicket(bet.attributes.match_date)}
+          </Typography>
+        </div>
+        <div className="teams">
+          <Typography className="team" variant="caption" noWrap component="div">
+            {bet.attributes.home_team}
+          </Typography>
+          <Typography className="team" variant="caption" noWrap component="div">
+            {bet.attributes.away_team}
+          </Typography>
+        </div>
+
+        {/* <div className="Periods">
+          {matchPeriods &&
+            matchPeriods.map((period, idx) => (
+              <Tooltip title={period.period_type + ' ' + period.period_number} placement="top" key={idx}>
+                <div className="Period">
+                  <Typography className="Score" variant="caption" noWrap component="div">
+                    {period.home}
+                  </Typography>
+                  <Typography className="Score" variant="caption" noWrap component="div">
+                    {period.away}
+                  </Typography>
+                </div>
+              </Tooltip>
+            ))}
+
+          {bet.attributes.is_validated && (
+            <Tooltip title={'Final Score'} placement="top">
+              <div className="Period Final">
+                <Typography className="Score" variant="caption" noWrap component="div">
+                  {homeScore}
+                </Typography>
+                <Typography className="Score" variant="caption" noWrap component="div">
+                  {awayScore}
+                </Typography>
+              </div>
+            </Tooltip>
+          )}
+        </div> */}
+
+      </div>
+      <div className="event-footer">
+        <Typography className="event-category" variant="caption" noWrap component="span">
+          {bet.attributes.category_name} {` / `} {bet.attributes.tournament_name}
+        </Typography>
+
+        <div className="validation-result">
+          {bet.attributes.is_validated && bet.attributes.is_winner && (
+            <CheckCircleIcon className="win" fontSize="small" />
+          )}
+          {bet.attributes.is_validated && !bet.attributes.is_winner && (
+            <CancelIcon className="lost" fontSize="small" />
+          )}
+        </div>
+      </div>
+    </StyledTicketEvent>
+  );
+};
+
+export default TicketEvent;

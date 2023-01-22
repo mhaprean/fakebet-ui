@@ -59,7 +59,7 @@ interface IAddTicketPayload {
   current_balance: number;
 }
 
-interface IStrapiBet {
+export interface IStrapiBet {
   id: number;
   attributes: {
     is_validated: boolean;
@@ -87,7 +87,7 @@ interface IStrapiBet {
   };
 }
 
-interface IStrapiTicket {
+export interface IStrapiTicket {
   id: number;
   attributes: {
     is_validated: boolean;
@@ -98,8 +98,18 @@ interface IStrapiTicket {
     current_balance: number;
     validation_date: string;
 
+    createdAt: string;
+    updatedAt: string;
+
     bets: {
       data: IStrapiBet[];
+    };
+
+    user: {
+      data: {
+        id: number;
+        attributes: Pick<IStrapiUser, 'username'>;
+      };
     };
   };
 }
@@ -189,8 +199,6 @@ export const strapi = createApi({
         };
       },
     }),
-
-
   }),
 });
 
