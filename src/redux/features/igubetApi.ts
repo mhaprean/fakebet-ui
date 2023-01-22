@@ -192,7 +192,7 @@ export const igubetApi = createApi({
         };
       },
       serializeQueryArgs: ({ endpointName, queryArgs }) => {
-        return endpointName; // + queryArgs.start_from + queryArgs.start_to;
+        return endpointName + queryArgs.sport_key + queryArgs.start_from + queryArgs.start_to;
       },
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
