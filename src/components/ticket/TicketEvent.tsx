@@ -161,10 +161,10 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
           </Typography>
         </div>
 
-        {/* <div className="Periods">
-          {matchPeriods &&
-            matchPeriods.map((period, idx) => (
-              <Tooltip title={period.period_type + ' ' + period.period_number} placement="top" key={idx}>
+        <div className="Periods">
+          {
+            bet.attributes.match.data.attributes.period_score && bet.attributes.match.data.attributes.period_score.map((period, idx) => (
+              <Tooltip title={period.type + ' ' + period.number} placement="top" key={idx}>
                 <div className="Period">
                   <Typography className="Score" variant="caption" noWrap component="div">
                     {period.home}
@@ -180,16 +180,15 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
             <Tooltip title={'Final Score'} placement="top">
               <div className="Period Final">
                 <Typography className="Score" variant="caption" noWrap component="div">
-                  {homeScore}
+                  {bet.attributes.match.data.attributes.total_score?.home}
                 </Typography>
                 <Typography className="Score" variant="caption" noWrap component="div">
-                  {awayScore}
+                  {bet.attributes.match.data.attributes.total_score?.away}
                 </Typography>
               </div>
             </Tooltip>
           )}
-        </div> */}
-
+        </div>
       </div>
       <div className="event-footer">
         <Typography className="event-category" variant="caption" noWrap component="span">

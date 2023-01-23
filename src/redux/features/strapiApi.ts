@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../store';
 import { IBetslip } from './betslipSlice';
+import { IPeriodScore, ITotalScore } from './igubetTypes';
 
 export interface IStrapiUser {
   id: number;
@@ -84,6 +85,15 @@ export interface IStrapiBet {
     category_name: string;
     category_id: number;
     validation_date: string;
+    match: {
+      data: {
+        id: number;
+        attributes: {
+          total_score: ITotalScore | null;
+          period_score: IPeriodScore[] | null;
+        }
+      }
+    }
   };
 }
 
