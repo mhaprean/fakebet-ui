@@ -1,7 +1,7 @@
 import { Chip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { igubetSports } from '../helpers/igubetSports';
 import SportIcon from './SportIcon';
 
@@ -46,15 +46,14 @@ const StyledSportNavigation = styled('div')`
   }
 `;
 const SportNavigation = () => {
-  const sports = igubetSports;
+  const location = useLocation();
 
-  const { sport: sportSlug } = useParams();
   return (
     <StyledSportNavigation className="SportNavigation">
-      {sports.map((sport, idx) => (
+      {igubetSports.map((sport, idx) => (
         <Link to={`/sports/${sport.key}`} key={idx}>
           <Chip
-            className={classNames('sport', { active: sport.key === sportSlug })}
+            className={classNames('sport', { active: `/sports/${sport.key}` === location.pathname })}
             label={sport.name}
             icon={<SportIcon sportSlug={sport.key} />}
           />
