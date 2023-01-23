@@ -7,11 +7,33 @@ export const lightTheme = createTheme({
       default: '#edf3f7',
     },
     primary: {
-      main: '#10b981',
+      main: '#1d6f98',
     },
     secondary: {
-      main: '#fc4747',
+      main: '#e65853',
     },
+
+    success: {
+      main: '#14B8A6',
+      light: '#43C6B7',
+      dark: '#0E8074',
+      contrastText: '#FFFFFF',
+    },
+    info: {
+      main: '#2196F3',
+      light: '#64B6F7',
+      dark: '#0B79D0',
+      contrastText: '#FFFFFF',
+    },
+    warning: {
+      main: '#FFB020',
+      light: '#FFBF4C',
+      dark: '#B27B16',
+    },
+    error: {
+      main: '#e65853',
+    },
+
   },
   navigation: {
     main: '#1a3150',

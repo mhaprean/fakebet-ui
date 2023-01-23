@@ -12,6 +12,7 @@ import FlexBetween from '../components/atoms/FlexBetween';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import DropdownList from '../components/atoms/DropdownList';
 import { Pagination, Typography } from '@mui/material';
+import TicketListLoading from '../components/loaders/TicketListLoading';
 
 const StyledTicketPage = styled('div')`
   .filters,
@@ -77,6 +78,7 @@ const TicketsPage = () => {
     isLoading,
     isSuccess,
     isFetching,
+    isError: isTicketsError
   } = useGetTicketsQuery({ queryString: query });
 
   const breadcrumbsArray = [
@@ -142,7 +144,6 @@ const TicketsPage = () => {
             { value: '1000', label: '< 1000' },
           ]}
         /> */}
-
       </div>
       <FlexBetween className="pagination">
         <Typography noWrap variant="body2">
@@ -158,7 +159,8 @@ const TicketsPage = () => {
         />
       </FlexBetween>
 
-      {isFetching && <div>is loading...</div>}
+      {isFetching && <TicketListLoading ticketsNr={12} />}
+
       <>
         {isSuccess && (
           <Masonry columns={{ xs: 1, sm: 2, xl: 3 }} spacing={1}>
@@ -168,6 +170,8 @@ const TicketsPage = () => {
           </Masonry>
         )}
       </>
+
+      {isTicketsError && <div>There was an error fetching data. Try again later</div>}
     </StyledTicketPage>
   );
 };
