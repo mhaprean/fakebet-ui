@@ -22,6 +22,10 @@ const StyledLeagueHeader = styled(Paper)`
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+
+    a {
+      line-height: 20px;
+    }
   }
 
   .league-name {

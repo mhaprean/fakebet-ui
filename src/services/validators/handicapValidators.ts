@@ -1,9 +1,8 @@
-import { IIgubetMarket, IOutcome } from '../../redux/features/igubetTypes';
-import { IOddspediaMatchInfoPeriods } from '../../redux/features/oddspediaTypes';
+import { IgubetMatchPeriods, IIgubetMarket, IOutcome } from '../../redux/features/igubetTypes';
 
 const validateEuropeanHandicap = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const hcp = market.specifier
     .replace('hcp=', '')
@@ -37,7 +36,7 @@ const validateEuropeanHandicap = (
 
 const validateFirstHalfEuropeanHandicap = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const hcp = market.specifier
     .replace('hcp=', '')
@@ -71,7 +70,7 @@ const validateFirstHalfEuropeanHandicap = (
 
 const validateSecondHalfEuropeanHandicap = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const hcp = market.specifier
     .replace('hcp=', '')
@@ -103,7 +102,7 @@ const validateSecondHalfEuropeanHandicap = (
   return { ...market, outcomes };
 };
 
-const validateAsianHandicap = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateAsianHandicap = (market: IIgubetMarket, periods: IgubetMatchPeriods): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
 
@@ -129,7 +128,7 @@ const validateAsianHandicap = (market: IIgubetMarket, periods: IOddspediaMatchIn
 
 const validateFirstHalfAsianHandicap = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home;
   const awayScore = periods[0].away;
@@ -156,7 +155,7 @@ const validateFirstHalfAsianHandicap = (
 
 const validateSecondHalfAsianHandicap = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[1].home;
   const awayScore = periods[1].away;
@@ -183,7 +182,7 @@ const validateSecondHalfAsianHandicap = (
 
 export const validateHandicapMarkets = (
   markets: IIgubetMarket[],
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket[] => {
   return markets.map((market, idx) => {
     switch (market.id) {

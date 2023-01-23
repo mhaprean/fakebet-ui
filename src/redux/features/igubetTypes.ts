@@ -65,6 +65,8 @@ export interface IPeriodScore {
   type: string;
 }
 
+export type IgubetMatchPeriods = IPeriodScore[];
+
 interface IStatistics {
   clock?: any;
   total_score: ITotalScore | null;

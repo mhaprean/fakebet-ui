@@ -1,9 +1,8 @@
-import { IIgubetMarket, IOutcome } from '../../redux/features/igubetTypes';
-import { IOddspediaMatchInfoPeriods } from '../../redux/features/oddspediaTypes';
+import { IgubetMatchPeriods, IIgubetMarket, IOutcome } from '../../redux/features/igubetTypes';
 
 const validateDoubleChanceAndBothTeamsToScore = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -48,7 +47,7 @@ const validateDoubleChanceAndBothTeamsToScore = (
 
 const validateDoubleChanceAndFirstHalfBothTeamsToScore = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -93,7 +92,7 @@ const validateDoubleChanceAndFirstHalfBothTeamsToScore = (
 
 const validateDoubleChanceAndSecondHalfBothTeamsToScore = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -138,7 +137,7 @@ const validateDoubleChanceAndSecondHalfBothTeamsToScore = (
 
 const validateHalftimeFulltimeAndTotal = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -243,7 +242,7 @@ const validateHalftimeFulltimeAndTotal = (
 
 const validateHalftimeFulltimeAndFirstHalfTotal = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -348,7 +347,7 @@ const validateHalftimeFulltimeAndFirstHalfTotal = (
 
 const validate1x2AndBothTeamsToScore = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -393,7 +392,7 @@ const validate1x2AndBothTeamsToScore = (
 
 const validateTotalGoalsAndBothTeamsToScore = (
   market: IIgubetMarket,
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
@@ -431,7 +430,7 @@ const validateTotalGoalsAndBothTeamsToScore = (
   return { ...market, outcomes };
 };
 
-const validateDrawOrOver = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateDrawOrOver = (market: IIgubetMarket, periods: IgubetMatchPeriods): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
 
@@ -456,7 +455,7 @@ const validateDrawOrOver = (market: IIgubetMarket, periods: IOddspediaMatchInfoP
   return { ...market, outcomes };
 };
 
-const validateDrawOrUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfoPeriods): IIgubetMarket => {
+const validateDrawOrUnder = (market: IIgubetMarket, periods: IgubetMatchPeriods): IIgubetMarket => {
   const homeScore = periods[0].home + periods[1].home;
   const awayScore = periods[0].away + periods[1].away;
 
@@ -484,7 +483,7 @@ const validateDrawOrUnder = (market: IIgubetMarket, periods: IOddspediaMatchInfo
 
 export const validateComboMarkets = (
   markets: IIgubetMarket[],
-  periods: IOddspediaMatchInfoPeriods
+  periods: IgubetMatchPeriods
 ): IIgubetMarket[] => {
   return markets.map((market, idx) => {
     switch (market.id) {
