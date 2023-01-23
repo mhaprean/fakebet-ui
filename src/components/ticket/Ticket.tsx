@@ -281,7 +281,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
               : '1 Event'}
           </Typography>
 
-          {!ticket.attributes.is_validated && (
+          {/* {!ticket.attributes.is_validated && (
             <Button
               onClick={handleCopyTicket}
               className="copy-button"
@@ -291,7 +291,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
             >
               Copy Ticket
             </Button>
-          )}
+          )} */}
         </div>
       </Paper>
 
