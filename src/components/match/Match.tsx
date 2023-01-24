@@ -6,6 +6,7 @@ import { sportList } from '../../helpers/oddspediaSports';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';
 import { transformIgubetMarkets, transformIguSingleMarket } from '../../services/igubetTransformer';
 import { timeFormatService } from '../../services/timeFormaterService';
+import ImageWithFallback from '../atoms/ImageWithFallback';
 import SportIcon from '../SportIcon';
 import Market from './Market';
 import MarketOutcomes from './MarketOutcomes';
@@ -152,7 +153,8 @@ const Match = ({ match }: IPropsMatch) => {
         </div>
         <div className="teams">
           <div className="team">
-            <img src={`${match.competitors.home.logo}`} alt="" />
+            <ImageWithFallback image={`${match.competitors.home.logo}`} type="team" />
+
             <Typography
               noWrap
               variant="body2"
@@ -162,7 +164,8 @@ const Match = ({ match }: IPropsMatch) => {
             </Typography>
           </div>
           <div className="team">
-            <img src={`${match.competitors.away.logo}`} alt="" />
+            <ImageWithFallback image={`${match.competitors.away.logo}`} type="team" />
+
             <Typography
               noWrap
               variant="body2"
@@ -212,9 +215,9 @@ const Match = ({ match }: IPropsMatch) => {
         </div>
       </div>
       <div className="match-footer">
-      {
-        match.main_market && <MarketOutcomes match={match} market={transformIguSingleMarket(match.main_market)} />
-      }
+        {match.main_market && (
+          <MarketOutcomes match={match} market={transformIguSingleMarket(match.main_market)} />
+        )}
       </div>
     </StyledMatch>
   );
