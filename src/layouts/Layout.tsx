@@ -8,6 +8,7 @@ import { useGetIguCategoriesQuery } from '../redux/features/igubetApi';
 import SportNavigation from '../components/SportNavigation';
 import Betslip from '../components/betslip/Betslip';
 import MobileBottomNavigation from '../components/navigation/MobileBottomNavigation';
+import ProfileInfo from '../components/auth/ProfileInfo';
 
 const StyledLayout = styled('div')`
   min-height: 100vh;
@@ -24,11 +25,14 @@ const StyledLayout = styled('div')`
   }
 
   .right-sidebar-content {
-    ${(props) => props.theme.breakpoints.up('md')} {
-      position: sticky;
-      top: 64px;
-      padding: 10px;
-      width: 100%;
+    padding: 10px;
+
+    &.sticky {
+      ${(props) => props.theme.breakpoints.up('md')} {
+        position: sticky;
+        top: 64px;
+        width: 100%;
+      }
     }
   }
 
@@ -112,6 +116,10 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
 
         <Box className="right-sidebar">
           <div className="right-sidebar-content">
+            <ProfileInfo />
+          </div>
+
+          <div className="right-sidebar-content sticky">
             <Betslip />
           </div>
         </Box>

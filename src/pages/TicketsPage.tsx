@@ -78,7 +78,7 @@ const TicketsPage = () => {
     isLoading,
     isSuccess,
     isFetching,
-    isError: isTicketsError
+    isError: isTicketsError,
   } = useGetTicketsQuery({ queryString: query });
 
   const breadcrumbsArray = [

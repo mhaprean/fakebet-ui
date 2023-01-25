@@ -25,7 +25,7 @@ import LoginRegister from '../auth/LoginRegister';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useGetMyProfileQuery } from '../../redux/features/strapiApi';
 import AccountMenu from './AccountMenu';
-import { setUser } from '../../redux/features/authSlice';
+import { logout, setUser } from '../../redux/features/authSlice';
 
 const StyledSearchDrawer = styled(Drawer)`
   .MuiDrawer-paper {
@@ -74,18 +74,26 @@ const Navigation = ({
 
   const authState = useAppSelector((rootState) => rootState.auth);
 
-  const { data: myProfile, isLoading, isSuccess } = useGetMyProfileQuery({}, { skip: !authState.isAuth });
+  const {
+    data: myProfile,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetMyProfileQuery({}, { skip: !authState.isAuth });
 
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (isError) {
+      dispatch(logout());
+    }
+  }, [isError, dispatch]);
 
   useEffect(() => {
-
     if (myProfile) {
-      dispatch(setUser({user: myProfile}));
+      dispatch(setUser({ user: myProfile }));
     }
-
-  }, [isSuccess]);
+  }, [isSuccess, myProfile, dispatch]);
 
   return (
     <StyledNavigation className="Navigation" position="fixed" variant="outlined" elevation={0}>

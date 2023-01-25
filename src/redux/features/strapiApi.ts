@@ -91,9 +91,9 @@ export interface IStrapiBet {
         attributes: {
           total_score: ITotalScore | null;
           period_score: IPeriodScore[] | null;
-        }
-      }
-    }
+        };
+      };
+    };
   };
 }
 
