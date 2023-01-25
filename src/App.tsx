@@ -52,8 +52,7 @@ const App = () => {
               <Route path="/search" element={<SearchPage />} />
 
               <Route path="/tickets" element={<TicketsPage />} />
-
-
+              <Route path="/my-tickets" element={<TicketsPage myTickets />} />
 
               <Route path="*" element={<NotFoundPage />} />
             </Route>

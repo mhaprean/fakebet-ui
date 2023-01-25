@@ -1,8 +1,6 @@
-import { Masonry } from '@mui/lab';
 import qs from 'qs';
 import { useState } from 'react';
 
-import Ticket from '../components/ticket/Ticket';
 import { useGetTicketsQuery } from '../redux/features/strapiApi';
 import { styled } from '@mui/material/styles';
 
@@ -13,6 +11,8 @@ import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import DropdownList from '../components/atoms/DropdownList';
 import { Pagination, Typography } from '@mui/material';
 import TicketListLoading from '../components/loaders/TicketListLoading';
+import TicketList from '../components/ticket/TicketList';
+import { useAppSelector } from '../redux/hooks';
 
 const StyledTicketPage = styled('div')`
   .filters,
@@ -26,13 +26,23 @@ const StyledTicketPage = styled('div')`
   }
 `;
 
-const TicketsPage = () => {
+interface IPropsTicketsPage {
+  myTickets?: boolean;
+}
+
+const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState('20');
   const [stakeFilter, setStakeFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
 
+  const authState = useAppSelector((rootState) => rootState.auth);
+
   const filters: any = {};
+
+  if (myTickets && authState.isAuth) {
+    filters.user = authState.user?.id;
+  }
 
   if (statusFilter !== 'all') {
     if (statusFilter === 'pending') {
@@ -161,15 +171,7 @@ const TicketsPage = () => {
 
       {isFetching && <TicketListLoading ticketsNr={12} />}
 
-      <>
-        {isSuccess && (
-          <Masonry columns={{ xs: 1, sm: 2, xl: 3 }} spacing={1}>
-            {ticketsResponse.data.map((ticket, idx) => (
-              <Ticket key={idx} ticket={ticket} />
-            ))}
-          </Masonry>
-        )}
-      </>
+      {isSuccess && <TicketList tickets={ticketsResponse.data || []} />}
 
       {isTicketsError && <div>There was an error fetching data. Try again later</div>}
     </StyledTicketPage>
