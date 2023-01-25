@@ -7,10 +7,13 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Tab,
+  Tabs,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from '@mui/material';
-import { styled, alpha } from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -48,7 +51,6 @@ const StyledNavigation = styled(AppBar)`
   }
 
   .toolbar {
-    justify-content: space-between;
     padding: 0 10px;
   }
   .left-group,
@@ -57,7 +59,51 @@ const StyledNavigation = styled(AppBar)`
     justify-content: space-between;
     align-items: center;
   }
+
+  .right-group {
+    margin-left: auto;
+  }
+
+  .tabs {
+    height: ${(props) => props.theme.mixins.toolbar.minHeight}px;
+    .MuiTab-root {
+      color: ${(props) => props.theme.navigation.text};
+    }
+    .MuiTabs-indicator {
+      background-color: ${(props) => props.theme.palette.secondary.main};
+      height: 3px;
+      bottom: 0;
+    }
+  }
 `;
+
+interface IMenuEntry {
+  name: string;
+  path: string;
+}
+
+const menuEntries: IMenuEntry[] = [
+  {
+    name: 'Home',
+    path: '/',
+  },
+  {
+    name: 'Sports',
+    path: '/sports',
+  },
+  // {
+  //   name: 'Statistics',
+  //   path: '/statistics',
+  // },
+  // {
+  //   name: 'Players',
+  //   path: '/players',
+  // },
+  {
+    name: 'Tickets',
+    path: '/tickets',
+  },
+];
 
 interface IPropsNavigation {
   isDarkMode?: boolean;
@@ -72,7 +118,12 @@ const Navigation = ({
 }: IPropsNavigation) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const [activeTab, setActiveTab] = useState('/');
+
   const authState = useAppSelector((rootState) => rootState.auth);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const {
     data: myProfile,
@@ -82,6 +133,17 @@ const Navigation = ({
   } = useGetMyProfileQuery({}, { skip: !authState.isAuth });
 
   const dispatch = useAppDispatch();
+
+  const a11yProps = (index: string | number) => {
+    return {
+      id: `nav-tab-${index}`,
+      'aria-controls': `nav-tabpanel-${index}`,
+    };
+  };
+
+  const handleTabChange = (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
+    setActiveTab(newValue);
+  };
 
   useEffect(() => {
     if (isError) {
@@ -114,6 +176,24 @@ const Navigation = ({
             </Link>
           </Box>
         </Box>
+
+        {!isMobile && (
+          <>
+            <Tabs className="tabs" value={activeTab} onChange={handleTabChange}>
+              {menuEntries.map((item, idx) => (
+                <Tab
+                  key={idx}
+                  label={item.name}
+                  value={item.path}
+                  component={Link}
+                  to={item.path}
+                  {...a11yProps(idx)}
+                />
+              ))}
+            </Tabs>
+          </>
+        )}
+
         <Box className="right-group">
           {/* This is the modal that handles login/register */}
           {!authState.isAuth && <LoginRegister />}
