@@ -9,7 +9,7 @@ const StyledMarketOutcome = styled(Button)`
   flex-basis: 30%;
   flex-grow: 1;
   min-width: 70px;
-  background: ${(props) => props.theme.palette.background.default};
+  background: ${(props) => props.theme.palette.background.paper};
   border-radius: 5px;
   text-transform: unset;
   border: 1px solid ${(props) => props.theme.palette.divider};
