@@ -20,6 +20,7 @@ import {
   Menu as MenuIcon,
   Search as SearchIcon,
   SettingsOutlined,
+  MoreVert as MoreVertIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -29,6 +30,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useGetMyProfileQuery } from '../../redux/features/strapiApi';
 import AccountMenu from './AccountMenu';
 import { logout, setUser } from '../../redux/features/authSlice';
+import { setAppTheme } from '../../redux/features/settingsSlice';
 
 const StyledSearchDrawer = styled(Drawer)`
   .MuiDrawer-paper {
@@ -106,16 +108,10 @@ const menuEntries: IMenuEntry[] = [
 ];
 
 interface IPropsNavigation {
-  isDarkMode?: boolean;
-  onThemeChange?: () => void;
   onMenuToggle?: () => void;
 }
 
-const Navigation = ({
-  isDarkMode = false,
-  onThemeChange = () => {},
-  onMenuToggle = () => {},
-}: IPropsNavigation) => {
+const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
   const [activeTab, setActiveTab] = useState('/');
@@ -124,6 +120,8 @@ const Navigation = ({
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+  const themeName = useAppSelector((rootState) => rootState.settings.themeName);
 
   const {
     data: myProfile,
@@ -145,6 +143,14 @@ const Navigation = ({
     setActiveTab(newValue);
   };
 
+  const toggleTheme = () => {
+    if (themeName === 'dark') {
+      dispatch(setAppTheme('light'));
+    } else {
+      dispatch(setAppTheme('dark'));
+    }
+  };
+
   useEffect(() => {
     if (isError) {
       dispatch(logout());
@@ -155,7 +161,7 @@ const Navigation = ({
     if (myProfile) {
       dispatch(setUser({ user: myProfile }));
     }
-  }, [isSuccess, myProfile, dispatch]);
+  }, [myProfile, dispatch]);
 
   return (
     <StyledNavigation className="Navigation" position="fixed" variant="outlined" elevation={0}>
@@ -202,15 +208,15 @@ const Navigation = ({
             <SearchIcon sx={{ fontSize: '20px' }} />
           </IconButton>
 
-          <IconButton onClick={onThemeChange}>
-            {isDarkMode ? (
+          <IconButton onClick={toggleTheme}>
+            {themeName === 'dark' ? (
               <DarkModeOutlined sx={{ fontSize: '20px' }} />
             ) : (
               <LightModeOutlined sx={{ fontSize: '20px' }} />
             )}
           </IconButton>
           <IconButton>
-            <SettingsOutlined sx={{ fontSize: '20px' }} />
+            <MoreVertIcon sx={{ fontSize: '20px' }} />
           </IconButton>
 
           {authState.isAuth && <AccountMenu />}

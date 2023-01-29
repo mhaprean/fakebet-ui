@@ -50,12 +50,7 @@ const StyledLayout = styled('div')`
   }
 `;
 
-interface IPropsLayout {
-  isDarkMode?: boolean;
-  onThemeChange?: () => void;
-}
-
-const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) => {
+const Layout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { data: categoriesResponseIgu, isLoading: isCategoriesIguLoading } = useGetIguCategoriesQuery({
@@ -68,7 +63,7 @@ const Layout = ({ isDarkMode = false, onThemeChange = () => {} }: IPropsLayout) 
 
   return (
     <StyledLayout className="Layout">
-      <Navigation isDarkMode={isDarkMode} onThemeChange={onThemeChange} onMenuToggle={handleDrawerToggle} />
+      <Navigation onMenuToggle={handleDrawerToggle} />
       <Box className="layout-content">
         <Box className="left-sidebar" sx={{ width: { xs: 0, lg: 250 }, flexShrink: 0 }}>
           <Drawer

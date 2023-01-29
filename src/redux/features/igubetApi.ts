@@ -180,7 +180,7 @@ export const igubetApi = createApi({
         page = 1,
       }) => {
         return {
-          url: `matches?bettable=true&limit=50&page=${page}&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=${sport_key}&type=match&start_from=${start_from}&start_to=${start_to}`,
+          url: `matches?bettable=true&limit=${limit}&page=${page}&match_status=0&sort_by=tournament.priority:asc&sort_by=start_time:asc&sort_by=bets_count:desc&sport_key=${sport_key}&type=match&start_from=${start_from}&start_to=${start_to}`,
           // params: {
           //   limit,
           //   bettable: true,
@@ -190,22 +190,6 @@ export const igubetApi = createApi({
           //   type,
           // },
         };
-      },
-      serializeQueryArgs: ({ endpointName, queryArgs }) => {
-        return endpointName + queryArgs.sport_key + queryArgs.start_from + queryArgs.start_to;
-      },
-      // Always merge incoming data to the cache entry
-      merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
-      },
-      // Refetch when the page arg changes
-      forceRefetch({ currentArg, previousArg }) {
-        return (
-          currentArg?.sport_key !== previousArg?.sport_key ||
-          currentArg?.start_from !== previousArg?.start_from ||
-          currentArg?.start_to !== previousArg?.start_to || 
-          currentArg?.page !== previousArg?.page
-        );
       },
     }),
 

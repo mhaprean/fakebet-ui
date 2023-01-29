@@ -5,36 +5,28 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import NotFoundPage from './pages/404';
 import CategoryPage from './pages/CategoryPage';
+import Homepage from './pages/Homepage';
 import LeaguePage from './pages/LeaguePage';
 import MatchPage from './pages/MatchPage';
 import SearchPage from './pages/SearchPage';
 import SportPage from './pages/SportPage';
 import TicketsPage from './pages/TicketsPage';
+import { useAppSelector } from './redux/hooks';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
 
 const App = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const themeName = useAppSelector((rootState) => rootState.settings.themeName);
 
-  const handleThemeChange = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  };
   return (
     <div className="App">
       <BrowserRouter>
-        <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+        <ThemeProvider theme={themeName === 'light' ? lightTheme : darkTheme}>
           <CssBaseline />
 
           <Routes>
-            <Route
-              path="/"
-              element={<Layout isDarkMode={theme === 'dark'} onThemeChange={handleThemeChange} />}
-            >
-              <Route path="/" element={<div>dashboard</div>} />
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<Homepage />} />
 
               <Route path="/sports/:sport" element={<SportPage />} />
 

@@ -17,12 +17,12 @@ export const settingsSlice = createSlice({
     setLanguage: (state, action: PayloadAction<{ language: string }>) => {
       state.language = action.payload.language;
     },
-    setTheme: (state, action: PayloadAction<string>) => {
+    setAppTheme: (state, action: PayloadAction<string>) => {
       state.themeName = action.payload;
     },
   },
 });
 
-export const { setLanguage, setTheme } = settingsSlice.actions;
+export const { setLanguage, setAppTheme } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
