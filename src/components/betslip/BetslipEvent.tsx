@@ -44,6 +44,12 @@ const StyledBetslipEvent = styled(Paper)`
       font-weight: ${(props) => props.theme.typography.fontWeightBold};
     }
   }
+
+  .event-remove {
+    svg {
+      color: ${(props) => props.theme.palette.text.secondary};
+    }
+  }
 `;
 
 const BetslipEvent = ({ event }: IPropsBetslipEvent) => {
@@ -84,7 +90,7 @@ const BetslipEvent = ({ event }: IPropsBetslipEvent) => {
 
           <Box className="event-odds">
             <Typography variant="subtitle1"> {event.odds} </Typography>
-            <IconButton onClick={handleRemoveEvent}>
+            <IconButton onClick={handleRemoveEvent} className="event-remove">
               <DeleteIcon />
             </IconButton>
           </Box>

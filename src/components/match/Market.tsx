@@ -40,8 +40,7 @@ const Market = ({ market, open = false, match }: IMarketProps) => {
     <StyledMarket className="Market">
       <Paper className="market-title" onClick={toggleExpanded} variant={'outlined'}>
         <Typography>
-         {/* {market.id} */}
-          # {market.formated_market_name} 
+          {/* {market.id} */}# {market.formated_market_name}
           {/* {market.specifier} */}
         </Typography>
         {isOpen ? <ExpandLess /> : <ExpandMore />}
@@ -52,7 +51,6 @@ const Market = ({ market, open = false, match }: IMarketProps) => {
         </Typography> */}
 
         <MarketOutcomes match={match} market={market} />
-
       </Collapse>
     </StyledMarket>
   );

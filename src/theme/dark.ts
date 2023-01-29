@@ -4,21 +4,21 @@ import { createTheme } from '@mui/material/styles';
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
-    divider: '#6f7f90',
+    divider: '#545963',
     background: {
-      paper: '#323f4b',
-      default: '#1f2933',
+      paper: '#2f353d',
+      default: '#202328',
     },
     primary: {
-      main: '#a7f0cd',
+      main: '#afbeff',
     },
     secondary: {
-      main: '#e0777c',
+      main: '#f56642',
     },
     text: {
-      primary: '#feffff', // '#e5e7eb' 
-      secondary: '#9aa5b1', // #5c6794
-      
+      primary: '#feffff',
+      secondary: '#cccccc',
+      disabled: '#56585b',
     },
     action: {
       selected: 'rgba(208, 218, 245, 0.16)',
@@ -45,12 +45,11 @@ export const darkTheme = createTheme({
     error: {
       main: '#e65853',
     },
-
   },
   navigation: {
-    main: '#323f4b', // '#3e4b57', // 1e263b
-    dark: '#3e4b57', // 10141a
-    light: '#3e4b57',
+    main: '#16181d',
+    dark: '#16181d',
+    light: '#3f4855',
     text: '#fff',
     textSecondary: '#fcfeff',
   },
@@ -60,7 +59,6 @@ export const darkTheme = createTheme({
     },
   },
   typography: {
-
     fontFamily: '"Heebo", sans-serif',
     fontWeightLight: 300,
     fontWeightRegular: 400,

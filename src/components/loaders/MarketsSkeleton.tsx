@@ -22,7 +22,7 @@ const StyledMarketsSkeleton = styled('div')`
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 10px 0;
+    padding: 10px;
     margin-bottom: 20px;
 
     .outcome {
@@ -31,7 +31,7 @@ const StyledMarketsSkeleton = styled('div')`
       flex-basis: 30%;
       flex-grow: 1;
       min-width: 70px;
-      background: ${(props) => props.theme.palette.background.paper};
+      background: ${(props) => props.theme.palette.background.default};
       border-radius: 5px;
       text-transform: unset;
       border: 1px solid ${(props) => props.theme.palette.divider};
@@ -55,7 +55,7 @@ const MarketsSkeleton = () => {
           <Skeleton variant="text" width={42} height={24} />
         </Paper>
 
-        <div className="market-outcomes">
+        <Paper className="market-outcomes" variant="outlined" square>
           <Paper className="outcome" variant="outlined">
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
@@ -68,7 +68,7 @@ const MarketsSkeleton = () => {
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
           </Paper>
-        </div>
+        </Paper>
       </div>
 
       <div className="market">
@@ -76,7 +76,7 @@ const MarketsSkeleton = () => {
           <Skeleton variant="text" width={92} height={24} />
         </Paper>
 
-        <div className="market-outcomes">
+        <Paper className="market-outcomes" variant="outlined" square>
           <Paper className="outcome" variant="outlined">
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
@@ -85,7 +85,7 @@ const MarketsSkeleton = () => {
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
           </Paper>
-        </div>
+        </Paper>
       </div>
 
       <div className="market">
@@ -93,7 +93,7 @@ const MarketsSkeleton = () => {
           <Skeleton variant="text" width={72} height={24} />
         </Paper>
 
-        <div className="market-outcomes">
+        <Paper className="market-outcomes" variant="outlined" square>
           <Paper className="outcome" variant="outlined">
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
@@ -102,7 +102,7 @@ const MarketsSkeleton = () => {
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
           </Paper>
-        </div>
+        </Paper>
       </div>
 
       <div className="market">
@@ -110,7 +110,7 @@ const MarketsSkeleton = () => {
           <Skeleton variant="text" width={82} height={24} />
         </Paper>
 
-        <div className="market-outcomes">
+        <Paper className="market-outcomes" variant="outlined" square>
           <Paper className="outcome" variant="outlined">
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
@@ -119,7 +119,7 @@ const MarketsSkeleton = () => {
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
           </Paper>
-        </div>
+        </Paper>
       </div>
 
       <div className="market">
@@ -127,7 +127,7 @@ const MarketsSkeleton = () => {
           <Skeleton variant="text" width={42} height={24} />
         </Paper>
 
-        <div className="market-outcomes">
+        <Paper className="market-outcomes" variant="outlined" square>
           <Paper className="outcome" variant="outlined">
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
@@ -136,7 +136,7 @@ const MarketsSkeleton = () => {
             <Skeleton variant="text" width={20} height={20} />
             <Skeleton variant="text" width={40} height={20} />
           </Paper>
-        </div>
+        </Paper>
       </div>
 
       <div className="market">

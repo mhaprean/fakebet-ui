@@ -25,8 +25,6 @@ const StyledLayout = styled('div')`
   }
 
   .right-sidebar-content {
-    padding: 10px;
-
     &.sticky {
       ${(props) => props.theme.breakpoints.up('md')} {
         position: sticky;
@@ -110,11 +108,8 @@ const Layout = () => {
         </Box>
 
         <Box className="right-sidebar">
-          <div className="right-sidebar-content">
-            <ProfileInfo />
-          </div>
-
           <div className="right-sidebar-content sticky">
+            <ProfileInfo />
             <Betslip />
           </div>
         </Box>

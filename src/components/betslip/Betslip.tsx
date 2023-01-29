@@ -60,6 +60,7 @@ const StyledBetslip = styled('div')`
   max-height: 70vh;
   display: flex;
   flex-direction: column;
+  margin: 10px;
 
   .betslip-header {
     box-shadow: none;

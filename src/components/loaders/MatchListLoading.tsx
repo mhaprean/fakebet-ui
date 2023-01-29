@@ -3,7 +3,7 @@ import MatchSkeleton from './MatchSkeleton';
 
 const StyledMatchListLoading = styled('div')`
   .MatchSkeleton {
-    margin-top: 5px;
+    margin-top: 10px;
   }
   margin-bottom: 10px;
 `;

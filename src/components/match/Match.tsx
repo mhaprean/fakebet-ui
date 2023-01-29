@@ -134,6 +134,8 @@ const StyledMatch = styled(Paper)`
   .match-footer {
     .MarketOutcomes {
       margin-bottom: 0;
+      padding: 10px 0;
+      border: none;
     }
   }
 `;

@@ -14,12 +14,16 @@ const StyledMarketOutcome = styled(Button)`
   text-transform: unset;
   border: 1px solid ${(props) => props.theme.palette.divider};
 
+  &:hover {
+    background: ${(props) => alpha(props.theme.palette.secondary.main, 0.2)};
+  }
+
   &.winner {
     background: ${(props) => alpha(props.theme.palette.success.main, 0.2)};
   }
 
   &.selected {
-    background: ${(props) => props.theme.palette.primary.main};
+    background: ${(props) => alpha(props.theme.palette.secondary.main, 0.8)};
   }
 
   .outcome-name {
@@ -38,7 +42,12 @@ interface IPropsMarketOutcome {
   className?: string;
 }
 
-const MarketOutcome = ({ outcome, onSelect = () => {}, isSelected = false, className = '' }: IPropsMarketOutcome) => {
+const MarketOutcome = ({
+  outcome,
+  onSelect = () => {},
+  isSelected = false,
+  className = '',
+}: IPropsMarketOutcome) => {
   return (
     <StyledMarketOutcome
       className={classNames('MarketOutcome', className, {
