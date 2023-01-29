@@ -9,13 +9,13 @@ const StyledMarketOutcome = styled(Button)`
   flex-basis: 30%;
   flex-grow: 1;
   min-width: 70px;
-  background: ${(props) => props.theme.palette.background.paper};
+  background: ${(props) => props.theme.palette.background.default};
   border-radius: 5px;
   text-transform: unset;
   border: 1px solid ${(props) => props.theme.palette.divider};
 
   &.winner {
-    background: ${(props) => alpha(props.theme.palette.primary.main, 0.2)};
+    background: ${(props) => alpha(props.theme.palette.success.main, 0.2)};
   }
 
   &.selected {

@@ -7,6 +7,7 @@ import parse from 'html-react-parser';
 import SportIcon from '../SportIcon';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link } from 'react-router-dom';
+import ImageWithFallback from '../atoms/ImageWithFallback';
 
 interface IPropsSearchedMatch {
   match: IIgubetMatch;
@@ -94,6 +95,11 @@ const StyledSearchedMatch = styled(Paper)`
   .match-button {
     color: ${(props) => props.theme.palette.text.secondary};
   }
+
+  em {
+    color: ${(props) => alpha(props.theme.palette.secondary.light, 0.9)};
+    font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+  }
 `;
 
 const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
@@ -106,13 +112,13 @@ const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
       </div>
       <div className="teams">
         <div className="team">
-          <img src={`${match.competitors.home.logo}`} alt="" />
+          <ImageWithFallback image={`${match.competitors.home.logo}`} type="team" />
           <Typography noWrap variant="body2" className={classNames('team-name')}>
             {parse(match.competitors.home.name)}
           </Typography>
         </div>
         <div className="team">
-          <img src={`${match.competitors.away.logo}`} alt="" />
+          <ImageWithFallback image={`${match.competitors.away.logo}`} type="team" />
           <Typography noWrap variant="body2" className={classNames('team-name')}>
             {parse(match.competitors.away.name)}
           </Typography>
@@ -120,10 +126,10 @@ const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
 
         <div className="league-name">
           <Typography noWrap variant="body2" className="category-name">
-            {match.tournament.category.name}
+            {parse(match.tournament.category.name)}
           </Typography>
           <Typography noWrap variant="body2">
-            {match.tournament.name}
+            {parse(match.tournament.name)}
           </Typography>
         </div>
       </div>
@@ -131,12 +137,15 @@ const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
       <div className="match-info">
         <Box className="match-sport" sx={{ marginLeft: 'auto' }}>
           <Typography noWrap variant="body2" sx={{ marginLeft: '5px', marginRight: '5px' }}>
-            {match.tournament.sport.name}
+            {parse(match.tournament.sport.name)}
           </Typography>
           <SportIcon sportSlug={match.tournament.sport.key || ''} />
         </Box>
         <Box sx={{ display: 'flex' }}>
-          <Link onClick={() => onClose()} to={`/sports/${match.tournament.sport.key}/league/${match.tournament.id}/event/${match.id}`} >
+          <Link
+            onClick={() => onClose()}
+            to={`/sports/${match.tournament.sport.key}/league/${match.tournament.id}/event/${match.id}`}
+          >
             <Button className="match-button" sx={{ marginLeft: 'auto' }} endIcon={<ArrowForwardIcon />}>
               See more
             </Button>

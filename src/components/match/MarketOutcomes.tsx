@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button, Paper, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import { IIgubetMarket, IIgubetMatch, IOutcome } from '../../redux/features/igubetTypes';
@@ -10,17 +10,17 @@ interface IPropsMarketOutcomes {
   market: IIgubetMarket;
 }
 
-const StyledMarketOutcomes = styled('div')`
+const StyledMarketOutcomes = styled(Paper)`
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 10px 0;
+  padding: 10px;
   margin-bottom: 20px;
 `;
 
 const MarketOutcomes = ({ match, market }: IPropsMarketOutcomes) => {
   return (
-    <StyledMarketOutcomes className="MarketOutcomes">
+    <StyledMarketOutcomes className="MarketOutcomes" square variant='outlined'>
       {market.outcomes.map((outcome, idx) => (
         <BetslipMarketOutcome key={idx} outcome={outcome} match={match} market={market} />
       ))}

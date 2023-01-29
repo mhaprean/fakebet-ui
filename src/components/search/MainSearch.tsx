@@ -28,6 +28,7 @@ const StyledMainSearch = styled('div')`
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding-bottom: 100px;
   }
 
   .input-field {
@@ -121,9 +122,13 @@ const MainSearch = ({ onClose }: IPropsMainSearch) => {
         <Container className="search-body">
           {isSearchResultsFetching && <div>is loading...</div>}
           {searchResultSuccess &&
-            searchResults.map((match, idx) => (
-              <SearchedMatch key={idx} match={match} onClose={handleClose} />
-            ))}
+            searchResults
+              .filter((match) =>
+                ['soccer', 'ice-hockey', 'basketball', 'handball', 'tennis'].includes(
+                  match.tournament.sport.key
+                )
+              )
+              .map((match, idx) => <SearchedMatch key={idx} match={match} onClose={handleClose} />)}
         </Container>
       </div>
     </StyledMainSearch>

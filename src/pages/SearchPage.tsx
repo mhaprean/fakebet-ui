@@ -14,10 +14,17 @@ const SearchPage = () => {
     isFetching: isSearchResultsFetching,
   } = useIguSearchQuery({ term: term || '' }, { skip: !term || term.length < 3 });
 
-  return <div>SearchPage: {term}
-  
-  {searchResultSuccess && searchResults.map((match, idx) => <SearchedMatch key={idx} match={match} />)}
-  </div>;
+  return (
+    <div>
+      SearchPage: {term}
+      {searchResultSuccess &&
+        searchResults
+          .filter((match) =>
+            ['soccer', 'ice-hockey', 'basketball', 'handball', 'tennis'].includes(match.tournament.sport.key)
+          )
+          .map((match, idx) => <SearchedMatch key={idx} match={match} />)}
+    </div>
+  );
 };
 
 export default SearchPage;

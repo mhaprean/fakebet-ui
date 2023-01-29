@@ -48,6 +48,9 @@ const StyledNavigation = styled(AppBar)`
   background: ${(props) => props.theme.navigation.main};
   color: ${(props) => props.theme.navigation.text};
 
+  border: none;
+  border-bottom: 1px solid ${(props) => props.theme.palette.divider};
+
   .MuiSvgIcon-root {
     color: ${(props) => props.theme.navigation.text};
   }
