@@ -51,6 +51,17 @@ const StyledNavigation = styled(AppBar)`
   border: none;
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 
+
+  .logo-text {
+    font-size: 16px;
+    flex-shrink: 0;
+    color: ${(props) => props.theme.navigation.text};
+
+    span {
+      color: ${(props) => props.theme.palette.secondary.main};
+    }
+  }
+
   .MuiSvgIcon-root {
     color: ${(props) => props.theme.navigation.text};
   }
@@ -179,8 +190,9 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
 
           <Box className="logo" sx={{ width: { lg: '250px' } }}>
             <Link to="/">
-              <Typography variant="h6" sx={{ marginRight: '20px' }} noWrap>
-                Fakebet UI
+
+              <Typography className="logo-text" variant="h6" noWrap>
+                Fake<span>Bet</span>
               </Typography>
             </Link>
           </Box>

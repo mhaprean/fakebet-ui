@@ -83,6 +83,18 @@ const StyledBetslip = styled('div')`
     min-height: 150px;
     overflow: auto;
     background: ${(props) => props.theme.palette.background.paper};
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: ${(props) => props.theme.palette.grey[400]};
+      border-radius: 20px;
+      background-clip: content-box;
+      border: none;
+    }
   }
 `;
 

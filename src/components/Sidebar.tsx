@@ -153,7 +153,7 @@ const Sidebar = ({ categories = [], onDrawerClose = () => {}, isTemporary = fals
               <Typography variant="h6">All Countries Igu</Typography>
             </Box>
 
-            <CategoryList categories={categories} />
+            <CategoryList categories={categories.filter((cat) => cat.slug !== '')} />
           </>
         )}
 

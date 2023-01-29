@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MatchPageLoading from '../components/loaders/MatchPageLoading';
 import Market from '../components/match/Market';
+import MarketOutcomes from '../components/match/MarketOutcomes';
 import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import { useGetIguMatchesQuery, useGetIguMatchMarketsQuery } from '../redux/features/igubetApi';
@@ -23,6 +24,7 @@ const StyledMatchPage = styled('div')`
     .chip {
       &.active {
         background: ${(props) => props.theme.palette.primary.main};
+        color: ${(props) => props.theme.palette.primary.contrastText};
       }
     }
   }
@@ -106,9 +108,13 @@ const MatchPage = () => {
 
     // const validatedMarkets = validateMarkets(transformedMarkets, periods);
 
-    return transformedMarkets
-      .filter((market, idx) => market.market_groups.includes(activeMarket))
-      .map((market, idx) => <Market key={idx} market={market} open={idx < 5} match={match} />);
+    const filteredMarkets = transformedMarkets.filter((market, idx) =>
+      market.market_groups.includes(activeMarket)
+    );
+
+    return filteredMarkets.map((market, idx) => {
+      return <Market key={idx} market={market} open={idx < 5} match={match} />;
+    });
   };
 
   useEffect(() => {

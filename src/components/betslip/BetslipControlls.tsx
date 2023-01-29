@@ -117,7 +117,7 @@ const BetslipControlls = ({
             Total odds:
           </Typography>
           <Typography className="value" variant="h6" component="label">
-            {totalOdds}
+            {totalOdds.toFixed(2)}
           </Typography>
         </FlexBetween>
 
