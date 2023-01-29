@@ -1,11 +1,10 @@
 import { useCountdown } from '../../hooks/useCountdown';
-import { IOddspediaMatchInfo } from '../../redux/features/oddspediaTypes';
 import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import classNames from 'classnames';
 import { timeFormatService } from '../../services/timeFormaterService';
-import RecentForm from './RecentForm';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';
+import ImageWithFallback from '../atoms/ImageWithFallback';
 
 interface IPropsMatchPageHeader {
   match: IIgubetMatch | null;
@@ -29,8 +28,10 @@ const StyledMatchPageHeader = styled('div')`
     justify-content: center;
     margin-top: 15px;
 
-    img {
+    .event-league-image {
       margin-right: 10px;
+      width: 15px;
+      height: 15px;
     }
     p {
       font-weight: ${(props) => props.theme.typography.fontWeightMedium};
@@ -135,10 +136,10 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
     <StyledMatchPageHeader className="MatchPageHeader">
       <div className="content">
         <div className="event-league">
-          <img
-            style={{ width: 15 }}
-            src={`https://cdn.oddspedia.com/images/categories/${match.tournament.category.slug}.svg`}
-            alt=""
+          <ImageWithFallback
+            className="event-league-image"
+            image={`https://cdn.oddspedia.com/images/categories/${match.tournament.category.slug}.svg`}
+            type="league"
           />
 
           <Typography sx={{ fontSize: 14 }} gutterBottom>
@@ -157,54 +158,30 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
             </Typography>
 
             <div className="team-image">
-              <img
-                width="40"
-                height="40"
-                src={`${match.competitors.home.logo}`}
-                alt=""
-              />
+              <ImageWithFallback image={`${match.competitors.home.logo}`} type="team" />
             </div>
           </div>
 
           <div className="event-date">
-          {/* { isLive: match.matchstatus === 2 } */}
             <Typography
               className={classNames('remaining', { isLive: false })}
               variant="h1"
               component="p"
               noWrap
             >
-              {/* {match.hscore !== null ? `${match.hscore} - ${match.ascore}` : `? - ?`} */}
               {`? - ?`}
             </Typography>
-
-            {/* <Typography className="preview" variant="body2" component="p">
-              {timeFormatService.formatDateForEventPage(match.starttime || match.md)}
-            </Typography> */}
 
             <Typography className="preview" variant="body2" component="p">
               {!isNaN(days) && days > 0 && `${days}d ${hours}h ${minutes}m`}
 
               {!isNaN(days) && days === 0 && `${hours}h ${minutes}m ${seconds}s`}
             </Typography>
-
-            {/* {match.matchstatus === 2 && (
-              <div className="live">
-                <Typography variant="caption" component="p">
-                  Live
-                </Typography>
-              </div>
-            )} */}
           </div>
 
           <div className="team">
             <div className="team-image">
-              <img
-                width="40"
-                height="40"
-                src={`${match.competitors.away.logo}`}
-                alt=""
-              />
+              <ImageWithFallback image={`${match.competitors.away.logo}`} type="team" />
             </div>
 
             <Typography variant="h5" component="span">
@@ -212,12 +189,6 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
             </Typography>
           </div>
         </div>
-
-        {/* <div className="teams-recent-form">
-          {match && match.ht_form && match.at_form && (
-            <RecentForm home={match.ht} away={match.at} homeForm={match.ht_form} awayForm={match.at_form} />
-          )}
-        </div> */}
       </div>
     </StyledMatchPageHeader>
   );

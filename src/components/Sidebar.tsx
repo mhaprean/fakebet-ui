@@ -1,4 +1,3 @@
-
 import {
   Box,
   Paper,
@@ -14,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import { Link, useLocation } from 'react-router-dom';
 import { igubetSoccerTopLeagues } from '../helpers/igubetTopLeagues';
 import { IIgubetCategory } from '../redux/features/igubetTypes';
+import ImageWithFallback from './atoms/ImageWithFallback';
 import CategoryList from './sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`
@@ -99,11 +99,7 @@ interface IPropsSidebar {
   categories?: IIgubetCategory[];
 }
 
-const Sidebar = ({
-  categories = [],
-  onDrawerClose = () => {},
-  isTemporary = false,
-}: IPropsSidebar) => {
+const Sidebar = ({ categories = [], onDrawerClose = () => {}, isTemporary = false }: IPropsSidebar) => {
   const location = useLocation();
 
   return (
@@ -140,7 +136,7 @@ const Sidebar = ({
                     }
                   >
                     <ListItemIcon>
-                      <img className="league-image" src={`${tournament.image}`} alt="" />
+                      <ImageWithFallback image={`${tournament.image}`} type="league" />
                     </ListItemIcon>
 
                     <ListItemText title={tournament.name} className="league-name" primary={tournament.name} />

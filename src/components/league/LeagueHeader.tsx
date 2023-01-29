@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import { IIgutbetTournament } from '../../redux/features/igubetTypes';
 import { ArrowForward } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import ImageWithFallback from '../atoms/ImageWithFallback';
 
 interface IPropsLeagueHeader {
   tournament: IIgutbetTournament;
@@ -40,16 +41,18 @@ const StyledLeagueHeader = styled(Paper)`
   .league-link {
     margin-left: auto;
   }
+
+  img {
+    width: 15px;
+    height: 15px;
+  }
 `;
 
 const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
   return (
     <StyledLeagueHeader className="LeagueHeader" variant="outlined">
-      <img
-        style={{ width: 15 }}
-        src={`https://cdn.oddspedia.com/images/categories/${tournament.category.slug}.svg`}
-        alt=""
-      />
+      <ImageWithFallback image={`https://cdn.oddspedia.com/images/categories/${tournament.category.slug}.svg`} type="category" />
+
       <div className="league">
         <Link
           to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}

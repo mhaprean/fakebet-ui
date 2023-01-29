@@ -5,6 +5,11 @@ import FlexBetween from '../atoms/FlexBetween';
 
 const StyledProfileInfo = styled(Paper)`
   padding: 20px 10px;
+  margin: 10px;
+
+  ${(props) => props.theme.breakpoints.down('md')} {
+    display: none;
+  }
 `;
 
 const ProfileInfo = () => {

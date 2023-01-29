@@ -5,8 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetIguTournamentsQuery } from '../../redux/features/igubetApi';
 import { IIgubetCategory } from '../../redux/features/igubetTypes';
-import { useGetLeaguesQuery } from '../../redux/features/oddspediaApi';
-import { IOddspediaCategory } from '../../redux/features/oddspediaTypes';
+import ImageWithFallback from '../atoms/ImageWithFallback';
 
 interface IPropsCategoryLeagueList {
   category: IIgubetCategory;
@@ -70,7 +69,10 @@ const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) =
     <StyledCategoryLeagueList className="CategoryLeagueList">
       <ListItemButton onClick={handleClick} className={open ? 'isExpanded' : ''}>
         <ListItemIcon>
-          <img src={`https://cdn.oddspedia.com/images/categories/${slug}.svg`} alt="" />
+          <ImageWithFallback
+            image={`https://cdn.oddspedia.com/images/categories/${slug}.svg`}
+            type="category"
+          />
         </ListItemIcon>
         <ListItemText primary={name} />
         {open ? <ExpandLess /> : <ExpandMore />}
@@ -90,9 +92,9 @@ const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) =
               <ListItem disablePadding>
                 <ListItemButton className="league" sx={{ pl: 4 }}>
                   <ListItemIcon>
-                    <img
-                      src={`https://cdn.oddspedia.com/images/leagues/small/${sportSlug}/${tournament.category.slug}/${tournament.slug}.png`}
-                      alt=""
+                    <ImageWithFallback
+                      image={`https://cdn.oddspedia.com/images/leagues/small/${sportSlug}/${tournament.category.slug}/${tournament.slug}.png`}
+                      type="league"
                     />
                   </ListItemIcon>
                   <ListItemText primary={tournament.name} />
