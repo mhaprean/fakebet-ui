@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import DayHeader from '../components/league/DayHeader';
+import LeaguePageLoading from '../components/loaders/LeaguePageLoading';
 import Match from '../components/match/Match';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { useGetIguMatchesQuery, useGetIguMatchesResultsQuery } from '../redux/features/igubetApi';
@@ -19,12 +20,11 @@ const LeaguePage = () => {
   } = useGetIguMatchesQuery(
     {
       tournament_id: league_id,
-      sport_key: sport
+      sport_key: sport,
     },
     { skip: !league_id }
   );
 
-  
   const {
     data: matchListResultResponse,
     error: matchListResultError,
@@ -33,7 +33,7 @@ const LeaguePage = () => {
   } = useGetIguMatchesResultsQuery(
     {
       tournament_id: league_id,
-      sport_key: sport
+      sport_key: sport,
     },
     { skip: !league_id }
   );
@@ -69,7 +69,7 @@ const LeaguePage = () => {
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
-      {isMatchListLoading && <div>is loading...</div>}
+      {isMatchListLoading && <LeaguePageLoading />}
       {isMatchListSucces && !isMatchListLoading && (
         <>
           <div>

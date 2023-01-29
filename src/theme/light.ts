@@ -7,10 +7,10 @@ export const lightTheme = createTheme({
       default: '#edf3f7',
     },
     primary: {
-      main: '#1d6f98',
+      main: '#1f2536', // '#4a2885',
     },
     secondary: {
-      main: '#e65853',
+      main: '#f56642',
     },
 
     success: {
@@ -36,8 +36,8 @@ export const lightTheme = createTheme({
 
   },
   navigation: {
-    main: '#1a3150',
-    dark: '#1a3150',
+    main: '#16181d',
+    dark: '#16181d',
     light: '#e3e9ee',
     text: '#fff',
     textSecondary: '#556a80',

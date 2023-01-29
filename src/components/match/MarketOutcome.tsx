@@ -56,6 +56,7 @@ const MarketOutcome = ({
       })}
       key={outcome.id}
       onClick={() => onSelect()}
+      color={'secondary'}
     >
       <Typography className="outcome-name" variant="body2">
         {outcome.formated_name}
