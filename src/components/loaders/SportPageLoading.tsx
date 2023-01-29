@@ -15,6 +15,7 @@ const StyledSportPageLoading = styled('div')`
     display: flex;
     border: none;
     align-items: center;
+    margin-top: 30px;
   }
 
   .league {
@@ -26,7 +27,7 @@ const StyledSportPageLoading = styled('div')`
 const SportPageLoading = () => {
   return (
     <StyledSportPageLoading className="SportPageLoading">
-      <Paper className="skeletonTitle" square variant="outlined">
+      <Paper className="skeletonTitle" variant="outlined">
         <Skeleton variant="circular" width={20} height={20} style={{ margin: 5 }} />
 
         <div className="league">
@@ -38,7 +39,7 @@ const SportPageLoading = () => {
       </Paper>
       <MatchListLoading matchNr={2} />
 
-      <Paper className="skeletonTitle" square variant="outlined">
+      <Paper className="skeletonTitle" variant="outlined">
         <Skeleton variant="circular" width={20} height={20} style={{ margin: 5 }} />
 
         <div className="league">

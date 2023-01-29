@@ -1,9 +1,11 @@
-import { Button, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Button, Pagination, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import DayHeader from '../components/league/DayHeader';
+import FlexBetween from '../components/atoms/FlexBetween';
 import LeagueHeader from '../components/league/LeagueHeader';
+import SportPageLoading from '../components/loaders/SportPageLoading';
 import Match from '../components/match/Match';
+import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { igubetSports } from '../helpers/igubetSports';
 import { useGetIguSportMatchesQuery } from '../redux/features/igubetApi';
 import { timeFormatService } from '../services/timeFormaterService';
@@ -15,8 +17,11 @@ const SportPage = () => {
 
   const iguSport = igubetSports.find((sp) => sp.key === sport);
 
-  const dates = timeFormatService.getStartEnd();
+  const dates = timeFormatService.getStartEnd(0);
 
+  useEffect(() => {
+    setPage(1);
+  }, [sport]);
 
   const {
     data: matchListResponse,
@@ -29,15 +34,46 @@ const SportPage = () => {
     start_to: dates.end,
     page: page,
   });
+
+  const breadcrumbsArray = [
+    {
+      name: 'Home',
+      to: '/',
+    },
+    {
+      name: 'Sports',
+      to: `/sports`,
+    },
+    {
+      name: iguSport?.name,
+      to: '',
+    },
+  ];
+
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <div>
-      <div>
-        <Typography variant="h5" sx={{ marginTop: '20px' }}>
-          Upcoming {iguSport?.name} games
+      <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
+
+      <FlexBetween className="pagination">
+        <Typography noWrap variant="h5">
+          Total: {matchListResponse?.pagination.total}
         </Typography>
-      </div>
+
+        <Pagination
+          count={matchListResponse?.pagination.last_page || 1}
+          siblingCount={1}
+          page={matchListResponse?.pagination.page || 1}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </FlexBetween>
+
       {isSuccess &&
-        !isLoading &&
+        !isFetching &&
         matchListResponse.data.map((match, idx) => (
           <React.Fragment key={idx}>
             {idx === 0 ||
@@ -45,18 +81,11 @@ const SportPage = () => {
               <LeagueHeader tournament={matchListResponse.data[idx].tournament} />
             ) : null}
 
-            <div className="match">
-              <Match match={match} />
-            </div>
+            <Match match={match} />
           </React.Fragment>
         ))}
 
-      {isFetching && <div>Loading...</div>}
-      {matchListResponse && !isFetching && matchListResponse.pagination.last_page > page && (
-        <Button onClick={() => setPage(page + 1)} className="show-more" size="small" sx={{ marginTop: '20px' }}>
-          Show more
-        </Button>
-      )}
+      {isFetching && <SportPageLoading />}
     </div>
   );
 };
