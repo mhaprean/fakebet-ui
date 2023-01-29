@@ -1,5 +1,5 @@
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon, Search as SearchIcon } from '@mui/icons-material';
-import { IconButton, InputBase } from '@mui/material';
+import { Container, IconButton, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,22 @@ interface IPropsMainSearch {
 }
 
 const StyledMainSearch = styled('div')`
-  .search-header {
+  .search-bar {
     height: 50px;
     padding: 0 10px;
+    background-color: ${(props) => props.theme.navigation.main};
     display: flex;
     align-items: center;
-    background-color: ${(props) => props.theme.palette.background.paper};
+  }
+  .search-header {
+    display: flex;
+    align-items: center;
+  }
+
+  .search-body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
 
   .input-field {
@@ -81,33 +91,40 @@ const MainSearch = ({ onClose }: IPropsMainSearch) => {
   return (
     <StyledMainSearch className="MainSearch">
       <form onSubmit={handleSubmit}>
-        <div className="search-header">
-          <IconButton onClick={handleClose} size="small">
-            <ArrowBackIcon />
-          </IconButton>
+        <div className="search-bar">
+          <Container className="search-header">
+            <IconButton onClick={handleClose} size="small">
+              <ArrowBackIcon />
+            </IconButton>
 
-          <InputBase
-            inputRef={inputRef}
-            autoFocus
-            value={searchTerm}
-            className="input-field"
-            placeholder="Search for team or league..."
-            onChange={(event) => setSearchTerm(event.target.value)}
-            endAdornment={
-              <IconButton size="small" onClick={handleClear}>
-                <CloseIcon className="close-icon" />
-              </IconButton>
-            }
-          />
+            <InputBase
+              inputRef={inputRef}
+              autoFocus
+              value={searchTerm}
+              className="input-field"
+              placeholder="Search for team or league..."
+              onChange={(event) => setSearchTerm(event.target.value)}
+              endAdornment={
+                <IconButton size="small" onClick={handleClear}>
+                  <CloseIcon className="close-icon" />
+                </IconButton>
+              }
+            />
 
-          <IconButton className="search-icon" size="small" onClick={submitSearch}>
-            <SearchIcon />
-          </IconButton>
+            <IconButton className="search-icon" size="small" onClick={submitSearch}>
+              <SearchIcon />
+            </IconButton>
+          </Container>
         </div>
       </form>
-      <div className="search-body">
-        {isSearchResultsFetching && <div>is loading...</div>}
-        {searchResultSuccess && searchResults.map((match, idx) => <SearchedMatch key={idx} match={match} />)}
+      <div className="search-content">
+        <Container className="search-body">
+          {isSearchResultsFetching && <div>is loading...</div>}
+          {searchResultSuccess &&
+            searchResults.map((match, idx) => (
+              <SearchedMatch key={idx} match={match} onClose={handleClose} />
+            ))}
+        </Container>
       </div>
     </StyledMainSearch>
   );

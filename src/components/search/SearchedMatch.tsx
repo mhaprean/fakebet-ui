@@ -6,9 +6,11 @@ import { timeFormatService } from '../../services/timeFormaterService';
 import parse from 'html-react-parser';
 import SportIcon from '../SportIcon';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Link } from 'react-router-dom';
 
 interface IPropsSearchedMatch {
   match: IIgubetMatch;
+  onClose?: () => void;
 }
 
 const StyledSearchedMatch = styled(Paper)`
@@ -19,6 +21,7 @@ const StyledSearchedMatch = styled(Paper)`
   box-shadow: none;
   border: 1px solid ${(props) => props.theme.palette.divider};
   margin-top: 10px;
+  width: 100%;
 
   ${(props) => props.theme.breakpoints.up('sm')} {
     align-items: stretch;
@@ -93,7 +96,7 @@ const StyledSearchedMatch = styled(Paper)`
   }
 `;
 
-const SearchedMatch = ({ match }: IPropsSearchedMatch) => {
+const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
   return (
     <StyledSearchedMatch className="SearchedMatch" variant="elevation" elevation={1}>
       <div className="time">
@@ -126,16 +129,18 @@ const SearchedMatch = ({ match }: IPropsSearchedMatch) => {
       </div>
 
       <div className="match-info">
-        <Box className="match-sport" sx={{marginLeft: 'auto'}}>
+        <Box className="match-sport" sx={{ marginLeft: 'auto' }}>
           <Typography noWrap variant="body2" sx={{ marginLeft: '5px', marginRight: '5px' }}>
             {match.tournament.sport.name}
           </Typography>
           <SportIcon sportSlug={match.tournament.sport.key || ''} />
         </Box>
-        <Box sx={{display: 'flex'}}>
-          <Button className='match-button' sx={{marginLeft: 'auto'}} endIcon={<ArrowForwardIcon />}>
-            See more 
-          </Button>
+        <Box sx={{ display: 'flex' }}>
+          <Link onClick={() => onClose()} to={`/sports/${match.tournament.sport.key}/league/${match.tournament.id}/event/${match.id}`} >
+            <Button className="match-button" sx={{ marginLeft: 'auto' }} endIcon={<ArrowForwardIcon />}>
+              See more
+            </Button>
+          </Link>
         </Box>
       </div>
     </StyledSearchedMatch>
