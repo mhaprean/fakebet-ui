@@ -3,12 +3,11 @@ import { Collapse, List, ListItem, ListItemButton, ListItemIcon, ListItemText } 
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetIguTournamentsQuery } from '../../redux/features/igubetApi';
-import { IIgubetCategory } from '../../redux/features/igubetTypes';
+import { IIgubetCategoryWithTournaments } from '../../redux/features/igubetApi';
 import ImageWithFallback from '../atoms/ImageWithFallback';
 
 interface IPropsCategoryLeagueList {
-  category: IIgubetCategory;
+  category: IIgubetCategoryWithTournaments;
   sportSlug: string;
 }
 
@@ -52,13 +51,6 @@ const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) =
 
   const [open, setOpen] = useState(false);
 
-  const {
-    data: tournamentsResponse,
-    error: tournamentsError,
-    isLoading: isTournamentsLoading,
-    isFetching: isTournamentsFetching,
-  } = useGetIguTournamentsQuery({ category_id: category.id }, { skip: !open });
-
   const handleClick = () => {
     setOpen(!open);
   };
@@ -80,20 +72,19 @@ const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) =
 
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {isTournamentsFetching && <div>is loading...</div>}
-          {tournamentsResponse?.data.map((tournament, idx) => (
+          {category.tournaments.map((tournament, idx) => (
             <Link
               onClick={handleLeagueChange}
               className="LeagueLink"
               key={tournament.urn_id}
-              to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+              to={`/sports/${tournament.sport.key}/${category.id}/${category.slug}/${tournament.id}/${tournament.slug}`}
               style={{ textDecoration: 'none' }}
             >
               <ListItem disablePadding>
                 <ListItemButton className="league" sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <ImageWithFallback
-                      image={`https://cdn.oddspedia.com/images/leagues/small/${sportSlug}/${tournament.category.slug}/${tournament.slug}.png`}
+                      image={`https://cdn.oddspedia.com/images/leagues/small/${sportSlug}/${category.slug}/${tournament.slug}.png`}
                       type="league"
                     />
                   </ListItemIcon>

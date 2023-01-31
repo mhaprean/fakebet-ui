@@ -47,7 +47,7 @@ export const darkTheme = createTheme({
     },
   },
   navigation: {
-    main: '#16181d',
+    main: '#2d343d',
     dark: '#16181d',
     light: '#3f4855',
     text: '#fff',

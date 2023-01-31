@@ -51,10 +51,6 @@ const StyledLayout = styled('div')`
 const Layout = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const { data: categoriesResponseIgu, isLoading: isCategoriesIguLoading } = useGetIguCategoriesQuery({
-    sport_id: 1,
-  });
-
   const handleDrawerToggle = () => {
     setMenuOpen(!menuOpen);
   };
@@ -76,11 +72,7 @@ const Layout = () => {
               '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
             }}
           >
-            <Sidebar
-              isTemporary={true}
-              onDrawerClose={handleDrawerToggle}
-              categories={categoriesResponseIgu?.data || []}
-            />
+            <Sidebar isTemporary={true} onDrawerClose={handleDrawerToggle} />
           </Drawer>
 
           <Drawer
@@ -96,7 +88,7 @@ const Layout = () => {
             }}
             open
           >
-            <Sidebar categories={categoriesResponseIgu?.data || []} />
+            <Sidebar />
           </Drawer>
         </Box>
 

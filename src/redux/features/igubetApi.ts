@@ -54,6 +54,10 @@ export interface IMatchMarketsResponse {
   pagination: IIgubetPagination;
 }
 
+export interface IIgubetCategoryWithTournaments extends IIgubetCategory {
+  tournaments: Omit<IIgutbetTournament, 'category'>[];
+}
+
 export const igubetApi = createApi({
   reducerPath: 'igubet_api',
   baseQuery: fetchBaseQuery({
@@ -93,6 +97,37 @@ export const igubetApi = createApi({
             limit,
           },
         };
+      },
+    }),
+
+    getBetableTournaments: builder.query<
+      IIgubetCategoryWithTournaments[],
+      { sport_key?: string; limit?: number; match_status?: number }
+    >({
+      query: ({ sport_key = 'soccer', limit = 500, match_status = 0 }) => {
+        return {
+          url: 'tournaments',
+          params: {
+            sport_key,
+            limit,
+            match_status,
+            bettable: true,
+          },
+        };
+      },
+      transformResponse: (response: ITournamentsResponse) => {
+        const cats: { [key: string]: IIgubetCategoryWithTournaments } = {};
+
+        response.data.forEach((tournament, idx) => {
+          if (!cats[tournament.category.id]) {
+            const { category, ...rest } = tournament;
+            cats[category.id] = { ...category, tournaments: [rest] };
+          } else {
+            const { category, ...rest } = tournament;
+            cats[category.id].tournaments.push(rest);
+          }
+        });
+        return Object.values(cats);
       },
     }),
 
@@ -230,6 +265,7 @@ export const {
   useIguSearchQuery,
   useGetIguSportMatchesQuery,
   useGetIguCategoryMatchesQuery,
+  useGetBetableTournamentsQuery,
 } = igubetApi;
 
 export default igubetApi;

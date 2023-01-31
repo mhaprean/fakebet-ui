@@ -30,6 +30,7 @@ export const store = configureStore({
     auth: persistedAuth,
     betslip: persistedBetslip,
   },
+  devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,

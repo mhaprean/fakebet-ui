@@ -10,10 +10,13 @@ import {
   Divider,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { igubetSoccerTopLeagues } from '../helpers/igubetTopLeagues';
-import { IIgubetCategory } from '../redux/features/igubetTypes';
+import { useGetBetableTournamentsQuery } from '../redux/features/igubetApi';
+import { IIgubetCategory, IIgutbetTournament } from '../redux/features/igubetTypes';
 import ImageWithFallback from './atoms/ImageWithFallback';
+import NavigationTabs from './navigation/NavigationTabs';
 import CategoryList from './sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`
@@ -96,11 +99,16 @@ interface IPropsSidebar {
   isIguAdmin?: boolean;
   onDrawerClose?: () => void;
   isTemporary?: boolean;
-  categories?: IIgubetCategory[];
 }
 
-const Sidebar = ({ categories = [], onDrawerClose = () => {}, isTemporary = false }: IPropsSidebar) => {
+const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSidebar) => {
   const location = useLocation();
+
+  const [activeSportTab, setActiveSportTab] = useState('soccer');
+
+  const { data: bettableCategories, isFetching } = useGetBetableTournamentsQuery({
+    sport_key: activeSportTab,
+  });
 
   return (
     <StyledSidebar className="Sidebar">
@@ -116,6 +124,7 @@ const Sidebar = ({ categories = [], onDrawerClose = () => {}, isTemporary = fals
       )}
 
       <div className="sidebar-content">
+        <NavigationTabs activeSport={activeSportTab} onSportChange={setActiveSportTab} />
         <>
           <Box className="title">
             <Typography variant="h6">Top Leagues</Typography>
@@ -147,43 +156,15 @@ const Sidebar = ({ categories = [], onDrawerClose = () => {}, isTemporary = fals
           </List>
         </>
 
-        {categories.length > 0 && (
+        {bettableCategories && (
           <>
             <Box className="title">
               <Typography variant="h6">All Countries Igu</Typography>
             </Box>
 
-            <CategoryList categories={categories.filter((cat) => cat.slug !== '')} />
+            <CategoryList categories={bettableCategories} />
           </>
         )}
-
-        {/* <>
-          <Box className="title">
-            <Typography variant="h6">Igubet</Typography>
-          </Box>
-          <List>
-            <Link to={'/igubet/sports'}>
-              <ListItem disablePadding>
-                <ListItemButton selected={location.pathname === '/sports'}>
-                  <ListItemIcon>
-                    <PublicIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Sports" />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-            <Link to={'/igubet/sports/1/categories'}>
-              <ListItem disablePadding>
-                <ListItemButton selected={location.pathname === '/sports/1/categories'}>
-                  <ListItemIcon>
-                    <PublicIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Igubet Footbal Categories" />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          </List>
-        </> */}
       </div>
     </StyledSidebar>
   );
