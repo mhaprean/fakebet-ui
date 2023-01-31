@@ -63,7 +63,7 @@ const MarketOutcome = ({
         {/* {outcome.id} */}
       </Typography>
       <Typography className="outcome-value" variant="body2">
-        {outcome.formated_value}
+        {outcome.formated_value?.toFixed(2)}
       </Typography>
     </StyledMarketOutcome>
   );

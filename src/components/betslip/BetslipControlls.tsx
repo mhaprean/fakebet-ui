@@ -21,7 +21,7 @@ interface IPropsBetslipControlls {
 
 const StyledBetslipControlls = styled(Box)`
   margin-top: auto;
-  
+
   .betslip-info {
     padding: 5px;
     margin-bottom: 5px;
@@ -126,12 +126,6 @@ const BetslipControlls = ({
             Stake:
           </Typography>
           <Button
-            onClick={() => changeStakeViaButton(10)}
-            className={classNames('stake-value', { isSelected: stake === 10 })}
-          >
-            10
-          </Button>
-          <Button
             onClick={() => changeStakeViaButton(50)}
             className={classNames('stake-value', { isSelected: stake === 50 })}
           >
@@ -142,6 +136,13 @@ const BetslipControlls = ({
             className={classNames('stake-value', { isSelected: stake === 100 })}
           >
             100
+          </Button>
+
+          <Button
+            onClick={() => changeStakeViaButton(500)}
+            className={classNames('stake-value', { isSelected: stake === 500 })}
+          >
+            500
           </Button>
 
           <Typography className="label currency" variant="h6" component="label">

@@ -13,7 +13,7 @@ interface IPropsBetslipEvent {
 
 const StyledBetslipEvent = styled(Paper)`
   margin: 3px 0;
-  padding: 5px;
+  padding: 0;
 
   .market-name {
     display: flex;
@@ -50,6 +50,16 @@ const StyledBetslipEvent = styled(Paper)`
       color: ${(props) => props.theme.palette.text.secondary};
     }
   }
+
+  .event-header,
+  .event-body {
+    padding: 5px;
+  }
+
+  .event-footer {
+    background: ${(props) => props.theme.navigation.light};
+    padding: 0 5px;
+  }
 `;
 
 const BetslipEvent = ({ event }: IPropsBetslipEvent) => {
@@ -64,7 +74,7 @@ const BetslipEvent = ({ event }: IPropsBetslipEvent) => {
     <StyledBetslipEvent className="BetslipEvent" square variant="outlined">
       <FlexBetween className="event-header">
         <div className="market-name">
-          <Checkbox className="toggle-event" defaultChecked color="secondary" size="small" />
+          {/* <Checkbox className="toggle-event" defaultChecked color="secondary" size="small" /> */}
           <Typography className="Label" variant="body2" noWrap>
             {event.market.formated_market_name || event.market.name}
           </Typography>
@@ -84,18 +94,17 @@ const BetslipEvent = ({ event }: IPropsBetslipEvent) => {
             {event.match.competitors.away.name}
           </Typography>
         </Box>
-
-        <FlexBetween>
-          <Typography variant="subtitle2"> {event.outcome_name} </Typography>
-
-          <Box className="event-odds">
-            <Typography variant="subtitle1"> {event.odds} </Typography>
-            <IconButton onClick={handleRemoveEvent} className="event-remove">
-              <DeleteIcon />
-            </IconButton>
-          </Box>
-        </FlexBetween>
       </Box>
+      <FlexBetween className="event-footer">
+        <Typography variant="subtitle2"> {event.outcome_name} </Typography>
+
+        <Box className="event-odds">
+          <Typography variant="subtitle2"> {event.odds.toFixed(2)} </Typography>
+          <IconButton onClick={handleRemoveEvent} className="event-remove">
+            <DeleteIcon />
+          </IconButton>
+        </Box>
+      </FlexBetween>
     </StyledBetslipEvent>
   );
 };

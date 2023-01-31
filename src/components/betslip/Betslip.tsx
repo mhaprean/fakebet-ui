@@ -67,7 +67,8 @@ const StyledBetslip = styled('div')`
     border: 1px solid ${(props) => props.theme.palette.divider};
     padding: 5px;
 
-    background: ${(props) => props.theme.palette.background.paper};
+    background: ${(props) => props.theme.navigation.main};
+    color: ${(props) => props.theme.navigation.text};
   }
 
   .betslip-subheader {
