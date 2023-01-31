@@ -13,7 +13,7 @@ const formatMatchDate = (day: string) => {
   const tomorrow = moment().add(1, 'day').endOf('day');
 
   if (isToday(day)) return 'Today';
-  if (date < tomorrow) return 'Tomorrow';
+  if (date < tomorrow && date > moment().startOf('day')) return 'Tomorrow';
 
   return date.format('ddd DD.MM');
 };
