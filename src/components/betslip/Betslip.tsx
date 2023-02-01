@@ -1,4 +1,13 @@
-import { Box, Paper, SwipeableDrawer, Typography, useMediaQuery } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Collapse,
+  IconButton,
+  Paper,
+  SwipeableDrawer,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 import BetslipEvent from './BetslipEvent';
@@ -8,6 +17,8 @@ import BetslipControlls from './BetslipControlls';
 import BetslipSubheader from './BetslipSubheader';
 import BetslipMobilePreview from './BetslipMobilePreview';
 import { useAddCustomTicketMutation } from '../../redux/features/strapiApi';
+import { timeFormatService } from '../../services/timeFormaterService';
+import CloseIcon from '@mui/icons-material/Close';
 
 const BetslipMobile = styled(Paper)`
   position: fixed;
@@ -126,6 +137,18 @@ const Betslip = () => {
     dispatch(changeStake({ stake: newStake }));
   };
 
+  const hasUnavailableEvents = (): boolean => {
+    let hasStartedEvents = false;
+
+    betslipState.betslip.events.forEach((event, idx) => {
+      if (timeFormatService.isPastDate(event.match.start_time)) {
+        hasStartedEvents = true;
+      }
+    });
+
+    return hasStartedEvents;
+  };
+
   const handlePlaceBet = async () => {
     if (isLoading) {
       return false;
@@ -142,11 +165,19 @@ const Betslip = () => {
           authState.user.current_balance
       );
       setHasError(true);
+      return false;
     }
 
     if (betslipState.betslip.events.length === 0) {
       setErrorMessage('Add an event before placing the bet.');
       setHasError(true);
+      return false;
+    }
+
+    if (hasUnavailableEvents()) {
+      setErrorMessage('Your betslip contains events that are no longer available');
+      setHasError(true);
+      return false;
     }
 
     if (
@@ -221,6 +252,26 @@ const Betslip = () => {
               {betslipState.betslip.events.map((event, idx) => (
                 <BetslipEvent key={idx} event={event} />
               ))}
+
+              <Collapse in={betSuccess}>
+                <Alert
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setBetSuccess(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                  sx={{ mb: 2 }}
+                >
+                  Bet successfully placed.
+                </Alert>
+              </Collapse>
             </Box>
             <BetslipControlls
               potentialGain={betslipState.betslip.potentialGain}
@@ -228,6 +279,10 @@ const Betslip = () => {
               totalOdds={betslipState.betslip.totalOdds}
               onChangeStake={handleChangeStake}
               onPlaceBet={handlePlaceBet}
+              hasError={hasError}
+              setHasError={setHasError}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
             />
           </div>
         </StyledBottomDrawer>
@@ -247,6 +302,26 @@ const Betslip = () => {
         {betslipState.betslip.events.map((event, idx) => (
           <BetslipEvent key={idx} event={event} />
         ))}
+
+        <Collapse in={betSuccess}>
+          <Alert
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setBetSuccess(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            Bet successfully placed.
+          </Alert>
+        </Collapse>
       </Box>
       <BetslipControlls
         potentialGain={betslipState.betslip.potentialGain}
@@ -254,6 +329,10 @@ const Betslip = () => {
         totalOdds={betslipState.betslip.totalOdds}
         onChangeStake={handleChangeStake}
         onPlaceBet={handlePlaceBet}
+        hasError={hasError}
+        setHasError={setHasError}
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
       />
     </StyledBetslip>
   );

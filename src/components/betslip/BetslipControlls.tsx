@@ -1,7 +1,8 @@
-import { Box, Button, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Collapse, IconButton, Paper, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import FlexBetween from '../atoms/FlexBetween';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface IPropsBetslipControlls {
   totalOdds: number;
@@ -84,25 +85,23 @@ const BetslipControlls = ({
   stake,
   onChangeStake,
   onPlaceBet = () => {},
-  hasError,
-  setHasError,
-  errorMessage,
-  setErrorMessage,
+  hasError = false,
+  setHasError = () => {},
+  errorMessage = '',
+  setErrorMessage = () => {},
 }: IPropsBetslipControlls) => {
   const handleChangeStake = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newStake = parseFloat(event.target.value);
 
     onChangeStake(newStake);
-    // dispatch(changeStake({ stake: newStake }));
 
-    // if (isNaN(newStake)) {
-    //   setHasError(true);
-    //   setErrorMessage('The stake should be a number');
-    // } else {
-    //   setHasError(false);
-    //   setErrorMessage('');
-    // }
-    // onChangeStake(newStake);
+    if (isNaN(newStake)) {
+      setHasError(true);
+      setErrorMessage('The stake should be a number');
+    } else {
+      setHasError(false);
+      setErrorMessage('');
+    }
   };
 
   const changeStakeViaButton = (newStake: number) => {
@@ -166,6 +165,30 @@ const BetslipControlls = ({
           </Typography>
         </FlexBetween>
       </Paper>
+
+      <div className="BetslipErrors">
+        <Collapse in={hasError}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setHasError(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+          >
+            {errorMessage}
+          </Alert>
+        </Collapse>
+      </div>
+
       <div>
         <Button onClick={onPlaceBet} className="submit-button" variant="contained" fullWidth>
           Place bet

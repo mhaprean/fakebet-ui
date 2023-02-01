@@ -105,7 +105,7 @@ const BetslipEvent = ({ event }: IPropsBetslipEvent) => {
         ) : (
           <div className='event-date'>
             <SportIcon sportSlug={event.match.tournament.sport.key} />
-            <Typography variant="body2" color={'text.secondary'}>
+            <Typography variant="caption" color={'text.secondary'}>
               {timeFormatService.formatDateForBetslipEvent(event.match.start_time)}
             </Typography>
           </div>
