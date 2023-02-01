@@ -139,21 +139,6 @@ const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
             { value: '30', label: 'Per page: 30' },
           ]}
         />
-
-        {/* <DropdownList
-          value={stakeFilter}
-          onChange={(newValue: string) => {
-            setStakeFilter(newValue);
-            setPage(1);
-          }}
-          items={[
-            { value: 'all', label: 'All Stakes' },
-            { value: '50', label: '< 50' },
-            { value: '100', label: '< 100' },
-            { value: '500', label: '< 500' },
-            { value: '1000', label: '< 1000' },
-          ]}
-        /> */}
       </div>
       <FlexBetween className="pagination">
         <Typography noWrap variant="body2">

@@ -26,21 +26,13 @@ const StyledTicketEvent = styled(Paper)`
     display: flex;
     align-items: center;
 
-    .market-name {
+    .event-category {
       color: ${(props) => props.theme.palette.text.secondary};
-      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
     }
 
     .SportIcon {
       font-size: 14px;
       margin-right: 5px;
-    }
-
-    .odd-value {
-      margin-right: 5px;
-      margin-left: auto;
-      /* color: ${(props) => props.theme.palette.primary.light}; */
-      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
     }
   }
 
@@ -59,18 +51,12 @@ const StyledTicketEvent = styled(Paper)`
     .info {
       display: flex;
       flex-direction: column;
-
-      .odd-value {
-        margin: auto 0;
-        font-weight: ${(props) => props.theme.typography.fontWeightMedium};
-      }
     }
   }
 
   .validation-result {
     display: flex;
     align-items: center;
-    margin-left: auto;
 
     .win {
       color: ${(props) => props.theme.palette.success.main};
@@ -89,6 +75,7 @@ const StyledTicketEvent = styled(Paper)`
     display: flex;
     align-items: center;
     color: ${(props) => props.theme.palette.text.secondary};
+    margin-top: 5px;
 
     img {
       width: 15px;
@@ -104,6 +91,20 @@ const StyledTicketEvent = styled(Paper)`
     .OddLeague {
       margin-left: 10px;
     }
+
+    .market-name {
+      color: ${(props) => props.theme.palette.text.secondary};
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+      margin-right: 10px;
+    }
+
+    .odd-value {
+      margin-right: 5px;
+      margin-left: auto;
+      color: ${(props) => props.theme.palette.text.primary};
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+      flex-shrink: 0;
+    }
   }
 
   .teams {
@@ -113,7 +114,7 @@ const StyledTicketEvent = styled(Paper)`
   .Periods {
     margin-left: auto;
     flex-shrink: 0;
-    margin-right: 10px;
+    margin-right: 5px;
 
     display: flex;
 
@@ -138,12 +139,8 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
     <StyledTicketEvent className="TicketEvent" square variant="outlined">
       <div className="event-header">
         <SportIcon sportSlug={bet.attributes.sport_key} />
-        <Typography className="market-name" variant="body2" noWrap component="span">
-          {bet.attributes.market_name}
-        </Typography>
-
-        <Typography className="odd-value" variant="body2" noWrap component="span">
-          {bet.attributes.outcome_name} @ {parseFloat('' + bet.attributes.outcome_odds).toFixed(2)}
+        <Typography className="event-category" variant="caption" noWrap component="span">
+          {bet.attributes.category_name} {` / `} {bet.attributes.tournament_name}
         </Typography>
       </div>
       <div className="event-body">
@@ -162,9 +159,9 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
         </div>
 
         <div className="Periods">
-          {
-            bet.attributes.match.data.attributes.period_score && bet.attributes.match.data.attributes.period_score.map((period, idx) => (
-              <Tooltip title={period.type + ' ' + period.number} placement="top" key={idx}>
+          {bet.attributes.match.data.attributes.period_score &&
+            bet.attributes.match.data.attributes.period_score.map((period, idx) => (
+              <Tooltip title={period.period_name} placement="top" key={idx}>
                 <div className="Period">
                   <Typography className="Score" variant="caption" noWrap component="div">
                     {period.home}
@@ -190,9 +187,14 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
           )}
         </div>
       </div>
+
       <div className="event-footer">
-        <Typography className="event-category" variant="caption" noWrap component="span">
-          {bet.attributes.category_name} {` / `} {bet.attributes.tournament_name}
+        <Typography className="market-name" variant="body2" component="span">
+          {bet.attributes.market_name}
+        </Typography>
+
+        <Typography className="odd-value" variant="body2" noWrap component="span">
+          {bet.attributes.outcome_name} @ {parseFloat('' + bet.attributes.outcome_odds).toFixed(2)}
         </Typography>
 
         <div className="validation-result">
