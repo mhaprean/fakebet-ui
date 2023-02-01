@@ -18,6 +18,14 @@ const formatMatchDate = (day: string) => {
   return date.format('ddd DD.MM');
 };
 
+const isPastDate = (day: string) => {
+  const now = moment();
+
+  const date = moment(day);
+
+  return date < now;
+};
+
 const formatMatchTime = (day: string) => {
   return moment(day).format('HH:mm');
 };
@@ -97,6 +105,12 @@ const formatDateForMatchSearch = (day: string) => {
   return date;
 };
 
+const formatDateForBetslipEvent = (day: string) => {
+  const date = moment(day).format('DD.MMM HH:mm');
+
+  return date;
+};
+
 // 2023-01-11T20:00:00Z
 
 const getStartEnd = (daysOffset = 2) => {
@@ -136,4 +150,6 @@ export const timeFormatService = {
   getStartEnd,
   formatDateForTicket,
   formatDateForTicketEvent,
+  isPastDate,
+  formatDateForBetslipEvent,
 };
