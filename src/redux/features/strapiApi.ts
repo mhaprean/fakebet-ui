@@ -136,10 +136,14 @@ interface IStrapiTicketsResponse {
   };
 }
 
+export type IStrapiUserList = Pick<IStrapiUser, 'id' | 'current_balance' | 'username' | 'image'>[];
+
 export const strapi = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:1337/api/',
+    // baseUrl: 'https://fakebet-strapi.onrender.com/api/',
+
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
 
@@ -153,9 +157,6 @@ export const strapi = createApi({
   }),
   tagTypes: ['Account'],
   endpoints: (builder) => ({
-    getUsers: builder.query<IStrapiUser[], void>({
-      query: () => 'users',
-    }),
     getMyProfile: builder.query<IStrapiUser, {}>({
       query: () => {
         return {
@@ -171,6 +172,10 @@ export const strapi = createApi({
 
     getUserById: builder.query<IStrapiUser, { userId: number }>({
       query: ({ userId }) => `users/${userId}`,
+    }),
+
+    getUsers: builder.query<IStrapiUserList, { queryString?: string }>({
+      query: ({ queryString }) => `users?${queryString}`,
     }),
 
     login: builder.mutation<IAuthLocalResponse, { identifier: string; password: string }>({
