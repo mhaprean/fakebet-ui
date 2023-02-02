@@ -1,6 +1,7 @@
 import { ArrowBack as ArrowBackIcon, Close as CloseIcon, Search as SearchIcon } from '@mui/icons-material';
 import { Container, IconButton, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
+import classNames from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useDebounce from '../../hooks/useDebounce';
@@ -28,7 +29,10 @@ const StyledMainSearch = styled('div')`
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 100px;
+
+    &.hasResults {
+      padding-bottom: 100px;
+    }
   }
 
   .input-field {
@@ -119,7 +123,11 @@ const MainSearch = ({ onClose }: IPropsMainSearch) => {
         </div>
       </form>
       <div className="search-content">
-        <Container className="search-body">
+        <Container
+          className={classNames('search-body', {
+            hasResults: searchResultSuccess && searchResults.length > 0,
+          })}
+        >
           {isSearchResultsFetching && <div>is loading...</div>}
           {searchResultSuccess &&
             searchResults

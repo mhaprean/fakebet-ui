@@ -159,10 +159,10 @@ const Betslip = () => {
       return false;
     }
 
-    if (stake > authState.user.current_balance) {
+    if (stake > authState.user.account.current_balance) {
       setErrorMessage(
         'The stake should be less or equal to current balance. Maximum allowed stake is: ' +
-          authState.user.current_balance
+          authState.user.account.current_balance
       );
       setHasError(true);
       return false;
@@ -183,13 +183,12 @@ const Betslip = () => {
     if (
       betslipState.betslip.totalOdds > 1 &&
       authState &&
-      authState.user.current_balance >= stake &&
+      authState.user.account.current_balance >= stake &&
       stake > 0
     ) {
       const insertTicket = await addCustomTicket({
         betslip: betslipState.betslip,
         user_id: authState.user.id,
-        current_balance: authState.user.current_balance,
       }).unwrap();
 
       if (insertTicket.data.ticket) {

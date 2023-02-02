@@ -23,7 +23,7 @@ const ProfileInfo = () => {
     <StyledProfileInfo className="ProfileInfo" variant="outlined">
       <FlexBetween>
         <Typography variant="subtitle2">Your balance:</Typography>
-        <Typography variant="subtitle2">{authState.user?.current_balance} $</Typography>
+        <Typography variant="subtitle2">{authState.user?.account?.current_balance} $</Typography>
       </FlexBetween>
     </StyledProfileInfo>
   );

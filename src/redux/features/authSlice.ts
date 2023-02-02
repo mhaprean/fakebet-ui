@@ -5,14 +5,12 @@ type AuthState = {
   user: IStrapiUser | null;
   token: string | null;
   isAuth: boolean;
-  account: IStrapiAccount | null;
 };
 
 const initialState: AuthState = {
   user: null,
   token: null,
   isAuth: false,
-  account: null,
 };
 
 const authSlice = createSlice({

@@ -7,22 +7,20 @@ export interface IStrapiUser {
   id: number;
   username: string;
   email: string;
-
   provider: string;
   confirmed: boolean;
   blocked: boolean;
   createdAt: string;
   updatedAt: string;
+  account: IStrapiAccount;
   tickets: any[];
-  account: null;
   bets: any[];
-
-  current_balance: number;
-  preffered_theme: string;
+  preferred_theme: string;
   image: string;
 }
 
 export interface IStrapiAccount {
+  id: number;
   current_balance: number;
   bankruptcy: number;
   user_id: number;
@@ -31,7 +29,9 @@ export interface IStrapiAccount {
   pending_tickets: number;
   losing_tickets: number;
   preferred_theme: string;
-  user?: IStrapiUser;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
 interface IStrapiLocalError {
@@ -59,7 +59,7 @@ interface IUserRegisterPayload {
   username: string;
   email: string;
   password: string;
-  preffered_theme?: string;
+  preferred_theme?: string;
 }
 
 interface IAddTicketResponse {
@@ -69,7 +69,6 @@ interface IAddTicketResponse {
 interface IAddTicketPayload {
   betslip: IBetslip;
   user_id: number;
-  current_balance: number;
 }
 
 export interface IStrapiBet {
@@ -148,7 +147,7 @@ interface IStrapiTicketsResponse {
   };
 }
 
-export type IStrapiUserList = Pick<IStrapiUser, 'id' | 'current_balance' | 'username' | 'image'>[];
+export type IStrapiUserList = Pick<IStrapiUser, 'id' | 'username' | 'image'>[];
 
 interface ICreateAccountResponse {}
 
@@ -175,9 +174,9 @@ export const strapi = createApi({
       query: () => {
         return {
           url: 'users/me',
-          // params: {
-          //   populate: '*',
-          // },
+          params: {
+            populate: 'account',
+          },
         };
       },
 
@@ -212,23 +211,21 @@ export const strapi = createApi({
       },
     }),
 
-    createAccount: builder.mutation<ICreateAccountResponse, { user: number; user_id: number; image: string }>(
-      {
-        query(data) {
-          return {
-            url: `accounts`,
-            method: 'POST',
-            body: { data },
-          };
-        },
-      }
-    ),
+    createAccount: builder.mutation<ICreateAccountResponse, { user: number; user_id: number }>({
+      query(data) {
+        return {
+          url: `accounts`,
+          method: 'POST',
+          body: { data },
+        };
+      },
+    }),
 
     addCustomTicket: builder.mutation<IAddTicketResponse, IAddTicketPayload>({
-      query: ({ betslip, user_id, current_balance }) => ({
+      query: ({ betslip, user_id }) => ({
         url: `custom-ticket`,
         method: 'POST',
-        body: { betslip, user_id, current_balance },
+        body: { betslip, user_id },
       }),
       invalidatesTags: ['Account'],
     }),

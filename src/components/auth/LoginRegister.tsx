@@ -158,7 +158,7 @@ const LoginRegister = ({ isSidebar = false }: { isSidebar?: boolean }) => {
         username: values.username,
         email: values.email,
         password: values.password,
-        preffered_theme: 'dark',
+        preferred_theme: 'dark',
         current_balance: 10000,
         image: accImage,
       };
@@ -168,7 +168,6 @@ const LoginRegister = ({ isSidebar = false }: { isSidebar?: boolean }) => {
       if (res && res.user && res.jwt) {
         const createAcc = await createAccount({
           user: res.user.id,
-          image: accImage,
           user_id: res.user.id,
         }).unwrap();
 
