@@ -1,10 +1,10 @@
 import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { IStrapiUserList } from '../../redux/features/strapiApi';
+import { IAccountItem, IStrapiAccount, IStrapiUserList } from '../../redux/features/strapiApi';
 
 interface IPropsPlayerList {
-  players: IStrapiUserList;
+  players: IAccountItem[];
 }
 
 const StyledPlayerList = styled('div')`
@@ -86,14 +86,14 @@ const PlayerList = ({ players }: IPropsPlayerList) => {
               {player.id}.
             </Typography>
 
-            <img src={player.image} alt="" />
+            <img src={player.attributes.user.data.attributes.image} alt="" />
 
             <Typography className="PlayerName" noWrap variant="subtitle1">
-              {player.username}
+              {player.attributes.user.data.attributes.username}
             </Typography>
 
             <Typography className="CurrentBalance" noWrap variant="subtitle2">
-              {player.current_balance} $
+              {player.attributes.current_balance} $
             </Typography>
           </div>
         </Link>

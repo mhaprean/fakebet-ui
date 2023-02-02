@@ -24,7 +24,6 @@ export interface IStrapiAccount {
   current_balance: number;
   bankruptcy: number;
   user_id: number;
-  image: string;
   winning_tickets: number;
   pending_tickets: number;
   losing_tickets: number;
@@ -151,6 +150,33 @@ export type IStrapiUserList = Pick<IStrapiUser, 'id' | 'username' | 'image'>[];
 
 interface ICreateAccountResponse {}
 
+
+interface IAccountAttributes extends Omit<IStrapiAccount, 'id'> {
+  user: {
+    data: {
+      id: number;
+      attributes: Omit<IStrapiUser, 'id'>;
+    };
+  };
+}
+
+export interface IAccountItem {
+  id: number;
+  attributes: IAccountAttributes;
+}
+
+export interface IStrapiAccountsResponse {
+  data: IAccountItem[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
 export const strapi = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
@@ -237,6 +263,14 @@ export const strapi = createApi({
         };
       },
     }),
+
+    getFilteredAccounts: builder.query<IStrapiAccountsResponse, { queryString?: string }>({
+      query: ({ queryString }) => {
+        return {
+          url: `accounts?${queryString}`,
+        };
+      },
+    }),
   }),
 });
 
@@ -249,4 +283,5 @@ export const {
   useAddCustomTicketMutation,
   useGetTicketsQuery,
   useCreateAccountMutation,
+  useGetFilteredAccountsQuery,
 } = strapi;

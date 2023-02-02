@@ -2,11 +2,12 @@ import { useState } from 'react';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { FilterList as FilterListIcon } from '@mui/icons-material';
 import DropdownList from '../components/atoms/DropdownList';
-import { Pagination, Typography } from '@mui/material';
-import { useGetUsersQuery } from '../redux/features/strapiApi';
+import { Box, Pagination, Typography } from '@mui/material';
 import qs from 'qs';
 import PlayerList from '../components/player/PlayerList';
 import PlayerListLoading from '../components/loaders/PlayerListLoading';
+import { useGetFilteredAccountsQuery } from '../redux/features/strapiApi';
+import FlexBetween from '../components/atoms/FlexBetween';
 
 const PlayersPage = () => {
   const [page, setPage] = useState(1);
@@ -19,6 +20,7 @@ const PlayersPage = () => {
       sort: ['current_balance:desc', 'id:desc'],
       filters: filters,
       // fields: ['username', 'id', 'current_balance', 'image', 'statistics'],
+      populate: 'user',
       pagination: {
         pageSize: parseInt(perPage),
         page: page,
@@ -29,9 +31,10 @@ const PlayersPage = () => {
     }
   );
 
-  const { data: filteredPlayers, isFetching: isFilteredPlayersFetching } = useGetUsersQuery({
-    queryString: playerListQuery,
-  });
+  const { data: filteredPlayersResponse, isFetching: isFilteredPlayersFetching } =
+    useGetFilteredAccountsQuery({
+      queryString: playerListQuery,
+    });
 
   const breadcrumbsArray = [
     {
@@ -44,12 +47,16 @@ const PlayersPage = () => {
     },
   ];
 
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
       <div className="Body">
-        <div className="Filters">
+        <Box className="Filters" sx={{ display: 'flex' }}>
           <FilterListIcon />
 
           <DropdownList
@@ -64,25 +71,27 @@ const PlayersPage = () => {
               { value: '30', label: 'Per page: 30' },
             ]}
           />
-        </div>
+        </Box>
 
-        {/* <div className="Pagination">
-            <Typography noWrap variant="body2">
-              Total: {filteredPlayers?.meta.pagination.total || '0'}
-            </Typography>
+        <FlexBetween className="players-pagination">
+          <Typography noWrap variant="body2">
+            Total: {filteredPlayersResponse?.meta.pagination.total || '0'}
+          </Typography>
 
-            <Pagination
-              count={filteredPlayers?.meta.pagination.pageCount || 1}
-              siblingCount={0}
-              page={filteredPlayers?.meta.pagination.page || 1}
-              onChange={handleChange}
-              color="primary"
-            />
-          </div> */}
+          <Pagination
+            count={filteredPlayersResponse?.meta.pagination.pageCount || 1}
+            siblingCount={0}
+            page={filteredPlayersResponse?.meta.pagination.page || 1}
+            onChange={handlePageChange}
+            color="primary"
+          />
+        </FlexBetween>
 
         {isFilteredPlayersFetching && <PlayerListLoading playersCount={parseInt(perPage)} />}
 
-        {!isFilteredPlayersFetching && filteredPlayers && <PlayerList players={filteredPlayers || []} />}
+        {!isFilteredPlayersFetching && filteredPlayersResponse && (
+          <PlayerList players={filteredPlayersResponse.data || []} />
+        )}
       </div>
     </div>
   );
