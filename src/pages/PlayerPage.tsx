@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import PlayerHeader from '../components/player/PlayerHeader';
 import PlayerStats from '../components/player/PlayerStats';
+import TicketsTab from '../components/ticket/TicketsTab';
 import { useGetAccountQuery, useGetFilteredAccountsQuery } from '../redux/features/strapiApi';
 
 const PlayerPage = () => {
@@ -42,7 +43,7 @@ const PlayerPage = () => {
             account={accountResponse.data.attributes}
           />
           {activeTab === 'stats' && <PlayerStats account={accountResponse.data.attributes} />}
-          {activeTab === 'tickets' && <div>tickets tab</div>}
+          {activeTab === 'tickets' && <TicketsTab userId={accountResponse.data.attributes.user_id} /> }
         </>
       )}
     </div>

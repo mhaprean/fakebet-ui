@@ -6,6 +6,7 @@ const StyledPieChartCard = styled(Paper)`
   display: flex;
   flex-direction: column;
   padding: 20px;
+  background-image: none;
 
   .PieChart {
     max-width: 200px;

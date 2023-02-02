@@ -11,8 +11,9 @@ const StyledPlayerHeader = styled('div')`
   /* max-width: 300px; */
   align-items: center;
   padding-bottom: 0;
+  margin-bottom: 10px;
 
-  .UserImage {
+  .user-image {
     width: 76px;
     height: 76px;
     border-radius: 50px;
@@ -27,16 +28,21 @@ const StyledPlayerHeader = styled('div')`
       margin-left: 3px;
     }
   }
-  .UserInfo {
+  .user-info {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    .username {
+      font-weight: ${props => props.theme.typography.fontWeightBold};
+      font-size: 20px;
+    }
   }
-  .RegisterDate {
+  .register-date {
     display: flex;
     align-items: center;
   }
-  .Tabs {
+  .tabs {
     width: 100%;
   }
   .MuiTabs-indicator {
@@ -57,16 +63,16 @@ const PlayerHeader = ({ account, activeTab = 'stats', onTabChange = () => {} }: 
 
   return (
     <StyledPlayerHeader className="PlayerHeader">
-      <div className="UserImage">
+      <div className="user-image">
         <img src={account.user.data.attributes.image} alt="" />
       </div>
 
-      <div className="UserInfo">
-        <Typography noWrap variant="h2">
+      <div className="user-info">
+        <Typography noWrap variant="h2" className='username'>
           {account?.user?.data.attributes.username}
         </Typography>
 
-        <div className="RegisterDate">
+        <div className="register-date">
           <Typography noWrap variant="body2">
             Member from:
           </Typography>
@@ -75,7 +81,7 @@ const PlayerHeader = ({ account, activeTab = 'stats', onTabChange = () => {} }: 
           </Typography>
         </div>
 
-        <div className="RegisterDate">
+        <div className="register-date">
           <Typography noWrap variant="body2">
             Current balance:
           </Typography>
@@ -85,7 +91,7 @@ const PlayerHeader = ({ account, activeTab = 'stats', onTabChange = () => {} }: 
         </div>
       </div>
 
-      <div className="Tabs">
+      <div className="tabs">
         <Tabs
           value={activeTab}
           onChange={handleTabChange}

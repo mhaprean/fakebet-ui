@@ -12,24 +12,24 @@ const StyledPlayerList = styled('div')`
   flex-direction: column;
   width: 100%;
 
-  .Heading {
+  .heading {
     display: flex;
     background: ${(props) => props.theme.palette.background.paper};
     color: ${(props) => props.theme.palette.text.secondary};
     padding: 10px;
   }
 
-  .PlayerLink {
+  .player-link {
     text-decoration: none;
 
     &:nth-of-type(even) {
-      .Player {
+      .player {
         background: ${(props) => props.theme.palette.background.paper};
       }
     }
   }
 
-  .Player {
+  .player {
     display: flex;
     padding: 10px;
     align-items: center;
@@ -40,8 +40,8 @@ const StyledPlayerList = styled('div')`
       color: ${(props) => props.theme.palette.secondary.main};
     }
 
-    .PlayerName,
-    .Index {
+    .player-name,
+    .index {
       flex-shrink: 0;
     }
 
@@ -53,12 +53,12 @@ const StyledPlayerList = styled('div')`
       flex-shrink: 0;
     }
 
-    .Label {
+    .label {
       margin-left: auto;
       margin-right: 10px;
     }
 
-    .CurrentBalance {
+    .current-balance {
       flex-shrink: 0;
       text-align: center;
       width: 100px;
@@ -70,29 +70,29 @@ const StyledPlayerList = styled('div')`
 const PlayerList = ({ players }: IPropsPlayerList) => {
   return (
     <StyledPlayerList className="PlayerList">
-      <div className="Heading">
-        <Typography className="Index" noWrap variant="body2" style={{ marginRight: 'auto' }}>
+      <div className="heading">
+        <Typography className="index" noWrap variant="body2" style={{ marginRight: 'auto' }}>
           Player
         </Typography>
 
-        <Typography className="CurrentBalance" noWrap variant="subtitle2">
+        <Typography className="current-balance" noWrap variant="subtitle2">
           Current balance
         </Typography>
       </div>
       {players.map((player, idx) => (
-        <Link key={idx} to={`/players/${player.id}`} className="PlayerLink">
-          <div className="Player">
-            <Typography className="Index" noWrap variant="caption">
+        <Link key={idx} to={`/players/${player.id}`} className="player-link">
+          <div className="player">
+            <Typography className="index" noWrap variant="caption">
               {player.id}.
             </Typography>
 
             <img src={player.attributes.user.data.attributes.image} alt="" />
 
-            <Typography className="PlayerName" noWrap variant="subtitle1">
+            <Typography className="player-name" noWrap variant="subtitle1">
               {player.attributes.user.data.attributes.username}
             </Typography>
 
-            <Typography className="CurrentBalance" noWrap variant="subtitle2">
+            <Typography className="current-balance" noWrap variant="subtitle2">
               {player.attributes.current_balance} $
             </Typography>
           </div>

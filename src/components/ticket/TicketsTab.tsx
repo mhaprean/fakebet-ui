@@ -1,18 +1,17 @@
 import qs from 'qs';
 import { useState } from 'react';
-import { useGetTicketsQuery } from '../redux/features/strapiApi';
-import PageBreadcrumbs from '../components/PageBreadcrumbs';
-import TicketListLoading from '../components/loaders/TicketListLoading';
-import TicketList from '../components/ticket/TicketList';
-import { useAppSelector } from '../redux/hooks';
-import PagePagination from '../components/atoms/PagePagination';
-import TicketFilters from '../components/ticket/TicketFilters';
+import { useGetTicketsQuery } from '../../redux/features/strapiApi';
+import { useAppSelector } from '../../redux/hooks';
+import PagePagination from '../atoms/PagePagination';
+import TicketListLoading from '../loaders/TicketListLoading';
+import TicketFilters from './TicketFilters';
+import TicketList from './TicketList';
 
-interface IPropsTicketsPage {
-  myTickets?: boolean;
+interface IPropsTicketsTab {
+  userId?: number;
 }
 
-const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
+const TicketsTab = ({ userId = 0 }: IPropsTicketsTab) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState('20');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -21,8 +20,8 @@ const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
 
   const filters: any = {};
 
-  if (myTickets && authState.isAuth) {
-    filters.user = authState.user?.id;
+  if (userId) {
+    filters.user = userId;
   }
 
   if (statusFilter !== 'all') {
@@ -72,21 +71,8 @@ const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
     isError: isTicketsError,
   } = useGetTicketsQuery({ queryString: query });
 
-  const breadcrumbsArray = [
-    {
-      name: 'Home',
-      to: '/',
-    },
-    {
-      name: 'Tickets',
-      to: ``,
-    },
-  ];
-
   return (
     <div>
-      <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
-
       <TicketFilters
         status={statusFilter}
         onStatusChange={setStatusFilter}
@@ -111,4 +97,4 @@ const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
   );
 };
 
-export default TicketsPage;
+export default TicketsTab;
