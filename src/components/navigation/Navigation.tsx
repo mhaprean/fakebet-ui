@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Divider,
@@ -21,6 +22,7 @@ import {
   Search as SearchIcon,
   SettingsOutlined,
   MoreVert as MoreVertIcon,
+  AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -28,9 +30,10 @@ import MainSearch from '../search/MainSearch';
 import LoginRegister from '../auth/LoginRegister';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { useGetMyProfileQuery } from '../../redux/features/strapiApi';
-import AccountMenu from './AccountMenu';
 import { logout, setUser } from '../../redux/features/authSlice';
 import { setAppTheme } from '../../redux/features/settingsSlice';
+import AccountSidebar from './AccountSidebar';
+import FakebetLogo from '../atoms/FakebetLogo';
 
 const StyledSearchDrawer = styled(Drawer)`
   .MuiDrawer-paper {
@@ -50,17 +53,6 @@ const StyledNavigation = styled(AppBar)`
 
   border: none;
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
-
-
-  .logo-text {
-    font-size: 16px;
-    flex-shrink: 0;
-    color: ${(props) => props.theme.navigation.text};
-
-    span {
-      color: ${(props) => props.theme.palette.secondary.main};
-    }
-  }
 
   .MuiSvgIcon-root {
     color: ${(props) => props.theme.navigation.text};
@@ -111,10 +103,10 @@ const menuEntries: IMenuEntry[] = [
   //   name: 'Statistics',
   //   path: '/statistics',
   // },
-  // {
-  //   name: 'Players',
-  //   path: '/players',
-  // },
+  {
+    name: 'Players',
+    path: '/players',
+  },
   {
     name: 'Tickets',
     path: '/tickets',
@@ -127,6 +119,8 @@ interface IPropsNavigation {
 
 const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
   const [searchOpen, setSearchOpen] = useState(false);
+
+  const [accountOpen, setAccountOpen] = useState(false);
 
   const [activeTab, setActiveTab] = useState('/');
 
@@ -190,10 +184,7 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
 
           <Box className="logo" sx={{ width: { lg: '250px' } }}>
             <Link to="/">
-
-              <Typography className="logo-text" variant="h6" noWrap>
-                Fake<span>Bet</span>
-              </Typography>
+              <FakebetLogo />
             </Link>
           </Box>
         </Box>
@@ -216,27 +207,44 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
         )}
 
         <Box className="right-group">
-          {/* This is the modal that handles login/register */}
-          {!authState.isAuth && <LoginRegister />}
-
           <IconButton onClick={() => setSearchOpen(true)}>
             <SearchIcon sx={{ fontSize: '20px' }} />
           </IconButton>
 
           <IconButton onClick={toggleTheme}>
-            {themeName === 'dark' ? (
+            {themeName !== 'dark' ? (
               <DarkModeOutlined sx={{ fontSize: '20px' }} />
             ) : (
               <LightModeOutlined sx={{ fontSize: '20px' }} />
             )}
           </IconButton>
-          <IconButton>
-            <MoreVertIcon sx={{ fontSize: '20px' }} />
-          </IconButton>
 
-          {authState.isAuth && <AccountMenu />}
+          {/* This is the modal that handles login/register */}
+          {!authState.isAuth && !isMobile && <LoginRegister />}
+
+          <IconButton size="small" onClick={() => setAccountOpen(!accountOpen)}>
+            {authState.isAuth ? (
+              <Avatar sx={{ width: 32, height: 32 }} src={authState.user?.image}>
+                A
+              </Avatar>
+            ) : (
+              <MoreVertIcon sx={{ fontSize: '20px' }} />
+            )}
+          </IconButton>
         </Box>
       </Toolbar>
+
+      <Drawer
+        anchor={'right'}
+        open={accountOpen}
+        onClose={() => setAccountOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 250, backgroundImage: 'none' },
+        }}
+      >
+        <AccountSidebar onClose={() => setAccountOpen(false)} />
+        {/* <AccountSiderbar onThemeChange={changeTheme} isDarkTheme={currentTheme === 'MainDark'} onClose={() => setAccountOpen(false)} /> */}
+      </Drawer>
 
       <StyledSearchDrawer anchor={'top'} open={searchOpen} onClose={() => setSearchOpen(false)}>
         <MainSearch onClose={() => setSearchOpen(false)} />

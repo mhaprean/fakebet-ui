@@ -15,6 +15,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { igubetSoccerTopLeagues } from '../helpers/igubetTopLeagues';
 import { useGetBetableTournamentsQuery } from '../redux/features/igubetApi';
 import { IIgubetCategory, IIgutbetTournament } from '../redux/features/igubetTypes';
+import FakebetLogo from './atoms/FakebetLogo';
 import ImageWithFallback from './atoms/ImageWithFallback';
 import NavigationTabs from './navigation/NavigationTabs';
 import CategoryList from './sidebar/CategoryList';
@@ -116,7 +117,7 @@ const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSideba
         <>
           <Box className="title">
             <Link to={'/'}>
-              <Typography variant="h6">Fakebet UI</Typography>
+            <FakebetLogo />
             </Link>
           </Box>
           <Divider />

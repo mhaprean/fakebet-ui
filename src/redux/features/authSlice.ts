@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IStrapiUser } from './strapiApi';
+import { IStrapiAccount, IStrapiUser } from './strapiApi';
 
 type AuthState = {
   user: IStrapiUser | null;
   token: string | null;
   isAuth: boolean;
+  account: IStrapiAccount | null;
 };
 
 const initialState: AuthState = {
   user: null,
   token: null,
   isAuth: false,
+  account: null,
 };
 
 const authSlice = createSlice({
@@ -22,7 +24,7 @@ const authSlice = createSlice({
       state.isAuth = true;
       state.token = action.payload.access_token;
     },
-    setUser: (state, action: PayloadAction<{ user: IStrapiUser; }>) => {
+    setUser: (state, action: PayloadAction<{ user: IStrapiUser }>) => {
       state.user = action.payload.user;
     },
     logout: (state) => {

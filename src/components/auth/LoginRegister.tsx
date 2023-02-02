@@ -8,6 +8,10 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  List,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
   OutlinedInput,
   Slide,
   TextField,
@@ -22,13 +26,17 @@ import {
   Close as CloseIcon,
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon,
+  Person as PersonIcon,
+  PersonAdd as PersonAddIcon,
 } from '@mui/icons-material';
 import {
   useLoginMutation,
   useRegisterMutation,
+  useCreateAccountMutation,
 } from '../../redux/features/strapiApi';
 import { useAppDispatch } from '../../redux/hooks';
 import { loginUser } from '../../redux/features/authSlice';
+import classNames from 'classnames';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -46,6 +54,10 @@ const StyledLoginRegister = styled(Box)`
   .button-register {
     margin-right: 10px;
     padding: 5px 10px;
+  }
+
+  &.isSidebar {
+    flex-direction: column;
   }
 `;
 
@@ -104,7 +116,7 @@ const validateUsername = (username: string) => {
   return regex.test(username);
 };
 
-const LoginRegister = () => {
+const LoginRegister = ({ isSidebar = false }: { isSidebar?: boolean }) => {
   const [open, setOpen] = useState(false);
 
   const [isLoginMode, setLoginMode] = useState(true);
@@ -127,6 +139,8 @@ const LoginRegister = () => {
 
   const [loginStrapi, { isLoading: isLoginLoading, isSuccess: isSuccessLogin }] = useLoginMutation();
 
+  const [createAccount, createAccountResponse] = useCreateAccountMutation();
+
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -139,25 +153,31 @@ const LoginRegister = () => {
     }
 
     try {
+      const accImage = `/images/${randomIntFromInterval(1, 70)}.jpg`;
       const newUser = {
         username: values.username,
         email: values.email,
         password: values.password,
         preffered_theme: 'dark',
         current_balance: 10000,
-        image: `/images/${randomIntFromInterval(1, 70)}.jpg`,
+        image: accImage,
       };
 
       const res = await registerStrapi(newUser).unwrap();
 
       if (res && res.user && res.jwt) {
+        const createAcc = await createAccount({
+          user: res.user.id,
+          image: accImage,
+          user_id: res.user.id,
+        }).unwrap();
 
-        dispatch(loginUser({ user: res.user, access_token: res.jwt }));
+        if (createAcc) {
+          dispatch(loginUser({ user: res.user, access_token: res.jwt }));
+        }
 
         handleClose();
       }
-
-      handleClose();
     } catch (error: any) {
       if (error.status === 400) {
         console.log('!!!!!!! error here status 400 ', error);
@@ -226,29 +246,64 @@ const LoginRegister = () => {
   };
 
   return (
-    <StyledLoginRegister className="LoginRegister">
-      <Button
-        className="button-login"
-        variant="contained"
-        color="secondary"
-        onClick={() => {
-          resetFormState();
-          setLoginMode(true);
-        }}
-      >
-        Login
-      </Button>
-      <Button
-        className="button-register"
-        variant="outlined"
-        color="secondary"
-        onClick={() => {
-          resetFormState();
-          setLoginMode(false);
-        }}
-      >
-        Register
-      </Button>
+    <StyledLoginRegister className={classNames('LoginRegister', { isSidebar })}>
+      {!isSidebar ? (
+        <>
+          <Button
+            className="button-login"
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              resetFormState();
+              setLoginMode(true);
+            }}
+            startIcon={<PersonIcon />}
+          >
+            Login
+          </Button>
+          <Button
+            className="button-register"
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              resetFormState();
+              setLoginMode(false);
+            }}
+            startIcon={<PersonAddIcon />}
+          >
+            Register
+          </Button>
+        </>
+      ) : (
+        <>
+          <List sx={{ width: '100%' }}>
+            <MenuItem
+              onClick={() => {
+                resetFormState();
+                setLoginMode(true);
+              }}
+            >
+              <ListItemIcon>
+                <PersonIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Login</ListItemText>
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                resetFormState();
+                setLoginMode(false);
+              }}
+            >
+              <ListItemIcon>
+                <PersonAddIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>Register</ListItemText>
+            </MenuItem>
+          </List>
+        </>
+      )}
+
       <StyledDialog
         open={open}
         TransitionComponent={Transition}

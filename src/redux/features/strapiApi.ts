@@ -22,6 +22,18 @@ export interface IStrapiUser {
   image: string;
 }
 
+export interface IStrapiAccount {
+  current_balance: number;
+  bankruptcy: number;
+  user_id: number;
+  image: string;
+  winning_tickets: number;
+  pending_tickets: number;
+  losing_tickets: number;
+  preferred_theme: string;
+  user?: IStrapiUser;
+}
+
 interface IStrapiLocalError {
   status: number;
   name: string;
@@ -138,6 +150,8 @@ interface IStrapiTicketsResponse {
 
 export type IStrapiUserList = Pick<IStrapiUser, 'id' | 'current_balance' | 'username' | 'image'>[];
 
+interface ICreateAccountResponse {}
+
 export const strapi = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
@@ -198,6 +212,18 @@ export const strapi = createApi({
       },
     }),
 
+    createAccount: builder.mutation<ICreateAccountResponse, { user: number; user_id: number; image: string }>(
+      {
+        query(data) {
+          return {
+            url: `accounts`,
+            method: 'POST',
+            body: { data },
+          };
+        },
+      }
+    ),
+
     addCustomTicket: builder.mutation<IAddTicketResponse, IAddTicketPayload>({
       query: ({ betslip, user_id, current_balance }) => ({
         url: `custom-ticket`,
@@ -225,4 +251,5 @@ export const {
   useRegisterMutation,
   useAddCustomTicketMutation,
   useGetTicketsQuery,
+  useCreateAccountMutation,
 } = strapi;
