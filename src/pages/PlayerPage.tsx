@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import PlayerHeader from '../components/player/PlayerHeader';
+import PlayerStats from '../components/player/PlayerStats';
 import { useGetAccountQuery, useGetFilteredAccountsQuery } from '../redux/features/strapiApi';
 
 const PlayerPage = () => {
@@ -40,8 +41,8 @@ const PlayerPage = () => {
             onTabChange={setActiveTab}
             account={accountResponse.data.attributes}
           />
-          <h4>{accountResponse.data.attributes.pending_tickets}</h4>
-          <h4>{accountResponse.data.attributes.user.data.attributes.username}</h4>
+          {activeTab === 'stats' && <PlayerStats account={accountResponse.data.attributes} />}
+          {activeTab === 'tickets' && <div>tickets tab</div>}
         </>
       )}
     </div>
