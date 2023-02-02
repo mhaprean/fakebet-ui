@@ -8,6 +8,7 @@ import PlayerList from '../components/player/PlayerList';
 import PlayerListLoading from '../components/loaders/PlayerListLoading';
 import { useGetFilteredAccountsQuery } from '../redux/features/strapiApi';
 import FlexBetween from '../components/atoms/FlexBetween';
+import PagePagination from '../components/atoms/PagePagination';
 
 const PlayersPage = () => {
   const [page, setPage] = useState(1);
@@ -55,44 +56,35 @@ const PlayersPage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      <div className="Body">
-        <Box className="Filters" sx={{ display: 'flex' }}>
-          <FilterListIcon />
+      <Box className="Filters" sx={{ display: 'flex', alignItems: 'center' }}>
+        <FilterListIcon />
 
-          <DropdownList
-            value={perPage}
-            onChange={(newValue: string) => {
-              setPerPage(newValue);
-              setPage(1);
-            }}
-            items={[
-              { value: '10', label: 'Per page: 10' },
-              { value: '20', label: 'Per page: 20' },
-              { value: '30', label: 'Per page: 30' },
-            ]}
-          />
-        </Box>
+        <DropdownList
+          value={perPage}
+          onChange={(newValue: string) => {
+            setPerPage(newValue);
+            setPage(1);
+          }}
+          items={[
+            { value: '10', label: 'Per page: 10' },
+            { value: '20', label: 'Per page: 20' },
+            { value: '30', label: 'Per page: 30' },
+          ]}
+        />
+      </Box>
 
-        <FlexBetween className="players-pagination">
-          <Typography noWrap variant="body2">
-            Total: {filteredPlayersResponse?.meta.pagination.total || '0'}
-          </Typography>
+      <PagePagination
+        total={filteredPlayersResponse?.meta.pagination.total || 0}
+        totalPages={filteredPlayersResponse?.meta.pagination.pageCount || 1}
+        currentPage={page}
+        onPageChange={setPage}
+      />
 
-          <Pagination
-            count={filteredPlayersResponse?.meta.pagination.pageCount || 1}
-            siblingCount={0}
-            page={filteredPlayersResponse?.meta.pagination.page || 1}
-            onChange={handlePageChange}
-            color="primary"
-          />
-        </FlexBetween>
+      {isFilteredPlayersFetching && <PlayerListLoading playersCount={parseInt(perPage)} />}
 
-        {isFilteredPlayersFetching && <PlayerListLoading playersCount={parseInt(perPage)} />}
-
-        {!isFilteredPlayersFetching && filteredPlayersResponse && (
-          <PlayerList players={filteredPlayersResponse.data || []} />
-        )}
-      </div>
+      {!isFilteredPlayersFetching && filteredPlayersResponse && (
+        <PlayerList players={filteredPlayersResponse.data || []} />
+      )}
     </div>
   );
 };

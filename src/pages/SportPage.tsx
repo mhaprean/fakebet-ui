@@ -2,6 +2,7 @@ import { Button, Pagination, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FlexBetween from '../components/atoms/FlexBetween';
+import PagePagination from '../components/atoms/PagePagination';
 import LeagueHeader from '../components/league/LeagueHeader';
 import SportPageLoading from '../components/loaders/SportPageLoading';
 import Match from '../components/match/Match';
@@ -58,19 +59,12 @@ const SportPage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      <FlexBetween className="pagination">
-        <Typography noWrap variant="h5">
-          Total: {matchListResponse?.pagination.total}
-        </Typography>
-
-        <Pagination
-          count={matchListResponse?.pagination.last_page || 1}
-          siblingCount={1}
-          page={matchListResponse?.pagination.page || 1}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </FlexBetween>
+      <PagePagination
+        total={matchListResponse?.pagination.total || 0}
+        totalPages={matchListResponse?.pagination.last_page || 1}
+        currentPage={page}
+        onPageChange={setPage}
+      />
 
       {isSuccess &&
         !isFetching &&

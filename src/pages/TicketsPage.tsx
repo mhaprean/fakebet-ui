@@ -13,6 +13,7 @@ import { Pagination, Typography } from '@mui/material';
 import TicketListLoading from '../components/loaders/TicketListLoading';
 import TicketList from '../components/ticket/TicketList';
 import { useAppSelector } from '../redux/hooks';
+import PagePagination from '../components/atoms/PagePagination';
 
 const StyledTicketPage = styled('div')`
   .filters,
@@ -140,19 +141,13 @@ const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
           ]}
         />
       </div>
-      <FlexBetween className="pagination">
-        <Typography noWrap variant="body2">
-          Total: {ticketsResponse?.meta.pagination.total}
-        </Typography>
 
-        <Pagination
-          count={ticketsResponse?.meta.pagination.pageCount || 1}
-          siblingCount={0}
-          page={ticketsResponse?.meta.pagination.page || 1}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </FlexBetween>
+      <PagePagination
+        total={ticketsResponse?.meta.pagination.total || 0}
+        totalPages={ticketsResponse?.meta.pagination.pageCount || 1}
+        currentPage={page}
+        onPageChange={setPage}
+      />
 
       {isFetching && <TicketListLoading ticketsNr={12} />}
 

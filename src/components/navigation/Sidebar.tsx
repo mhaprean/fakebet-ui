@@ -12,16 +12,15 @@ import {
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { igubetSoccerTopLeagues } from '../helpers/igubetTopLeagues';
-import { useGetBetableTournamentsQuery } from '../redux/features/igubetApi';
-import { IIgubetCategory, IIgutbetTournament } from '../redux/features/igubetTypes';
-import FakebetLogo from './atoms/FakebetLogo';
-import ImageWithFallback from './atoms/ImageWithFallback';
-import NavigationTabs from './navigation/NavigationTabs';
-import CategoryList from './sidebar/CategoryList';
+import { igubetSoccerTopLeagues } from '../../helpers/igubetTopLeagues';
+import { useGetBetableTournamentsQuery } from '../../redux/features/igubetApi';
+import { IIgubetCategory, IIgutbetTournament } from '../../redux/features/igubetTypes';
+import FakebetLogo from '../atoms/FakebetLogo';
+import ImageWithFallback from '../atoms/ImageWithFallback';
+import NavigationTabs from './NavigationTabs';
+import CategoryList from '../sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`
-  /* width: 250px; */
   width: 100%;
   height: 100%;
 
