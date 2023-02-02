@@ -1,5 +1,6 @@
 import { Logout } from '@mui/icons-material';
 import {
+  Avatar,
   IconButton,
   List,
   ListItem,
@@ -7,6 +8,8 @@ import {
   ListItemIcon,
   ListItemText,
   MenuItem,
+  Paper,
+  Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { logout } from '../../redux/features/authSlice';
@@ -22,6 +25,22 @@ const StyledAccountSidebar = styled('div')`
     padding: 10px;
     /* padding-right: 30px; */
   }
+
+  .welcome {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border: none;
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border: 3px solid ${(props) => props.theme.palette.primary.light};
+      margin-right: 10px;
+    }
+  }
+
+
 `;
 
 interface IPropsAccountSidebar {
@@ -49,6 +68,22 @@ const AccountSidebar = ({ onClose = () => {} }: IPropsAccountSidebar) => {
           <CloseIcon />
         </IconButton>
       </FlexBetween>
+
+      {authState.isAuth && (
+        <Paper className="welcome" variant="outlined" square>
+          {authState.user?.account && <Avatar className="user-avatar" src={authState.user.image} />}
+
+          <div className="User">
+            <Typography noWrap variant="subtitle1">
+              {authState.user?.username}
+            </Typography>
+
+            <Typography noWrap variant="subtitle2">
+              {authState.user?.account && authState.user?.account.current_balance + ' $'}
+            </Typography>
+          </div>
+        </Paper>
+      )}
 
       {authState.isAuth ? (
         <MenuItem onClick={handleLogout}>

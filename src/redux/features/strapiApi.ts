@@ -27,7 +27,6 @@ export interface IStrapiAccount {
   winning_tickets: number;
   pending_tickets: number;
   losing_tickets: number;
-  preferred_theme: string;
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -148,10 +147,15 @@ interface IStrapiTicketsResponse {
 
 export type IStrapiUserList = Pick<IStrapiUser, 'id' | 'username' | 'image'>[];
 
-interface ICreateAccountResponse {}
+interface IAccountResponse {
+  data: {
+    id: number;
+    attributes: IAccountAttributes;
+  };
+  meta: any;
+}
 
-
-interface IAccountAttributes extends Omit<IStrapiAccount, 'id'> {
+export interface IAccountAttributes extends Omit<IStrapiAccount, 'id'> {
   user: {
     data: {
       id: number;
@@ -209,6 +213,17 @@ export const strapi = createApi({
       providesTags: ['Account'],
     }),
 
+    getAccount: builder.query<IAccountResponse, { accountId: string }>({
+      query: ({ accountId }) => {
+        return {
+          url: `accounts/${accountId}`,
+          params: {
+            populate: 'user',
+          },
+        };
+      },
+    }),
+
     getUserById: builder.query<IStrapiUser, { userId: number }>({
       query: ({ userId }) => `users/${userId}`,
     }),
@@ -237,7 +252,7 @@ export const strapi = createApi({
       },
     }),
 
-    createAccount: builder.mutation<ICreateAccountResponse, { user: number; user_id: number }>({
+    createAccount: builder.mutation<IAccountResponse, { user: number; user_id: number }>({
       query(data) {
         return {
           url: `accounts`,
@@ -245,6 +260,7 @@ export const strapi = createApi({
           body: { data },
         };
       },
+      invalidatesTags: ['Account'],
     }),
 
     addCustomTicket: builder.mutation<IAddTicketResponse, IAddTicketPayload>({
@@ -284,4 +300,5 @@ export const {
   useGetTicketsQuery,
   useCreateAccountMutation,
   useGetFilteredAccountsQuery,
+  useGetAccountQuery,
 } = strapi;

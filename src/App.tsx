@@ -8,6 +8,7 @@ import CategoryPage from './pages/CategoryPage';
 import Homepage from './pages/Homepage';
 import LeaguePage from './pages/LeaguePage';
 import MatchPage from './pages/MatchPage';
+import PlayerPage from './pages/PlayerPage';
 import PlayersPage from './pages/PlayersPage';
 import SearchPage from './pages/SearchPage';
 import SportPage from './pages/SportPage';
@@ -45,7 +46,7 @@ const App = () => {
               <Route path="/search" element={<SearchPage />} />
 
               <Route path="/players" element={<PlayersPage />} />
-
+              <Route path="/players/:id" element={<PlayerPage />} />
 
               <Route path="/tickets" element={<TicketsPage />} />
               <Route path="/my-tickets" element={<TicketsPage myTickets />} />

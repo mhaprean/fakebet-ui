@@ -135,6 +135,13 @@ const formatDateForTicketEvent = (day: string) => {
   return date;
 };
 
+const formatDateForPlayerHeader = (day: string) => {
+  const date = moment(day).format('DD.MM.YYYY');
+
+  return date;
+
+}
+
 export const timeFormatService = {
   formatMatchTime,
   formatMatchDate,
@@ -152,4 +159,5 @@ export const timeFormatService = {
   formatDateForTicketEvent,
   isPastDate,
   formatDateForBetslipEvent,
+  formatDateForPlayerHeader
 };
