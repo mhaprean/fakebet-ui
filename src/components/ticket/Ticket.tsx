@@ -210,7 +210,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
           )}
 
           {!myTicket && (
-            <Link className="user-chip" to={`/players/${ticket.attributes.user.data.id}`}>
+            <Link className="user-chip" to={`/players/${ticket.attributes.user.data.attributes.account.data.id}`}>
               <Chip
                 className="match-chip"
                 size="small"

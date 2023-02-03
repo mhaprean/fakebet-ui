@@ -44,6 +44,11 @@ const TicketsPage = ({ myTickets = false }: IPropsTicketsPage) => {
       populate: {
         user: {
           fields: ['username', 'email'],
+          populate: {
+            account: {
+              fields: ['id'],
+            },
+          },
         },
         bets: {
           fields: '*',

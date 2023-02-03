@@ -106,6 +106,14 @@ export interface IStrapiBet {
   };
 }
 
+
+interface IStrapiUserWithAccount extends Pick<IStrapiUser, 'username'> {
+  account: {
+    data: {
+      id: number;
+    }
+  };
+}
 export interface IStrapiTicket {
   id: number;
   attributes: {
@@ -127,7 +135,7 @@ export interface IStrapiTicket {
     user: {
       data: {
         id: number;
-        attributes: Pick<IStrapiUser, 'username'>;
+        attributes: IStrapiUserWithAccount;
       };
     };
   };

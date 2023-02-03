@@ -43,6 +43,11 @@ const TicketsTab = ({ userId = 0 }: IPropsTicketsTab) => {
       populate: {
         user: {
           fields: ['username', 'email'],
+          populate: {
+            account: {
+              fields: ['id'],
+            },
+          },
         },
         bets: {
           fields: '*',
