@@ -43,6 +43,10 @@ const StyledTicket = styled('div')`
   .user-chip {
     margin-left: auto;
     cursor: pointer;
+
+    .match-chip {
+      cursor: pointer;
+    }
   }
   .ticket-subheader {
     padding: 5px;
@@ -196,7 +200,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
               className="match-chip Win"
               size="small"
               icon={<CheckCircleOutlineIcon fontSize="small" />}
-              label={'Win'}
+              label={'Won'}
             />
           )}
 
@@ -205,7 +209,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
               className="match-chip Lost"
               size="small"
               icon={<HighlightOffIcon fontSize="small" />}
-              label={'Lost'}
+              label={'Lose'}
             />
           )}
 
