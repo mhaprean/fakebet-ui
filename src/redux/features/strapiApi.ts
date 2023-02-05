@@ -106,12 +106,11 @@ export interface IStrapiBet {
   };
 }
 
-
 interface IStrapiUserWithAccount extends Pick<IStrapiUser, 'username'> {
   account: {
     data: {
       id: number;
-    }
+    };
   };
 }
 export interface IStrapiTicket {
@@ -189,11 +188,14 @@ export interface IStrapiAccountsResponse {
   };
 }
 
+const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:1337';
+
+const BASE_URL = `${SERVER_URL}/api/`;
+
 export const strapi = createApi({
   reducerPath: 'strapi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:1337/api/',
-    // baseUrl: 'https://fakebet-strapi.onrender.com/api/',
+    baseUrl: BASE_URL,
 
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
