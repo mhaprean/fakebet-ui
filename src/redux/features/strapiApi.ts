@@ -188,6 +188,52 @@ export interface IStrapiAccountsResponse {
   };
 }
 
+export interface IStrapiMatch {
+  igu_id: string;
+  start_time: string;
+  validation_date: string;
+  slug: string;
+  home_team: string;
+  away_team: string;
+  home_logo: string;
+  away_logo: string;
+  tournament_id: number;
+  tournament_name: string;
+  sport_key: string;
+  category_id: number;
+  category_name: string;
+  category_slug: string;
+  total_score: ITotalScore;
+  period_score: IPeriodScore[];
+  is_validated: boolean;
+  createdAt: string;
+  updatedAt: string;
+  total_tickets: number;
+  validation_postponed: number;
+  sport_radar_id: string;
+  bets: {
+    data: IStrapiBet[];
+  };
+  tickets: {
+    data: IStrapiTicket[];
+  };
+}
+
+export interface IStrapiMatchesResponse {
+  data: {
+    id: number;
+    attributes: IStrapiMatch;
+  }[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || 'http://localhost:1337';
 
 const BASE_URL = `${SERVER_URL}/api/`;
@@ -297,6 +343,14 @@ export const strapi = createApi({
         };
       },
     }),
+
+    getFilteredMatches: builder.query<IStrapiMatchesResponse, { queryString?: string }>({
+      query: ({ queryString }) => {
+        return {
+          url: `matches?${queryString}`,
+        };
+      },
+    }),
   }),
 });
 
@@ -311,4 +365,5 @@ export const {
   useCreateAccountMutation,
   useGetFilteredAccountsQuery,
   useGetAccountQuery,
+  useGetFilteredMatchesQuery,
 } = strapi;
