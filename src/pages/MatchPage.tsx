@@ -7,6 +7,7 @@ import Market from '../components/match/Market';
 import MarketOutcomes from '../components/match/MarketOutcomes';
 import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
+import ScrollToTop from '../hooks/ScrollToTop';
 import { useGetIguMatchesQuery, useGetIguMatchMarketsQuery } from '../redux/features/igubetApi';
 import { IgubetMatchPeriods, IIgubetMarket, IIgubetMatch } from '../redux/features/igubetTypes';
 import { transformIgubetMarkets } from '../services/igubetTransformer';
@@ -129,6 +130,7 @@ const MatchPage = () => {
 
   return (
     <StyledMatchPage className="MatchPage">
+      <ScrollToTop />
       {match && <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />}
 
       {isMatchListLoading && <MatchPageLoading />}
