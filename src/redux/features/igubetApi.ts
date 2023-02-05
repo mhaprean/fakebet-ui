@@ -58,10 +58,13 @@ export interface IIgubetCategoryWithTournaments extends IIgubetCategory {
   tournaments: Omit<IIgutbetTournament, 'category'>[];
 }
 
+
+const IGU_CORS_PREFIX_URL = import.meta.env.VITE_CORS_PREFIX_URL || '';
+
 export const igubetApi = createApi({
   reducerPath: 'igubet_api',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://igubet.com/api/v2/',
+    baseUrl: IGU_CORS_PREFIX_URL + 'https://igubet.com/api/v2/',
   }),
   endpoints: (builder) => ({
     getIguSports: builder.query<ISportsResponse, { sport_type?: string; limit?: number }>({
