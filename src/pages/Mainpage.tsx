@@ -10,7 +10,7 @@ import PagePagination from '../components/atoms/PagePagination';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import MatchMainListLoading from '../components/loaders/MatchMainListLoading';
 
-const Homepage = () => {
+const Mainpage = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState('20');
   const [sportFilter, setSportFilter] = useState('all');
@@ -53,7 +53,7 @@ const Homepage = () => {
       to: '/',
     },
     {
-      name: 'Homepage',
+      name: 'Main matches',
       to: ``,
     },
   ];
@@ -130,4 +130,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Mainpage;
