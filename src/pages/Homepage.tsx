@@ -26,7 +26,7 @@ const Homepage = () => {
 
   const matchListQuery = qs.stringify(
     {
-      sort: ['validation_date:desc'],
+      sort: ['validation_date:asc'],
       filters: filters,
       populate: '*',
       pagination: {
