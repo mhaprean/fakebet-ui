@@ -1,6 +1,6 @@
 import { Chip, Divider, IconButton, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { IStrapiMatch } from '../../redux/features/strapiApi';
+import { IStrapiBet, IStrapiMatch } from '../../redux/features/strapiApi';
 
 import {
   AccessTime as AccessTimeIcon,
@@ -72,7 +72,6 @@ const StyledMatchMain = styled(Paper)`
           font-size: 18px;
           margin-left: 4px;
         }
-
       }
     }
   }
@@ -133,9 +132,73 @@ const StyledMatchMain = styled(Paper)`
     padding-left: 10px;
     font-weight: ${(props) => props.theme.typography.fontWeightMedium};
   }
+
+  .Bet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .Left,
+    .Right {
+      display: flex;
+      align-items: center;
+
+      .OddValue {
+        color: ${(props) => props.theme.palette.text.secondary};
+        margin-left: 10px;
+
+        &.isWin {
+          color: ${(props) => props.theme.palette.success.main};
+        }
+        &.isLost {
+          color: ${(props) => props.theme.palette.error.main};
+        }
+      }
+    }
+  }
 `;
 
+interface IGroupedBet {
+  bet: IStrapiBet;
+  betKey: string;
+  total: number;
+}
+
 const MatchMain = ({ match }: IPropsMatchMain) => {
+  const compactMatchBets = (bets: IStrapiBet[]) => {
+    const results: { [key: string]: IGroupedBet } = {};
+
+    bets.forEach((bet, idx) => {
+      const betKey = `${bet.attributes.outcome_name}-${bet.attributes.outcome_id}`;
+
+      const existingBet = results[betKey];
+
+      if (!existingBet) {
+        results[betKey] = {
+          bet: bet,
+          betKey: betKey,
+          total: 1,
+        };
+      } else {
+        results[betKey] = {
+          ...existingBet,
+          total: existingBet.total + 1,
+        };
+      }
+    });
+
+    const sortableBets = [];
+
+    for (const objKey in results) {
+      sortableBets.push(results[objKey]);
+    }
+
+    sortableBets.sort((a, b) => b.total - a.total);
+
+    return sortableBets;
+  };
+
   return (
     <StyledMatchMain className="MatchMain" variant="outlined">
       <div className="Top">
@@ -235,6 +298,51 @@ const MatchMain = ({ match }: IPropsMatchMain) => {
         <Typography noWrap variant="subtitle2">
           {match.tickets?.data.length === 1 ? '1 ticket' : match.tickets?.data.length + ' tickets'}
         </Typography>
+      </div>
+
+      <div className="Footer">
+        {compactMatchBets(match?.bets?.data || [])
+          .slice(0, 3)
+          .map((groupedBet, idx) => {
+            const bet = groupedBet.bet;
+
+            return (
+              <div key={idx} className="Bet">
+                {/* {bet.id} */}
+                <div className="Left">
+                  {groupedBet.total > 1 && <Typography variant="caption">({groupedBet.total}) </Typography>}
+                  <Typography variant="caption">
+                    {bet.attributes.market_name}
+                  </Typography>
+                </div>
+                {/* {bet.attributes.period_id} */}
+                <div className="Right">
+                  <Typography noWrap variant="subtitle2">
+                    {bet.attributes.outcome_name}
+                  </Typography>
+
+                  <Typography
+                    className={classNames('OddValue', {
+                      isWin: bet.attributes.is_validated && bet.attributes.is_winner,
+                      isLost: bet.attributes.is_validated && !bet.attributes.is_winner,
+                    })}
+                    noWrap
+                    variant="subtitle2"
+                  >
+                    @ {parseFloat(bet.attributes.outcome_odds + '').toFixed(2)}
+                  </Typography>
+                </div>
+              </div>
+            );
+          })}
+
+        {match.bets?.data && match.bets.data.length > 3 && (
+          <div className="Bet">
+            <Typography noWrap variant="subtitle1">
+              ...
+            </Typography>
+          </div>
+        )}
       </div>
     </StyledMatchMain>
   );
