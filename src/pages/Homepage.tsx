@@ -12,6 +12,7 @@ import { FilterList as FilterListIcon } from '@mui/icons-material';
 import DropdownList from '../components/atoms/DropdownList';
 import PagePagination from '../components/atoms/PagePagination';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
+import MatchMainListLoading from '../components/loaders/MatchMainListLoading';
 
 const Homepage = () => {
   const [page, setPage] = useState(1);
@@ -117,6 +118,10 @@ const Homepage = () => {
         currentPage={page}
         onPageChange={setPage}
       />
+
+      {isMatchesFetching && <MatchMainListLoading matchNr={10} />}
+
+      {isMatchesError && <div>error fetching data</div>}
 
       {!isMatchesFetching && !isMatchesLoading && filteredMatches?.data && (
         <Masonry columns={{ xs: 1, sm: 2, xl: 3 }} spacing={1}>
