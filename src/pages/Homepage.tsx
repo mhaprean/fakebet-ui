@@ -61,14 +61,15 @@ const Homepage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      <PagePagination
-        total={filteredMatches?.meta.pagination.total || 0}
-        totalPages={filteredMatches?.meta.pagination.pageCount || 1}
-        currentPage={page}
-        onPageChange={setPage}
-      />
-
-      {isMatchesFetching && <MatchMainListLoading matchNr={10} />}
+      {isMatchesFetching && (
+        <>
+          {' '}
+          <Typography variant="h4" sx={{ marginBottom: '20px' }}>
+            Loading:
+          </Typography>
+          <MatchMainListLoading matchNr={10} />
+        </>
+      )}
 
       {isMatchesError && <div>error fetching data. refresh the page or try again later.</div>}
 
