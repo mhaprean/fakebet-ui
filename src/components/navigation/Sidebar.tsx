@@ -159,7 +159,7 @@ const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSideba
         {bettableCategories && (
           <>
             <Box className="title">
-              <Typography variant="h6">All Countries Igu</Typography>
+              <Typography variant="h6">All Countries</Typography>
             </Box>
 
             <CategoryList categories={bettableCategories} />

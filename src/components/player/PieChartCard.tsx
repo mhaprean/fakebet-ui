@@ -74,7 +74,7 @@ const PieChartCard = ({
       <div className="PieLabels">
         <div className="Label">
           <Typography className="Index Win" noWrap variant="caption">
-            Win:
+            Won:
           </Typography>
           <Typography noWrap variant="subtitle2">
             {winning_tickets}
@@ -92,7 +92,7 @@ const PieChartCard = ({
 
         <div className="Label">
           <Typography className="Index Lost" noWrap variant="caption">
-            Lost:
+            Lose:
           </Typography>
           <Typography noWrap variant="subtitle2">
             {lose_tickets}
