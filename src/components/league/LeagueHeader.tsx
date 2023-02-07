@@ -17,25 +17,35 @@ const StyledLeagueHeader = styled(Paper)`
   box-shadow: none;
   border: 1px solid ${(props) => props.theme.palette.divider};
 
-  background: ${props => props.theme.navigation.light};
+  background: ${(props) => props.theme.navigation.light};
 
   .league {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+    overflow: hidden;
 
     a {
       line-height: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
+  .MuiTypography-root {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .league-name {
-    font-weight: ${props => props.theme.typography.fontWeightMedium};
+    font-weight: ${(props) => props.theme.typography.fontWeightMedium};
   }
 
   .league-country {
-    color: ${props => props.theme.palette.text.secondary};
-    font-weight: ${props => props.theme.typography.fontWeightMedium};
+    color: ${(props) => props.theme.palette.text.secondary};
+    font-weight: ${(props) => props.theme.typography.fontWeightMedium};
   }
 
   .league-link {
@@ -51,7 +61,10 @@ const StyledLeagueHeader = styled(Paper)`
 const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
   return (
     <StyledLeagueHeader className="LeagueHeader" variant="outlined">
-      <ImageWithFallback image={`https://cdn.oddspedia.com/images/categories/${tournament.category.slug}.svg`} type="category" />
+      <ImageWithFallback
+        image={`https://cdn.oddspedia.com/images/categories/${tournament.category.slug}.svg`}
+        type="category"
+      />
 
       <div className="league">
         <Link
@@ -67,7 +80,8 @@ const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
           </Typography>
         </Link>
       </div>
-      <Link className='league-link'
+      <Link
+        className="league-link"
         to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
       >
         <IconButton>
