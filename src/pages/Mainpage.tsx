@@ -91,7 +91,7 @@ const Mainpage = () => {
           ]}
         />
 
-        <DropdownList
+        {/* <DropdownList
           value={sportFilter}
           onChange={(newValue: string) => {
             setSportFilter(newValue);
@@ -105,7 +105,7 @@ const Mainpage = () => {
             { value: 'tennis', label: 'Tennis' },
             { value: 'handball', label: 'Handball' },
           ]}
-        />
+        /> */}
       </Box>
 
       <PagePagination
