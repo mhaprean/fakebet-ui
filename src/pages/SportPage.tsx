@@ -1,6 +1,7 @@
-import { Button, Pagination, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import DatepickerButton from '../components/atoms/DatepickerButton';
+import DropdownList from '../components/atoms/DropdownList';
 import FlexBetween from '../components/atoms/FlexBetween';
 import PagePagination from '../components/atoms/PagePagination';
 import LeagueHeader from '../components/league/LeagueHeader';
@@ -14,11 +15,19 @@ import { timeFormatService } from '../services/timeFormaterService';
 const SportPage = () => {
   const { sport } = useParams();
 
+  const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [page, setPage] = useState(1);
+
+  const [day, setDay] = useState(searchParams.get('day') || new Date().toISOString());
+
+  const [sportFilter, setSportFilter] = useState(sport || 'soccer');
 
   const iguSport = igubetSports.find((sp) => sp.key === sport);
 
-  const dates = timeFormatService.getStartEnd(0);
+  const dates = timeFormatService.getStartEndDate(day);
 
   useEffect(() => {
     setPage(1);
@@ -51,13 +60,38 @@ const SportPage = () => {
     },
   ];
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
+  const sportList = igubetSports.map((sport) => {
+    return {
+      value: sport.key,
+      label: sport.name,
+    };
+  });
 
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
+
+      <FlexBetween>
+        <DropdownList
+          value={sportFilter}
+          onChange={(newValue: string) => {
+            setSportFilter(newValue);
+            setPage(1);
+            navigate(`/sports/${newValue}`);
+          }}
+          items={sportList}
+        />
+
+        <DatepickerButton
+          selectedDate={day}
+          onChangeDate={(newDate) => {
+            console.log('new date: ', newDate);
+            setPage(1);
+            setDay(newDate);
+            setSearchParams({ day: timeFormatService.formatDateForUrl(newDate) });
+          }}
+        />
+      </FlexBetween>
 
       <PagePagination
         total={matchListResponse?.pagination.total || 0}

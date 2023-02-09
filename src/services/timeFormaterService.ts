@@ -1,4 +1,5 @@
 import moment from 'moment';
+import 'moment-timezone';
 import { IOddspediaMatch } from '../redux/features/oddspediaTypes';
 
 const isToday = (day: string) => {
@@ -123,6 +124,39 @@ const getStartEnd = (daysOffset = 2) => {
   };
 };
 
+/**
+ *
+ * @param day - string
+ * @returns 2 strings, start_time and end_time, that we are going to use for the API requests
+ *
+ */
+const getStartEndDate = (day?: string) => {
+  const date = day ? moment(day) : moment();
+
+  const start = date.startOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
+  const end = date.endOf('day').format('YYYY-MM-DDTHH:mm:ss[Z]');
+
+  const zone = moment.tz.guess();
+
+  const offset = moment().tz(zone).utcOffset();
+
+  let formatedStart;
+  let formatedEnd;
+
+  if (offset < 0) {
+    formatedStart = moment.utc(start).add(Math.abs(offset), 'minutes').format('YYYY-MM-DDTHH:mm:ss[Z]');
+    formatedEnd = moment.utc(end).add(Math.abs(offset), 'minutes').format('YYYY-MM-DDTHH:mm:ss[Z]');
+  } else {
+    formatedStart = moment.utc(start).subtract(offset, 'minutes').format('YYYY-MM-DDTHH:mm:ss[Z]');
+    formatedEnd = moment.utc(end).subtract(offset, 'minutes').format('YYYY-MM-DDTHH:mm:ss[Z]');
+  }
+
+  return {
+    start: formatedStart,
+    end: formatedEnd,
+  };
+};
+
 const formatDateForTicket = (day: string) => {
   const date = moment(day).format('DD.MM HH:mm');
 
@@ -139,8 +173,13 @@ const formatDateForPlayerHeader = (day: string) => {
   const date = moment(day).format('DD.MM.YYYY');
 
   return date;
+};
 
-}
+const formatDateForUrl = (day: string) => {
+  const date = moment(day).format('YYYY-MM-DD');
+
+  return date;
+};
 
 export const timeFormatService = {
   formatMatchTime,
@@ -159,5 +198,7 @@ export const timeFormatService = {
   formatDateForTicketEvent,
   isPastDate,
   formatDateForBetslipEvent,
-  formatDateForPlayerHeader
+  formatDateForPlayerHeader,
+  formatDateForUrl,
+  getStartEndDate,
 };

@@ -120,6 +120,7 @@ const StyledMatch = styled(Paper)`
 
   .more {
     padding: 0 5px;
+    white-space: nowrap;
   }
 
   .time {

@@ -93,7 +93,7 @@ const Layout = () => {
 
         <Box sx={{ flexGrow: 1, width: { xs: '100%', lg: `calc(100% - ${250}px)` } }}>
           <Box className="page-content">
-            <SportNavigation />
+            {/* <SportNavigation /> */}
             <Outlet />
           </Box>
         </Box>
