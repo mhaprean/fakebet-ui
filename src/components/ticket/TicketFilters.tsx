@@ -8,6 +8,7 @@ const StyledTicketFilters = styled('div')`
   width: 100%;
   overflow: hidden;
   margin-bottom: 10px;
+  margin-top: 10px;
   flex-wrap: wrap;
 `;
 

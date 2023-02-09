@@ -42,7 +42,7 @@ const SportGroup = ({ sport, soccerLimit = 20, sportLimit = 10 }: IPropsSportGro
           <MatchList matches={matchListResponse.data} />
           <Box sx={{ marginTop: '10px', marginBottom: '50px' }}>
             <Link to={`/sports/${sport.key}`}>
-              <Button>Show more</Button>
+              <Button sx={{ textTransform: 'initial' }}>Show more</Button>
             </Link>
           </Box>
         </React.Fragment>

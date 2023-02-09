@@ -1,6 +1,6 @@
 import { useCountdown } from '../../hooks/useCountdown';
 import { styled } from '@mui/material/styles';
-import { Typography } from '@mui/material';
+import { Tab, Tabs, Typography } from '@mui/material';
 import classNames from 'classnames';
 import { timeFormatService } from '../../services/timeFormaterService';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';
@@ -8,6 +8,8 @@ import ImageWithFallback from '../atoms/ImageWithFallback';
 
 interface IPropsMatchPageHeader {
   match: IIgubetMatch | null;
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
 }
 
 const StyledMatchPageHeader = styled('div')`
@@ -123,7 +125,7 @@ const StyledMatchPageHeader = styled('div')`
   }
 `;
 
-const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
+const MatchPageHeader = ({ match, activeTab, onTabChange = () => {} }: IPropsMatchPageHeader) => {
   const targetDate = match ? match.start_time : '';
 
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
@@ -131,6 +133,10 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
   if (match === null) {
     return <></>;
   }
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    onTabChange(newValue);
+  };
 
   return (
     <StyledMatchPageHeader className="MatchPageHeader">
@@ -190,6 +196,17 @@ const MatchPageHeader = ({ match }: IPropsMatchPageHeader) => {
           </div>
         </div>
       </div>
+
+      <Tabs
+        value={activeTab}
+        onChange={handleTabChange}
+        indicatorColor="secondary"
+        textColor="inherit"
+        variant="scrollable"
+      >
+        <Tab label="Odds" value="odds" />
+        <Tab label="Tickets" value="tickets" />
+      </Tabs>
     </StyledMatchPageHeader>
   );
 };

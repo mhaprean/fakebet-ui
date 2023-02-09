@@ -78,6 +78,7 @@ const SportPage = () => {
           onChange={(newValue: string) => {
             setSportFilter(newValue);
             setPage(1);
+            setDay(new Date().toISOString());
             navigate(`/sports/${newValue}`);
           }}
           items={sportList}
