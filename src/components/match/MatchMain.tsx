@@ -8,7 +8,7 @@ import {
   ShowChart as ShowChartIcon,
 } from '@mui/icons-material';
 import { timeFormatService } from '../../services/timeFormaterService';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 import { Link } from 'react-router-dom';
 import ImageWithFallback from '../atoms/ImageWithFallback';
 import classNames from 'classnames';
@@ -71,6 +71,9 @@ const StyledMatchMain = styled(Paper)`
         svg {
           font-size: 18px;
           margin-left: 4px;
+        }
+        &.sport-chip {
+          cursor: pointer;
         }
       }
     }
@@ -209,12 +212,14 @@ const MatchMain = ({ match }: IPropsMatchMain) => {
             icon={<AccessTimeIcon />}
             label={timeFormatService.formatDateForMatchSearch(match.start_time || '')}
           />
-          <Chip
-            className="MatchChip"
-            size="small"
-            icon={<SportIcon sportSlug={match.sport_key} />}
-            label={match.sport_key}
-          />
+          <Link to={`/sports/${match.sport_key}`}>
+            <Chip
+              className="MatchChip sport-chip"
+              size="small"
+              icon={<SportIcon sportSlug={match.sport_key} />}
+              label={match.sport_key}
+            />
+          </Link>
         </div>
         <div className="FavoriteBtn">
           <Link
@@ -311,9 +316,7 @@ const MatchMain = ({ match }: IPropsMatchMain) => {
                 {/* {bet.id} */}
                 <div className="Left">
                   {groupedBet.total > 1 && <Typography variant="caption">({groupedBet.total}) </Typography>}
-                  <Typography variant="caption">
-                    {bet.attributes.market_name}
-                  </Typography>
+                  <Typography variant="caption">{bet.attributes.market_name}</Typography>
                 </div>
                 {/* {bet.attributes.period_id} */}
                 <div className="Right">
