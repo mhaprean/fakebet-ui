@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import qs from 'qs';
 import { useState } from 'react';
 import { useGetTicketsQuery } from '../../redux/features/strapiApi';
@@ -104,6 +105,10 @@ const TicketsTab = ({ userId = 0, matchId = 0 }: IPropsTicketsTab) => {
       {isFetching && <TicketListLoading ticketsNr={12} />}
 
       {isSuccess && <TicketList tickets={ticketsResponse.data || []} />}
+
+      {isSuccess && ticketsResponse.data.length === 0 && (
+        <Typography variant="subtitle2">No tickets available.</Typography>
+      )}
 
       {isTicketsError && <div>There was an error fetching data. Try again later</div>}
     </div>
