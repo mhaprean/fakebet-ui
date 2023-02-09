@@ -24,7 +24,7 @@ import {
   MoreVert as MoreVertIcon,
   AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MainSearch from '../search/MainSearch';
 import LoginRegister from '../auth/LoginRegister';
@@ -117,12 +117,18 @@ interface IPropsNavigation {
   onMenuToggle?: () => void;
 }
 
+const extractPageName = (str: string) => {
+  return '/' + str.split('/')[1];
+};
+
 const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
   const [searchOpen, setSearchOpen] = useState(false);
 
   const [accountOpen, setAccountOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState('/');
+  const location = useLocation();
+
+  const activeTab = extractPageName(location.pathname);
 
   const authState = useAppSelector((rootState) => rootState.auth);
 
@@ -145,10 +151,6 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
       id: `nav-tab-${index}`,
       'aria-controls': `nav-tabpanel-${index}`,
     };
-  };
-
-  const handleTabChange = (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
-    setActiveTab(newValue);
   };
 
   const toggleTheme = () => {
@@ -191,7 +193,7 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
 
         {!isMobile && (
           <>
-            <Tabs className="tabs" value={activeTab} onChange={handleTabChange}>
+            <Tabs className="tabs" value={activeTab}>
               {menuEntries.map((item, idx) => (
                 <Tab
                   key={idx}

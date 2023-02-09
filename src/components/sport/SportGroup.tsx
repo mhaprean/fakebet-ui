@@ -11,9 +11,11 @@ import SportTitle from './SportTitle';
 
 interface IPropsSportGroup {
   sport: IIgubetSport;
+  soccerLimit?: number;
+  sportLimit?: number;
 }
 
-const SportGroup = ({ sport }: IPropsSportGroup) => {
+const SportGroup = ({ sport, soccerLimit = 20, sportLimit = 10 }: IPropsSportGroup) => {
   const dates = timeFormatService.getStartEnd(5);
 
   // this is for homepage and sports page
@@ -24,7 +26,7 @@ const SportGroup = ({ sport }: IPropsSportGroup) => {
     isLoading,
     isFetching,
   } = useGetIguSportMatchesQuery({
-    limit: sport.key === 'soccers' ? 20 : 10,
+    limit: sport.key === 'soccer' ? soccerLimit : sportLimit,
     sport_key: sport.key,
     start_from: dates.start,
     start_to: dates.end,

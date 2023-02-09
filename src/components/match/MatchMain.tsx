@@ -313,12 +313,10 @@ const MatchMain = ({ match }: IPropsMatchMain) => {
 
             return (
               <div key={idx} className="Bet">
-                {/* {bet.id} */}
                 <div className="Left">
                   {groupedBet.total > 1 && <Typography variant="caption">({groupedBet.total}) </Typography>}
                   <Typography variant="caption">{bet.attributes.market_name}</Typography>
                 </div>
-                {/* {bet.attributes.period_id} */}
                 <div className="Right">
                   <Typography noWrap variant="subtitle2">
                     {bet.attributes.outcome_name}

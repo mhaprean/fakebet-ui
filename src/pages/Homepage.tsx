@@ -1,17 +1,21 @@
 import { Masonry } from '@mui/lab';
-import { Button, Typography } from '@mui/material';
+import { Alert, Button, Collapse, IconButton, Typography } from '@mui/material';
 import qs from 'qs';
 import { useState } from 'react';
 import MatchMain from '../components/match/MatchMain';
 import { useGetFilteredMatchesQuery } from '../redux/features/strapiApi';
-import PagePagination from '../components/atoms/PagePagination';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import MatchMainListLoading from '../components/loaders/MatchMainListLoading';
 import { timeFormatService } from '../services/timeFormaterService';
 import { Link } from 'react-router-dom';
+import { igubetSports } from '../helpers/igubetSports';
+import SportGroup from '../components/sport/SportGroup';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Homepage = () => {
   const [page, setPage] = useState(1);
+
+  const [hasError, setHasError] = useState(true);
 
   const dates = timeFormatService.getStartEnd(0);
 
@@ -61,21 +65,50 @@ const Homepage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
+      {igubetSports
+        .filter((sport) => sport.key === 'soccer')
+        .map((sport) => (
+          <SportGroup sport={sport} key={sport.id} soccerLimit={15} />
+        ))}
+
       {isMatchesFetching && (
         <>
           {' '}
-          <Typography variant="h4" sx={{ marginBottom: '20px' }}>
+          <Typography variant="subtitle1" sx={{ marginBottom: '20px' }}>
             Loading:
           </Typography>
           <MatchMainListLoading matchNr={10} />
         </>
       )}
 
-      {isMatchesError && <div>error fetching data. refresh the page or try again later.</div>}
+      {isMatchesError && (
+        <div>
+          <Collapse in={hasError}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setHasError(false);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              error fetching data. refresh the page or try again later.
+            </Alert>
+          </Collapse>
+        </div>
+      )}
 
       {!isMatchesFetching && !isMatchesLoading && filteredMatches?.data && (
         <>
-          <Typography variant="h4" sx={{ marginBottom: '20px' }}>
+          <Typography variant="subtitle1" sx={{ marginBottom: '20px' }}>
             Latest tips from our users:
           </Typography>
           <Masonry columns={{ xs: 1, sm: 2, xl: 3 }} spacing={1}>
