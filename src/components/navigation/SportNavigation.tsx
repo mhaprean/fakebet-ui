@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
 import { igubetSports } from '../../helpers/igubetSports';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 
 const StyledSportNavigation = styled('div')`
   display: flex;

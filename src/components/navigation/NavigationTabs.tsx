@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import { igubetSports } from '../../helpers/igubetSports';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 
 const StyledNavigationTabs = styled('div')`
   display: flex;

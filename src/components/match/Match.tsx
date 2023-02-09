@@ -7,7 +7,7 @@ import { IIgubetMatch } from '../../redux/features/igubetTypes';
 import { transformIgubetMarkets, transformIguSingleMarket } from '../../services/igubetTransformer';
 import { timeFormatService } from '../../services/timeFormaterService';
 import ImageWithFallback from '../atoms/ImageWithFallback';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 import Market from './Market';
 import MarketOutcomes from './MarketOutcomes';
 

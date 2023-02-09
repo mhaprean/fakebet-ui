@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { timeFormatService } from '../../services/timeFormaterService';
 import FlexBetween from '../atoms/FlexBetween';
 import WarningIcon from '@mui/icons-material/Warning';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 
 interface IPropsBetslipEvent {
   event: IBetEvent;

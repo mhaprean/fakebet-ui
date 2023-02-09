@@ -2,7 +2,7 @@ import { Paper, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { IStrapiBet } from '../../redux/features/strapiApi';
 import { timeFormatService } from '../../services/timeFormaterService';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 
 import { CheckCircle as CheckCircleIcon, Cancel as CancelIcon } from '@mui/icons-material';
 

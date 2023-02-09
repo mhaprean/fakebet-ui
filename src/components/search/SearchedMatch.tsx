@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';
 import { timeFormatService } from '../../services/timeFormaterService';
 import parse from 'html-react-parser';
-import SportIcon from '../SportIcon';
+import SportIcon from '../sport/SportIcon';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { Link } from 'react-router-dom';
 import ImageWithFallback from '../atoms/ImageWithFallback';
