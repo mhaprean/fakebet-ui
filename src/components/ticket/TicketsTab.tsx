@@ -9,9 +9,10 @@ import TicketList from './TicketList';
 
 interface IPropsTicketsTab {
   userId?: number;
+  matchId?: number;
 }
 
-const TicketsTab = ({ userId = 0 }: IPropsTicketsTab) => {
+const TicketsTab = ({ userId = 0, matchId = 0 }: IPropsTicketsTab) => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState('20');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -22,6 +23,13 @@ const TicketsTab = ({ userId = 0 }: IPropsTicketsTab) => {
 
   if (userId) {
     filters.user = userId;
+  }
+  if (matchId) {
+    filters.matches = {
+      igu_id: {
+        $eq: matchId,
+      },
+    };
   }
 
   if (statusFilter !== 'all') {
