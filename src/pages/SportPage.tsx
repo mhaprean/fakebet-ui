@@ -7,6 +7,7 @@ import PagePagination from '../components/atoms/PagePagination';
 import LeagueHeader from '../components/league/LeagueHeader';
 import SportPageLoading from '../components/loaders/SportPageLoading';
 import Match from '../components/match/Match';
+import MatchList from '../components/match/MatchList';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { igubetSports } from '../helpers/igubetSports';
 import { useGetIguSportMatchesQuery } from '../redux/features/igubetApi';
@@ -100,18 +101,7 @@ const SportPage = () => {
         onPageChange={setPage}
       />
 
-      {isSuccess &&
-        !isFetching &&
-        matchListResponse.data.map((match, idx) => (
-          <React.Fragment key={idx}>
-            {idx === 0 ||
-            matchListResponse.data[idx].tournament.id !== matchListResponse.data[idx - 1].tournament.id ? (
-              <LeagueHeader tournament={matchListResponse.data[idx].tournament} />
-            ) : null}
-
-            <Match match={match} />
-          </React.Fragment>
-        ))}
+      {isSuccess && !isFetching && <MatchList matches={matchListResponse.data || []} />}
 
       {isFetching && <SportPageLoading />}
     </div>

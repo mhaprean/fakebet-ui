@@ -1,7 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import LeagueHeader from '../components/league/LeagueHeader';
+import SportPageLoading from '../components/loaders/SportPageLoading';
 import Match from '../components/match/Match';
+import MatchList from '../components/match/MatchList';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import { useGetIguCategoryMatchesQuery } from '../redux/features/igubetApi';
 import { timeFormatService } from '../services/timeFormaterService';
@@ -43,20 +45,10 @@ const CategoryPage = () => {
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
-      {isMatchListLoading && <div>is loading...</div>}
-      {isMatchListSucces && !isMatchListLoading &&
-        matchListResponse.data.map((match, idx) => (
-          <React.Fragment key={idx}>
-            {idx === 0 ||
-            matchListResponse.data[idx].tournament.id !== matchListResponse.data[idx - 1].tournament.id ? (
-              <LeagueHeader tournament={matchListResponse.data[idx].tournament} />
-            ) : null}
 
-            <div className="match">
-              <Match match={match} />
-            </div>
-          </React.Fragment>
-        ))}
+      {isMatchListLoading && <SportPageLoading />}
+
+      {isMatchListSucces && !isMatchListLoading && <MatchList matches={matchListResponse.data || []} />}
     </div>
   );
 };
