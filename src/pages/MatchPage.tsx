@@ -1,34 +1,18 @@
-import { Chip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import MatchPageLoading from '../components/loaders/MatchPageLoading';
-import Market from '../components/match/Market';
-import MarketOutcomes from '../components/match/MarketOutcomes';
+import MatchPageHeaderSkeleton from '../components/loaders/MatchPageHeaderSkeleton';
+import MarketsTab from '../components/match/MarketsTab';
 import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
+import TicketsTab from '../components/ticket/TicketsTab';
 import ScrollToTop from '../hooks/ScrollToTop';
 import { useGetIguMatchesQuery, useGetIguMatchMarketsQuery } from '../redux/features/igubetApi';
-import { IgubetMatchPeriods, IIgubetMarket, IIgubetMatch } from '../redux/features/igubetTypes';
-import { transformIgubetMarkets } from '../services/igubetTransformer';
-import { validateMarkets } from '../services/igubetValidator';
-import { timeFormatService } from '../services/timeFormaterService';
+import { IIgubetMatch } from '../redux/features/igubetTypes';
 
 const StyledMatchPage = styled('div')`
   max-width: 100%;
-  .chips {
-    display: flex;
-    gap: 10px;
-    overflow: auto;
-    padding: 10px 0;
 
-    .chip {
-      &.active {
-        background: ${(props) => props.theme.palette.primary.main};
-        color: ${(props) => props.theme.palette.primary.contrastText};
-      }
-    }
-  }
   .content {
     max-width: 100%;
   }
@@ -38,6 +22,8 @@ const MatchPage = () => {
   const { sport, league_id, event_id } = useParams();
 
   const [match, setMatch] = useState<IIgubetMatch | null>(null);
+
+  const [activeTab, setActiveTab] = useState('odds');
 
   const {
     data: matchListResponse,
@@ -52,15 +38,6 @@ const MatchPage = () => {
     },
     { skip: !league_id }
   );
-
-  const { data: matchMarketsRes, isLoading } = useGetIguMatchMarketsQuery(
-    { matchId: event_id || '' },
-    { skip: !event_id }
-  );
-
-  const [activeMarket, setActiveMarket] = useState('top');
-
-  const marketGroups: string[] = ['top', 'all', 'half', 'total', 'score', 'handicap', 'combo'];
 
   const breadcrumbsArray: IBreadcrumb[] = [
     {
@@ -85,39 +62,6 @@ const MatchPage = () => {
     },
   ];
 
-  const getfilteredMarkets = (markets: IIgubetMarket[], match: IIgubetMatch) => {
-    const transformedMarkets = transformIgubetMarkets(markets);
-
-    // const periods: IgubetMatchPeriods = [
-    //   {
-    //     home: 0,
-    //     away: 0,
-    //     period_key: 'match_status.6',
-    //     period_name: '1st half',
-    //     number: 1,
-    //     type: 'regular',
-    //   },
-    //   {
-    //     home: 0,
-    //     away: 1,
-    //     period_key: 'match_status.7',
-    //     period_name: '2nd half',
-    //     number: 2,
-    //     type: 'regular',
-    //   },
-    // ];
-
-    // const validatedMarkets = validateMarkets(transformedMarkets, periods);
-
-    const filteredMarkets = transformedMarkets.filter((market, idx) =>
-      market.market_groups.includes(activeMarket)
-    );
-
-    return filteredMarkets.map((market, idx) => {
-      return <Market key={idx} market={market} open={idx < 5} match={match} />;
-    });
-  };
-
   useEffect(() => {
     if (isMatchListSucces) {
       const currentMatch = matchListResponse.data.find((game) => game.id + '' === event_id);
@@ -133,23 +77,15 @@ const MatchPage = () => {
       <ScrollToTop />
       {match && <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />}
 
-      {isMatchListLoading && <MatchPageLoading />}
+      {isMatchListLoading && <MatchPageHeaderSkeleton />}
 
-      {isMatchListSucces && <MatchPageHeader match={match} />}
-
-      <div className="chips">
-        {marketGroups.map((group, idx) => (
-          <Chip
-            className={`chip ${group === activeMarket ? 'active' : ''}`}
-            key={idx}
-            label={group}
-            onClick={() => setActiveMarket(group)}
-          />
-        ))}
-      </div>
+      {isMatchListSucces && (
+        <MatchPageHeader match={match} activeTab={activeTab} onTabChange={setActiveTab} />
+      )}
 
       <div className="content">
-        {!isLoading && matchMarketsRes && match && getfilteredMarkets(matchMarketsRes.data, match)}
+        {activeTab === 'odds' && match && <MarketsTab match={match} />}
+        {activeTab === 'tickets' && <TicketsTab matchId={match?.id || 1} />}
       </div>
     </StyledMatchPage>
   );
