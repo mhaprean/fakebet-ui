@@ -22,11 +22,28 @@ const StyledSportPageLoading = styled('div')`
     display: flex;
     flex-direction: column;
   }
+  .sport-name {
+    display: flex;
+    align-items: center;
+    margin-bottom: -20px;
+    margin-top: 15px;
+  }
 `;
 
-const SportPageLoading = () => {
+interface IPropsSportPageLoading {
+  withSportName?: boolean;
+}
+
+const SportPageLoading = ({ withSportName = false }: IPropsSportPageLoading) => {
   return (
     <StyledSportPageLoading className="SportPageLoading">
+      {withSportName && (
+        <div className="sport-name">
+          <Skeleton variant="circular" width={20} height={20} style={{ margin: 5 }} />
+          <Skeleton variant="text" width={50} style={{ marginLeft: 10 }} />
+        </div>
+      )}
+
       <Paper className="skeletonTitle" variant="outlined">
         <Skeleton variant="circular" width={20} height={20} style={{ margin: 5 }} />
 

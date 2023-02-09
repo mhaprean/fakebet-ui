@@ -13,6 +13,7 @@ import PlayerPage from './pages/PlayerPage';
 import PlayersPage from './pages/PlayersPage';
 import SearchPage from './pages/SearchPage';
 import SportPage from './pages/SportPage';
+import SportsPage from './pages/SportsPage';
 import TicketsPage from './pages/TicketsPage';
 import { useAppSelector } from './redux/hooks';
 import darkTheme from './theme/dark';
@@ -31,6 +32,8 @@ const App = () => {
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Homepage />} />
               <Route path="/main" element={<Mainpage />} />
+
+              <Route path="/sports" element={<SportsPage />} />
 
               <Route path="/sports/:sport" element={<SportPage />} />
 
@@ -52,8 +55,6 @@ const App = () => {
 
               <Route path="/tickets" element={<TicketsPage />} />
               <Route path="/my-tickets" element={<TicketsPage myTickets />} />
-
-              
 
               <Route path="*" element={<NotFoundPage />} />
             </Route>

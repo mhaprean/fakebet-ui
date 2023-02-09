@@ -99,10 +99,10 @@ const menuEntries: IMenuEntry[] = [
     name: 'Main',
     path: '/main',
   },
-  // {
-  //   name: 'Statistics',
-  //   path: '/statistics',
-  // },
+  {
+    name: 'Sports',
+    path: '/sports',
+  },
   {
     name: 'Players',
     path: '/players',
