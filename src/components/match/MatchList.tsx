@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';
 import LeagueHeader from '../league/LeagueHeader';
@@ -19,6 +20,8 @@ const MatchList = ({ matches }: IPropsMatchList) => {
           <Match match={match} />
         </React.Fragment>
       ))}
+
+      {matches.length === 0 && <Typography variant='subtitle2'>No matches available.</Typography>}
     </div>
   );
 };
