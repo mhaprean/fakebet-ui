@@ -13,7 +13,6 @@ interface IPropsTicketEvent {
 const StyledTicketEvent = styled(Paper)`
   margin-top: -1px;
   padding: 5px;
-  /* background: ${(props) => props.theme.palette.background.default}; */
 
   &.isWin {
     border-left: 2px solid ${(props) => props.theme.palette.success.main};

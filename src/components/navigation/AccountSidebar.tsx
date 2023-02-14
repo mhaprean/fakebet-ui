@@ -34,7 +34,6 @@ const StyledAccountSidebar = styled('div')`
 
   .account-header {
     padding: 10px;
-    /* padding-right: 30px; */
   }
 
   .welcome {

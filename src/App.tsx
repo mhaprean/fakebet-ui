@@ -1,23 +1,26 @@
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
+import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layouts/Layout';
-import NotFoundPage from './pages/404';
-import CategoryPage from './pages/CategoryPage';
-import Homepage from './pages/Homepage';
-import LeaguePage from './pages/LeaguePage';
-import Mainpage from './pages/Mainpage';
-import MatchPage from './pages/MatchPage';
-import PlayerPage from './pages/PlayerPage';
-import PlayersPage from './pages/PlayersPage';
-import SearchPage from './pages/SearchPage';
-import SportPage from './pages/SportPage';
-import SportsPage from './pages/SportsPage';
-import TicketsPage from './pages/TicketsPage';
+
 import { useAppSelector } from './redux/hooks';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
+
+const NotFoundPage = lazy(() => import('./pages/404'));
+const PlayerPage = lazy(() => import('./pages/PlayerPage'));
+const PlayersPage = lazy(() => import('./pages/PlayersPage'));
+const MatchPage = lazy(() => import('./pages/MatchPage'));
+const LeaguePage = lazy(() => import('./pages/LeaguePage'));
+const CategoryPage = lazy(() => import('./pages/CategoryPage'));
+const Homepage = lazy(() => import('./pages/Homepage'));
+const Mainpage = lazy(() => import('./pages/Mainpage'));
+
+const SearchPage = lazy(() => import('./pages/SearchPage'));
+const SportPage = lazy(() => import('./pages/SportPage'));
+
+const TicketsPage = lazy(() => import('./pages/TicketsPage'));
 
 const App = () => {
   const themeName = useAppSelector((rootState) => rootState.settings.themeName);

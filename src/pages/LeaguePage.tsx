@@ -1,7 +1,6 @@
-import { Paper, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography } from '@mui/material';
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DayHeader from '../components/league/DayHeader';
 import LeaguePageLoading from '../components/loaders/LeaguePageLoading';
 import Match from '../components/match/Match';

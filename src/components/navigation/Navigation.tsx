@@ -1,28 +1,11 @@
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  IconButton,
-  InputBase,
-  Paper,
-  Tab,
-  Tabs,
-  Toolbar,
-  Typography,
-  useMediaQuery,
-} from '@mui/material';
-import { styled, alpha, useTheme } from '@mui/material/styles';
+import { AppBar, Avatar, Box, Drawer, IconButton, Tab, Tabs, Toolbar, useMediaQuery } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import {
   LightModeOutlined,
   DarkModeOutlined,
   Menu as MenuIcon,
   Search as SearchIcon,
-  SettingsOutlined,
   MoreVert as MoreVertIcon,
-  AccountCircle as AccountCircleIcon,
 } from '@mui/icons-material';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -45,12 +28,8 @@ const StyledSearchDrawer = styled(Drawer)`
 `;
 
 const StyledNavigation = styled(AppBar)`
-  /* box-shadow: none; */
-  background: ${(props) => props.theme.palette.background.paper};
-
   background: ${(props) => props.theme.navigation.main};
   color: ${(props) => props.theme.navigation.text};
-
   border: none;
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 
@@ -122,20 +101,17 @@ const extractPageName = (str: string) => {
 };
 
 const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
-  const [searchOpen, setSearchOpen] = useState(false);
-
-  const [accountOpen, setAccountOpen] = useState(false);
-
   const location = useLocation();
-
-  const activeTab = extractPageName(location.pathname);
-
-  const authState = useAppSelector((rootState) => rootState.auth);
-
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  const authState = useAppSelector((rootState) => rootState.auth);
   const themeName = useAppSelector((rootState) => rootState.settings.themeName);
+
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+
+  const activeTab = extractPageName(location.pathname);
 
   const {
     data: myProfile,
@@ -245,7 +221,6 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
         }}
       >
         <AccountSidebar onClose={() => setAccountOpen(false)} />
-        {/* <AccountSiderbar onThemeChange={changeTheme} isDarkTheme={currentTheme === 'MainDark'} onClose={() => setAccountOpen(false)} /> */}
       </Drawer>
 
       <StyledSearchDrawer anchor={'top'} open={searchOpen} onClose={() => setSearchOpen(false)}>

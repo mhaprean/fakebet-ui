@@ -1,4 +1,4 @@
-import { Button, Chip, Paper, Typography } from '@mui/material';
+import { Chip, Paper, Typography } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import { IStrapiTicket } from '../../redux/features/strapiApi';
@@ -24,20 +24,10 @@ interface IPropsTicket {
 const StyledTicket = styled('div')`
   margin-bottom: 10px;
 
-
   .ticket-header {
     margin-bottom: 1px;
     padding: 2px;
     border-bottom: none;
-
-    &.isWinner {
-      /* border-bottom: 2px solid ${(props) => props.theme.palette.success.light}; */
-      /* background: ${(props) => alpha(props.theme.palette.success.light, 0.1)}; */
-    }
-    &.isLost {
-      /* border-bottom: 2px solid ${(props) => props.theme.palette.error.light}; */
-      /* background: ${(props) => alpha(props.theme.palette.error.main, 0.1)}; */
-    }
   }
 
   .user-chip {
@@ -71,8 +61,6 @@ const StyledTicket = styled('div')`
 
   .TicketDivider {
     background: ${(props) => props.theme.palette.warning.main};
-    /* margin-top: 5px;
-    margin-bottom: 10px; */
 
     &.isWinner {
       background: ${(props) => props.theme.palette.success.main};
@@ -145,7 +133,6 @@ const StyledTicket = styled('div')`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* background: ${(props) => props.theme.palette.background.default}; */
     padding: 2px;
     padding-left: 5px;
 
@@ -166,8 +153,7 @@ const StyledTicket = styled('div')`
   }
 `;
 
-const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => {
-  const handleCopyTicket = () => {};
+const Ticket = ({ ticket, myTicket = false }: IPropsTicket) => {
   return (
     <StyledTicket className="Ticket">
       <Paper
@@ -214,7 +200,10 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
           )}
 
           {!myTicket && (
-            <Link className="user-chip" to={`/players/${ticket.attributes.user.data.attributes.account.data.id}`}>
+            <Link
+              className="user-chip"
+              to={`/players/${ticket.attributes.user.data.attributes.account.data.id}`}
+            >
               <Chip
                 className="match-chip"
                 size="small"
@@ -223,31 +212,6 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
               />
             </Link>
           )}
-
-
-          {/* {myTicket && !ticket.attributes.is_validated && (
-            <Chip
-              className="PotentialGain Pending"
-              size="small"
-              label={parseFloat(ticket.attributes.stake + '').toFixed(2)}
-            />
-          )}
-
-          {myTicket && ticket.attributes.is_validated && ticket.attributes.is_winner && (
-            <Chip
-              className="PotentialGain Winner"
-              size="small"
-              label={'+ ' + parseFloat(ticket.attributes.potential_gain + '').toFixed(2)}
-            />
-          )}
-
-          {myTicket && ticket.attributes.is_validated && !ticket.attributes.is_winner && (
-            <Chip
-              className="PotentialGain Lost"
-              size="small"
-              label={'- ' + parseFloat(ticket.attributes.stake + '').toFixed(2)}
-            />
-          )} */}
         </div>
 
         <div className="ticket-subheader">
@@ -255,7 +219,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
             <Typography className="label" variant="caption">
               Stake
             </Typography>
-            <Typography className="value"variant="subtitle1">
+            <Typography className="value" variant="subtitle1">
               {ticket.attributes.stake} $
             </Typography>
           </div>
@@ -263,7 +227,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
             <Typography className="label" variant="caption">
               Odds
             </Typography>
-            <Typography className="value"variant="subtitle1">
+            <Typography className="value" variant="subtitle1">
               {ticket.attributes.total_odds}
             </Typography>
           </div>
@@ -272,7 +236,7 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
             <Typography className="label" variant="caption">
               Potential gain
             </Typography>
-            <Typography className="value"variant="subtitle1" style={{ marginLeft: 'auto' }}>
+            <Typography className="value" variant="subtitle1" style={{ marginLeft: 'auto' }}>
               {ticket.attributes.potential_gain} $
             </Typography>
           </div>
@@ -284,18 +248,6 @@ const Ticket = ({ ticket, myTicket = false, isSlide = false }: IPropsTicket) => 
               ? `${ticket.attributes.bets.data.length} Events`
               : '1 Event'}
           </Typography>
-
-          {/* {!ticket.attributes.is_validated && (
-            <Button
-              onClick={handleCopyTicket}
-              className="copy-button"
-              size="small"
-              variant="outlined"
-              startIcon={<FileCopyIcon />}
-            >
-              Copy Ticket
-            </Button>
-          )} */}
         </div>
       </Paper>
 

@@ -1,9 +1,7 @@
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import SportGroup from '../components/sport/SportGroup';
-import SportTitle from '../components/sport/SportTitle';
 import { igubetSports } from '../helpers/igubetSports';
 import ScrollToTop from '../hooks/ScrollToTop';
-import { useGetIguSportMatchesQuery } from '../redux/features/igubetApi';
 
 const SportsPage = () => {
   const sportsBreadcrumbs = [

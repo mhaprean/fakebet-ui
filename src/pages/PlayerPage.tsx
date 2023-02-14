@@ -1,11 +1,10 @@
-import qs from 'qs';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import PlayerHeader from '../components/player/PlayerHeader';
 import PlayerStats from '../components/player/PlayerStats';
 import TicketsTab from '../components/ticket/TicketsTab';
-import { useGetAccountQuery, useGetFilteredAccountsQuery } from '../redux/features/strapiApi';
+import { useGetAccountQuery } from '../redux/features/strapiApi';
 
 const PlayerPage = () => {
   const { id } = useParams();
@@ -35,7 +34,7 @@ const PlayerPage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      {accountResponse && (
+      {!isFetching && accountResponse && (
         <>
           <PlayerHeader
             activeTab={activeTab}
@@ -43,7 +42,7 @@ const PlayerPage = () => {
             account={accountResponse.data.attributes}
           />
           {activeTab === 'stats' && <PlayerStats account={accountResponse.data.attributes} />}
-          {activeTab === 'tickets' && <TicketsTab userId={accountResponse.data.attributes.user_id} /> }
+          {activeTab === 'tickets' && <TicketsTab userId={accountResponse.data.attributes.user_id} />}
         </>
       )}
     </div>

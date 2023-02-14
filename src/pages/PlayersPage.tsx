@@ -2,12 +2,11 @@ import { useState } from 'react';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { FilterList as FilterListIcon } from '@mui/icons-material';
 import DropdownList from '../components/atoms/DropdownList';
-import { Box, Pagination, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import qs from 'qs';
 import PlayerList from '../components/player/PlayerList';
 import PlayerListLoading from '../components/loaders/PlayerListLoading';
 import { useGetFilteredAccountsQuery } from '../redux/features/strapiApi';
-import FlexBetween from '../components/atoms/FlexBetween';
 import PagePagination from '../components/atoms/PagePagination';
 
 const PlayersPage = () => {
@@ -20,7 +19,6 @@ const PlayersPage = () => {
     {
       sort: ['current_balance:desc', 'id:desc'],
       filters: filters,
-      // fields: ['username', 'id', 'current_balance', 'image', 'statistics'],
       populate: 'user',
       pagination: {
         pageSize: parseInt(perPage),

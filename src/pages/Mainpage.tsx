@@ -1,5 +1,5 @@
 import { Masonry } from '@mui/lab';
-import { Box, Pagination, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import qs from 'qs';
 import { useState } from 'react';
 import MatchMain from '../components/match/MatchMain';
@@ -13,7 +13,6 @@ import MatchMainListLoading from '../components/loaders/MatchMainListLoading';
 const Mainpage = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState('20');
-  const [sportFilter, setSportFilter] = useState('all');
   const [gamesFilter, setGamesFilter] = useState('all');
 
   const filters: any = {};
@@ -27,16 +26,14 @@ const Mainpage = () => {
     {
       sort: ['validation_date:desc'],
       filters: filters,
-
       populate: '*',
-      // fields: ['title'],
       pagination: {
         pageSize: parseInt(perPage),
         page: page,
       },
     },
     {
-      encodeValuesOnly: true, // prettify url
+      encodeValuesOnly: true,
     }
   );
 
@@ -90,22 +87,6 @@ const Mainpage = () => {
             { value: '30', label: 'Per page: 30' },
           ]}
         />
-
-        {/* <DropdownList
-          value={sportFilter}
-          onChange={(newValue: string) => {
-            setSportFilter(newValue);
-            setPage(1);
-          }}
-          items={[
-            { value: 'all', label: 'All Sports' },
-            { value: 'soccer', label: 'Football' },
-            { value: 'basketball', label: 'Basketball' },
-            { value: 'ice-hockey', label: 'Ice Hockey' },
-            { value: 'tennis', label: 'Tennis' },
-            { value: 'handball', label: 'Handball' },
-          ]}
-        /> */}
       </Box>
 
       <PagePagination

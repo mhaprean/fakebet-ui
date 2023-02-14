@@ -1,7 +1,6 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { Box, Button, Collapse, Paper, Typography } from '@mui/material';
-import { alpha, styled } from '@mui/material/styles';
-import classNames from 'classnames';
+import { Collapse, Paper, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { IIgubetMarket, IIgubetMatch, IOutcome } from '../../redux/features/igubetTypes';
 import MarketOutcomes from './MarketOutcomes';
@@ -10,7 +9,6 @@ const StyledMarket = styled('div')`
   .market-title {
     padding: 5px 10px;
     margin-bottom: 5px;
-    /* color: ${(props) => props.theme.palette.text.secondary}; */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,10 +44,6 @@ const Market = ({ market, open = false, match }: IMarketProps) => {
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </Paper>
       <Collapse in={isOpen}>
-        {/* <Typography variant="caption" style={{ whiteSpace: 'pre' }}>
-          {market.rules}
-        </Typography> */}
-
         <MarketOutcomes match={match} market={market} />
       </Collapse>
     </StyledMarket>

@@ -7,7 +7,7 @@ import MatchPageHeader from '../components/match/MatchPageHeader';
 import PageBreadcrumbs, { IBreadcrumb } from '../components/PageBreadcrumbs';
 import TicketsTab from '../components/ticket/TicketsTab';
 import ScrollToTop from '../hooks/ScrollToTop';
-import { useGetIguMatchesQuery, useGetIguMatchMarketsQuery } from '../redux/features/igubetApi';
+import { useGetIguMatchesQuery } from '../redux/features/igubetApi';
 import { IIgubetMatch } from '../redux/features/igubetTypes';
 
 const StyledMatchPage = styled('div')`

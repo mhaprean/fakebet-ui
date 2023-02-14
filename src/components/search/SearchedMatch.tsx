@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
+import { Box, Button, Paper, Typography } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import classNames from 'classnames';
 import { IIgubetMatch } from '../../redux/features/igubetTypes';

@@ -1,6 +1,5 @@
 import {
   Box,
-  Paper,
   Typography,
   List,
   ListItem,
@@ -10,14 +9,11 @@ import {
   Divider,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { igubetSoccerTopLeagues } from '../../helpers/igubetTopLeagues';
 import { useGetBetableTournamentsQuery } from '../../redux/features/igubetApi';
-import { IIgubetCategory, IIgutbetTournament } from '../../redux/features/igubetTypes';
 import FakebetLogo from '../atoms/FakebetLogo';
 import ImageWithFallback from '../atoms/ImageWithFallback';
-import NavigationTabs from './NavigationTabs';
 import CategoryList from '../sidebar/CategoryList';
 
 const StyledSidebar = styled('div')`

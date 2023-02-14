@@ -1,13 +1,13 @@
 import { Box, Chip, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navigation from '../components/navigation/Navigation';
 import Sidebar from '../components/navigation/Sidebar';
-import SportNavigation from '../components/navigation/SportNavigation';
 import Betslip from '../components/betslip/Betslip';
 import MobileBottomNavigation from '../components/navigation/MobileBottomNavigation';
 import ProfileInfo from '../components/auth/ProfileInfo';
+import ScrollToTop from '../hooks/ScrollToTop';
 
 const StyledLayout = styled('div')`
   min-height: 100vh;
@@ -94,7 +94,9 @@ const Layout = () => {
         <Box sx={{ flexGrow: 1, width: { xs: '100%', lg: `calc(100% - ${250}px)` } }}>
           <Box className="page-content">
             {/* <SportNavigation /> */}
-            <Outlet />
+            <Suspense fallback={<ScrollToTop />}>
+              <Outlet />
+            </Suspense>
           </Box>
         </Box>
 

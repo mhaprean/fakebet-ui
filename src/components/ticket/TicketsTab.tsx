@@ -18,8 +18,6 @@ const TicketsTab = ({ userId = 0, matchId = 0 }: IPropsTicketsTab) => {
   const [perPage, setPerPage] = useState('20');
   const [statusFilter, setStatusFilter] = useState('all');
 
-  const authState = useAppSelector((rootState) => rootState.auth);
-
   const filters: any = {};
 
   if (userId) {
@@ -103,14 +101,14 @@ const TicketsTab = ({ userId = 0, matchId = 0 }: IPropsTicketsTab) => {
       />
 
       {isFetching && <TicketListLoading ticketsNr={12} />}
-
       {isSuccess && <TicketList tickets={ticketsResponse.data || []} />}
-
       {isSuccess && ticketsResponse.data.length === 0 && (
         <Typography variant="subtitle2">No tickets available.</Typography>
       )}
 
-      {isTicketsError && <div>There was an error fetching data. Try again later</div>}
+      {isTicketsError && (
+        <Typography variant="subtitle2">There was an error fetching data. Try again later</Typography>
+      )}
     </div>
   );
 };

@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import { igubetSports } from '../helpers/igubetSports';
 import SportGroup from '../components/sport/SportGroup';
 import CloseIcon from '@mui/icons-material/Close';
-import SportNavigation from '../components/navigation/SportNavigation';
 
 const Homepage = () => {
   const [page, setPage] = useState(1);
