@@ -31,31 +31,20 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Homepage />} />
-              <Route path="/main" element={<Mainpage />} />
-
-              <Route path="/sports" element={<SportsPage />} />
-
-              <Route path="/sports/:sport" element={<SportPage />} />
-
-              <Route path="/sports/:sport/:category_id/:category_slug" element={<CategoryPage />} />
-
-              <Route path="/sports/:sport/:category_id/:category_slug/:league_id" element={<LeaguePage />} />
-
+              <Route path="/tips" element={<Mainpage />} />
+              <Route path="/offer" element={<SportPage />} />
+              <Route path="/offer/:category_id/:category_slug" element={<CategoryPage />} />
+              <Route path="/offer/:category_id/:category_slug/:league_id" element={<LeaguePage />} />
               <Route
-                path="/sports/:sport/:category_id/:category_slug/:league_id/:league_slug"
+                path="/offer/:category_id/:category_slug/:league_id/:league_slug"
                 element={<LeaguePage />}
               />
-
-              <Route path="/sports/:sport/league/:league_id/event/:event_id" element={<MatchPage />} />
-
+              <Route path="/offer/league/:league_id/event/:event_id" element={<MatchPage />} />
               <Route path="/search" element={<SearchPage />} />
-
               <Route path="/players" element={<PlayersPage />} />
               <Route path="/players/:id" element={<PlayerPage />} />
-
               <Route path="/tickets" element={<TicketsPage />} />
               <Route path="/my-tickets" element={<TicketsPage myTickets />} />
-
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>

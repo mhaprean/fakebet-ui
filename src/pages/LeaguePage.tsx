@@ -10,7 +10,7 @@ import { useGetIguMatchesQuery, useGetIguMatchesResultsQuery } from '../redux/fe
 import { timeFormatService } from '../services/timeFormaterService';
 
 const LeaguePage = () => {
-  const { sport, category_id, category_slug, league_id, league_slug } = useParams();
+  const { category_id, category_slug, league_id, league_slug } = useParams();
 
   const {
     data: matchListResponse,
@@ -20,7 +20,7 @@ const LeaguePage = () => {
   } = useGetIguMatchesQuery(
     {
       tournament_id: league_id,
-      sport_key: sport,
+      sport_key: 'soccer',
     },
     { skip: !league_id }
   );
@@ -33,7 +33,7 @@ const LeaguePage = () => {
   } = useGetIguMatchesResultsQuery(
     {
       tournament_id: league_id,
-      sport_key: sport,
+      sport_key: 'soccer',
     },
     { skip: !league_id }
   );
@@ -44,21 +44,16 @@ const LeaguePage = () => {
       to: '/',
     },
 
-    // {
-    //   name: 'league name here',
-    //   to: '',
-    // },
+    {
+      name: 'Offer',
+      to: '/offer',
+    },
   ];
 
   if (matchListResponse?.data && matchListResponse.data.length > 0) {
     breadcrumbsArray.push({
-      name: matchListResponse.data[0].tournament.sport.name,
-      to: `/sports/${matchListResponse.data[0].tournament.sport.key}`,
-    });
-
-    breadcrumbsArray.push({
       name: matchListResponse.data[0].tournament.category.name,
-      to: `/sports/${matchListResponse.data[0].tournament.sport.key}/${matchListResponse.data[0].tournament.category.id}/${matchListResponse.data[0].tournament.category.slug}`,
+      to: `/offer/${matchListResponse.data[0].tournament.category.id}/${matchListResponse.data[0].tournament.category.slug}`,
     });
     breadcrumbsArray.push({
       name: `${matchListResponse.data[0].tournament.name}`,

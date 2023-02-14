@@ -19,7 +19,7 @@ const StyledMatchPage = styled('div')`
 `;
 
 const MatchPage = () => {
-  const { sport, league_id, event_id } = useParams();
+  const { league_id, event_id } = useParams();
 
   const [match, setMatch] = useState<IIgubetMatch | null>(null);
 
@@ -33,7 +33,7 @@ const MatchPage = () => {
   } = useGetIguMatchesQuery(
     {
       tournament_id: league_id,
-      sport_key: sport,
+      sport_key: 'soccer',
       limit: 50,
     },
     { skip: !league_id }
@@ -45,16 +45,16 @@ const MatchPage = () => {
       to: '/',
     },
     {
-      name: match?.tournament.sport.name,
-      to: `/sports/${match?.tournament.sport.key}`,
+      name: 'Offer',
+      to: `/offer`,
     },
     {
       name: match?.tournament.category.name,
-      to: `/sports/${match?.tournament.sport.key}/${match?.tournament.category.id}/${match?.tournament.category.slug}`,
+      to: `/offer/${match?.tournament.category.id}/${match?.tournament.category.slug}`,
     },
     {
       name: match?.tournament.name,
-      to: `/sports/${match?.tournament.sport.key}/${match?.tournament.category.id}/${match?.tournament.category.slug}/${match?.tournament.id}/${match?.tournament.slug}`,
+      to: `/offer/${match?.tournament.category.id}/${match?.tournament.category.slug}/${match?.tournament.id}/${match?.tournament.slug}`,
     },
     {
       name: `${match?.competitors.home.name} - ${match?.competitors.away.name}`,

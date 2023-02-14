@@ -77,7 +77,7 @@ const CategoryLeagueList = ({ category, sportSlug }: IPropsCategoryLeagueList) =
               onClick={handleLeagueChange}
               className="LeagueLink"
               key={tournament.urn_id}
-              to={`/sports/${tournament.sport.key}/${category.id}/${category.slug}/${tournament.id}/${tournament.slug}`}
+              to={`/offer/${category.id}/${category.slug}/${tournament.id}/${tournament.slug}`}
               style={{ textDecoration: 'none' }}
             >
               <ListItem disablePadding>

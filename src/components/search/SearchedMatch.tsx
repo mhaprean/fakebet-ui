@@ -144,7 +144,7 @@ const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
         <Box sx={{ display: 'flex' }}>
           <Link
             onClick={() => onClose()}
-            to={`/sports/${match.tournament.sport.key}/league/${match.tournament.id}/event/${match.id}`}
+            to={`/offer/league/${match.tournament.id}/event/${match.id}`}
           >
             <Button className="match-button" sx={{ marginLeft: 'auto' }} endIcon={<ArrowForwardIcon />}>
               See more

@@ -14,25 +14,13 @@ import { useGetIguSportMatchesQuery } from '../redux/features/igubetApi';
 import { timeFormatService } from '../services/timeFormaterService';
 
 const SportPage = () => {
-  const { sport } = useParams();
-
-  const navigate = useNavigate();
-
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [page, setPage] = useState(1);
 
   const [day, setDay] = useState(searchParams.get('day') || new Date().toISOString());
 
-  const [sportFilter, setSportFilter] = useState(sport || 'soccer');
-
-  const iguSport = igubetSports.find((sp) => sp.key === sport);
-
   const dates = timeFormatService.getStartEndDate(day);
-
-  useEffect(() => {
-    setPage(1);
-  }, [sport]);
 
   const {
     data: matchListResponse,
@@ -40,7 +28,7 @@ const SportPage = () => {
     isLoading,
     isFetching,
   } = useGetIguSportMatchesQuery({
-    sport_key: sport,
+    sport_key: 'soccer',
     start_from: dates.start,
     start_to: dates.end,
     page: page,
@@ -52,38 +40,16 @@ const SportPage = () => {
       to: '/',
     },
     {
-      name: 'Sports',
-      to: `/sports`,
-    },
-    {
-      name: iguSport?.name,
-      to: '',
+      name: 'Offer',
+      to: `/offer`,
     },
   ];
-
-  const sportList = igubetSports.map((sport) => {
-    return {
-      value: sport.key,
-      label: sport.name,
-    };
-  });
 
   return (
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
       <FlexBetween>
-        <DropdownList
-          value={sportFilter}
-          onChange={(newValue: string) => {
-            setSportFilter(newValue);
-            setPage(1);
-            setDay(new Date().toISOString());
-            navigate(`/sports/${newValue}`);
-          }}
-          items={sportList}
-        />
-
         <DatepickerButton
           selectedDate={day}
           onChangeDate={(newDate) => {

@@ -53,7 +53,7 @@ const Mainpage = () => {
       to: '/',
     },
     {
-      name: 'Main matches',
+      name: 'Latest Tips',
       to: ``,
     },
   ];

@@ -104,10 +104,8 @@ interface IPropsSidebar {
 const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSidebar) => {
   const location = useLocation();
 
-  const [activeSportTab, setActiveSportTab] = useState('soccer');
-
   const { data: bettableCategories, isFetching } = useGetBetableTournamentsQuery({
-    sport_key: activeSportTab,
+    sport_key: 'soccer',
   });
 
   return (
@@ -116,7 +114,7 @@ const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSideba
         <>
           <Box className="title">
             <Link to={'/'}>
-            <FakebetLogo />
+              <FakebetLogo />
             </Link>
           </Box>
           <Divider />
@@ -124,7 +122,6 @@ const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSideba
       )}
 
       <div className="sidebar-content">
-        <NavigationTabs activeSport={activeSportTab} onSportChange={setActiveSportTab} />
         <>
           <Box className="title">
             <Typography variant="h6">Top Leagues</Typography>
@@ -134,14 +131,14 @@ const Sidebar = ({ onDrawerClose = () => {}, isTemporary = false }: IPropsSideba
             {igubetSoccerTopLeagues.map((tournament, idx) => (
               <Link
                 key={idx}
-                to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+                to={`/offer/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
               >
                 <ListItem disablePadding>
                   <ListItemButton
                     className="top-league"
                     selected={
                       location.pathname ===
-                      `/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`
+                      `/offer/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`
                     }
                   >
                     <ListItemIcon>

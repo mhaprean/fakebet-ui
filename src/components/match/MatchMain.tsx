@@ -212,7 +212,7 @@ const MatchMain = ({ match }: IPropsMatchMain) => {
             icon={<AccessTimeIcon />}
             label={timeFormatService.formatDateForMatchSearch(match.start_time || '')}
           />
-          <Link to={`/sports/${match.sport_key}`}>
+          <Link to={`/offer`}>
             <Chip
               className="MatchChip sport-chip"
               size="small"
@@ -223,7 +223,7 @@ const MatchMain = ({ match }: IPropsMatchMain) => {
         </div>
         <div className="FavoriteBtn">
           <Link
-            to={`/sports/${match.sport_key}/league/${match.tournament_id}/event/${match.igu_id}`}
+            to={`/offer/league/${match.tournament_id}/event/${match.igu_id}`}
             style={{ textDecoration: 'none' }}
           >
             <IconButton

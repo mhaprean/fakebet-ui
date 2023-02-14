@@ -208,7 +208,7 @@ const Match = ({ match }: IPropsMatch) => {
         </div>
         <div className="more">
           <Link
-            to={`/sports/${match.tournament.sport.key}/league/${match.tournament.id}/event/${match.id}`}
+            to={`/offer/league/${match.tournament.id}/event/${match.id}`}
             style={{ textDecoration: 'none' }}
           >
             <Button className="seeAllButton" size="small" title={'See all'}>

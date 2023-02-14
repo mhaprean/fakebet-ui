@@ -68,13 +68,13 @@ const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
 
       <div className="league">
         <Link
-          to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+          to={`/offer/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
         >
           <Typography className="league-name" noWrap variant="body2" component={'span'}>
             {tournament.name}
           </Typography>
         </Link>
-        <Link to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}`}>
+        <Link to={`/offer/${tournament.category.id}/${tournament.category.slug}`}>
           <Typography className="league-country" noWrap variant="caption" component={'span'}>
             {tournament.category.name}
           </Typography>
@@ -82,7 +82,7 @@ const LeagueHeader = ({ tournament }: IPropsLeagueHeader) => {
       </div>
       <Link
         className="league-link"
-        to={`/sports/${tournament.sport.key}/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
+        to={`/offer/${tournament.category.id}/${tournament.category.slug}/${tournament.id}/${tournament.slug}`}
       >
         <IconButton>
           <ArrowForward />

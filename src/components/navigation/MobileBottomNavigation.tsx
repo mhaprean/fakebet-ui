@@ -76,9 +76,9 @@ const MobileBottomNavigation = () => {
         />
         <BottomNavigationAction
           className="bottom-nav-item"
-          onClick={() => handleNavigation('/main')}
-          label="Main"
-          value={'/main'}
+          onClick={() => handleNavigation('/tips')}
+          label="Tips"
+          value={'/tips'}
           icon={<EqualizerIcon />}
         />
 

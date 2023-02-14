@@ -96,12 +96,12 @@ const menuEntries: IMenuEntry[] = [
     path: '/',
   },
   {
-    name: 'Main',
-    path: '/main',
+    name: 'Offer',
+    path: '/offer',
   },
   {
-    name: 'Sports',
-    path: '/sports',
+    name: 'Latest Tips',
+    path: '/tips',
   },
   {
     name: 'Players',

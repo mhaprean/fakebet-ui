@@ -16,7 +16,7 @@ interface IPropsSportGroup {
 }
 
 const SportGroup = ({ sport, soccerLimit = 20, sportLimit = 10 }: IPropsSportGroup) => {
-  const dates = timeFormatService.getStartEnd(5);
+  const dates = timeFormatService.getStartEnd(3);
 
   // this is for homepage and sports page
   // we fetch only the first 10 games from each sport that we support
@@ -41,7 +41,7 @@ const SportGroup = ({ sport, soccerLimit = 20, sportLimit = 10 }: IPropsSportGro
           <SportTitle sportName={sport.name} sportSlug={sport.key} />
           <MatchList matches={matchListResponse.data} />
           <Box sx={{ marginTop: '10px', marginBottom: '50px' }}>
-            <Link to={`/sports/${sport.key}`}>
+            <Link to={`/offer`}>
               <Button sx={{ textTransform: 'initial' }}>Show more</Button>
             </Link>
           </Box>

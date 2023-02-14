@@ -9,7 +9,7 @@ import { useGetIguCategoryMatchesQuery } from '../redux/features/igubetApi';
 import { timeFormatService } from '../services/timeFormaterService';
 
 const CategoryPage = () => {
-  const { sport, category_id, category_slug } = useParams();
+  const { category_id, category_slug } = useParams();
 
   const dates = timeFormatService.getStartEnd(7);
 
@@ -31,10 +31,6 @@ const CategoryPage = () => {
     {
       name: 'Home',
       to: '/',
-    },
-    {
-      name: sport,
-      to: `/sports/${sport}`,
     },
     {
       name: category_slug,

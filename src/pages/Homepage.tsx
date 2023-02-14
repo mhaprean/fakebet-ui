@@ -66,17 +66,14 @@ const Homepage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      <SportNavigation />
-
       {igubetSports
         .filter((sport) => sport.key === 'soccer')
         .map((sport) => (
-          <SportGroup sport={sport} key={sport.id} soccerLimit={15} />
+          <SportGroup sport={sport} key={sport.id} soccerLimit={50} />
         ))}
 
       {isMatchesFetching && (
         <>
-          {' '}
           <Typography variant="subtitle1" sx={{ marginBottom: '20px' }}>
             Loading:
           </Typography>
@@ -119,7 +116,7 @@ const Homepage = () => {
               <MatchMain key={idx} match={match.attributes} />
             ))}
           </Masonry>
-          <Link to="/main">
+          <Link to="/tips">
             <Button variant="outlined">See all tips</Button>
           </Link>
         </>
