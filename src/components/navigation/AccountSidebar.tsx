@@ -18,9 +18,20 @@ import FakebetLogo from '../atoms/FakebetLogo';
 import FlexBetween from '../atoms/FlexBetween';
 import LoginRegister from '../auth/LoginRegister';
 
-import { Close as CloseIcon } from '@mui/icons-material';
+import {
+  Close as CloseIcon,
+  Equalizer as EqualizerIcon,
+  Article as ArticleIcon,
+  Person as PersonIcon,
+} from '@mui/icons-material';
+
+import { Link } from 'react-router-dom';
 
 const StyledAccountSidebar = styled('div')`
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
   .account-header {
     padding: 10px;
     /* padding-right: 30px; */
@@ -39,8 +50,6 @@ const StyledAccountSidebar = styled('div')`
       margin-right: 10px;
     }
   }
-
-
 `;
 
 interface IPropsAccountSidebar {
@@ -85,13 +94,50 @@ const AccountSidebar = ({ onClose = () => {} }: IPropsAccountSidebar) => {
         </Paper>
       )}
 
-      {authState.isAuth ? (
-        <MenuItem onClick={handleLogout}>
+      <Link to="/tips" onClick={() => onClose()}>
+        <MenuItem>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <EqualizerIcon fontSize="small" />
           </ListItemIcon>
-          <ListItemText>Logout</ListItemText>
+          <ListItemText>Latest tips</ListItemText>
         </MenuItem>
+      </Link>
+
+      <Link to="/players" onClick={() => onClose()}>
+        <MenuItem>
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Players</ListItemText>
+        </MenuItem>
+      </Link>
+
+      <Link to="/tickets" onClick={() => onClose()}>
+        <MenuItem>
+          <ListItemIcon>
+            <ArticleIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Tickets</ListItemText>
+        </MenuItem>
+      </Link>
+
+      {authState.isAuth ? (
+        <>
+          <Link to="/my-tickets" onClick={() => onClose()}>
+            <MenuItem>
+              <ListItemIcon>
+                <ArticleIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText>My Tickets</ListItemText>
+            </MenuItem>
+          </Link>
+          <MenuItem onClick={handleLogout} sx={{ marginTop: 'auto' }}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Logout</ListItemText>
+          </MenuItem>
+        </>
       ) : (
         <LoginRegister isSidebar />
       )}
