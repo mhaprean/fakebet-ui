@@ -131,11 +131,7 @@ const MainSearch = ({ onClose }: IPropsMainSearch) => {
           {isSearchResultsFetching && <div>is loading...</div>}
           {searchResultSuccess &&
             searchResults
-              .filter((match) =>
-                ['soccer', 'ice-hockey', 'basketball', 'handball', 'tennis'].includes(
-                  match.tournament.sport.key
-                )
-              )
+              .filter((match) => match.tournament.sport.key === 'soccer')
               .map((match, idx) => <SearchedMatch key={idx} match={match} onClose={handleClose} />)}
         </Container>
       </div>
