@@ -1,5 +1,5 @@
 import { Masonry } from '@mui/lab';
-import { Box } from '@mui/material';
+import { Box, Chip } from '@mui/material';
 import qs from 'qs';
 import { useState } from 'react';
 import MatchMain from '../components/match/MatchMain';
@@ -13,14 +13,12 @@ import MatchMainListLoading from '../components/loaders/MatchMainListLoading';
 const Mainpage = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState('20');
-  const [gamesFilter, setGamesFilter] = useState('all');
+  const [gamesFilter, setGamesFilter] = useState('upcoming');
 
   const filters: any = {};
 
-  if (gamesFilter !== 'all') {
-    const isValidated = gamesFilter === 'upcoming' ? false : true;
-    filters.is_validated = { $eq: isValidated };
-  }
+  const isValidated = gamesFilter === 'upcoming' ? false : true;
+  filters.is_validated = { $eq: isValidated };
 
   const matchListQuery = qs.stringify(
     {
@@ -59,20 +57,22 @@ const Mainpage = () => {
     <div>
       <PageBreadcrumbs breadcrumbs={breadcrumbsArray} />
 
-      <Box className="Filters" sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
+      <Box className="Filters" sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <FilterListIcon />
 
-        <DropdownList
-          value={gamesFilter}
-          onChange={(newValue: string) => {
-            setGamesFilter(newValue);
-            setPage(1);
-          }}
-          items={[
-            { value: 'all', label: 'All Matches' },
-            { value: 'upcoming', label: 'Upcoming' },
-            { value: 'finished', label: 'Finished' },
-          ]}
+        <Chip
+          label="Upcoming"
+          variant={gamesFilter === 'upcoming' ? 'filled' : 'outlined'}
+          color={gamesFilter === 'upcoming' ? 'primary' : 'default'}
+          onClick={() => setGamesFilter('upcoming')}
+          size="medium"
+        />
+        <Chip
+          label="Finished"
+          variant={gamesFilter === 'finished' ? 'filled' : 'outlined'}
+          color={gamesFilter === 'finished' ? 'primary' : 'default'}
+          onClick={() => setGamesFilter('finished')}
+          size="medium"
         />
 
         <DropdownList
