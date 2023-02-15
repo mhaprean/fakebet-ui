@@ -9,6 +9,7 @@ import DropdownList from '../components/atoms/DropdownList';
 import PagePagination from '../components/atoms/PagePagination';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import MatchMainListLoading from '../components/loaders/MatchMainListLoading';
+import { timeFormatService } from '../services/timeFormaterService';
 
 const Mainpage = () => {
   const [page, setPage] = useState(1);
@@ -20,9 +21,13 @@ const Mainpage = () => {
   const isValidated = gamesFilter === 'upcoming' ? false : true;
   filters.is_validated = { $eq: isValidated };
 
+  if (!isValidated) {
+    filters.start_time = { $gt: timeFormatService.roundToNextHour() };
+  }
+
   const matchListQuery = qs.stringify(
     {
-      sort: ['validation_date:desc'],
+      sort: [gamesFilter === 'upcoming' ? 'validation_date:asc' : 'validation_date:desc'],
       filters: filters,
       populate: '*',
       pagination: {

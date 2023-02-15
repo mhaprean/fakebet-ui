@@ -181,6 +181,13 @@ const formatDateForUrl = (day: string) => {
   return date;
 };
 
+const roundToNextHour = () => {
+  const now = moment();
+  // Round to nearest hour and add 1 hour
+  const nextHour = now.startOf('hour').add(1, 'hour');
+  return nextHour.toISOString(); // Return the ISO string representation
+};
+
 export const timeFormatService = {
   formatMatchTime,
   formatMatchDate,
@@ -201,4 +208,5 @@ export const timeFormatService = {
   formatDateForPlayerHeader,
   formatDateForUrl,
   getStartEndDate,
+  roundToNextHour,
 };
