@@ -5,6 +5,7 @@ import { timeFormatService } from '../../services/timeFormaterService';
 import SportIcon from '../sport/SportIcon';
 
 import { CheckCircle as CheckCircleIcon, Cancel as CancelIcon } from '@mui/icons-material';
+import classNames from 'classnames';
 
 interface IPropsTicketEvent {
   bet: IStrapiBet;
@@ -24,9 +25,10 @@ const StyledTicketEvent = styled(Paper)`
   .event-header {
     display: flex;
     align-items: center;
-
+    color: ${(props) => props.theme.palette.primary.light};
+    font-weight: ${(props) => props.theme.typography.fontWeightMedium};
     .event-category {
-      color: ${(props) => props.theme.palette.text.secondary};
+      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
     }
 
     .SportIcon {
@@ -37,6 +39,7 @@ const StyledTicketEvent = styled(Paper)`
 
   .event-body {
     display: flex;
+    margin: 10px 0;
 
     .event-time {
       max-width: 40px;
@@ -73,7 +76,7 @@ const StyledTicketEvent = styled(Paper)`
   .event-footer {
     display: flex;
     align-items: center;
-    color: ${(props) => props.theme.palette.text.secondary};
+    /* color: ${(props) => props.theme.palette.primary.light}; */
     margin-top: 5px;
 
     img {
@@ -84,7 +87,7 @@ const StyledTicketEvent = styled(Paper)`
     }
 
     .PeriodName {
-      color: ${(props) => props.theme.palette.text.secondary};
+      /* color: ${(props) => props.theme.palette.text.secondary}; */
       margin-left: auto;
     }
     .OddLeague {
@@ -92,17 +95,28 @@ const StyledTicketEvent = styled(Paper)`
     }
 
     .market-name {
-      color: ${(props) => props.theme.palette.text.secondary};
+      /* color: ${(props) => props.theme.palette.text.secondary}; */
       font-weight: ${(props) => props.theme.typography.fontWeightMedium};
       margin-right: 10px;
     }
 
+    .odd-name {
+      margin-left: auto;
+    }
+
     .odd-value {
       margin-right: 5px;
-      margin-left: auto;
-      color: ${(props) => props.theme.palette.text.primary};
-      font-weight: ${(props) => props.theme.typography.fontWeightMedium};
+      margin-left: 10px;
+      /* color: ${(props) => props.theme.palette.text.primary}; */
+      font-weight: ${(props) => props.theme.typography.fontWeightBold};
       flex-shrink: 0;
+
+      &.isWin {
+        color: ${(props) => props.theme.palette.success.main};
+      }
+      &.isLost {
+        color: ${(props) => props.theme.palette.error.main};
+      }
     }
   }
 
@@ -138,7 +152,7 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
     <StyledTicketEvent className="TicketEvent" square variant="outlined">
       <div className="event-header">
         <SportIcon sportSlug={bet.attributes.sport_key} />
-        <Typography className="event-category" variant="caption" noWrap component="span">
+        <Typography className="event-category" variant="body2" noWrap component="span">
           {bet.attributes.category_name} {` / `} {bet.attributes.tournament_name}
         </Typography>
       </div>
@@ -192,8 +206,20 @@ const TicketEvent = ({ bet }: IPropsTicketEvent) => {
           {bet.attributes.market_name}
         </Typography>
 
-        <Typography className="odd-value" variant="body2" noWrap component="span">
-          {bet.attributes.outcome_name} @ {parseFloat('' + bet.attributes.outcome_odds).toFixed(2)}
+        <Typography className="odd-name" variant="body2" noWrap component="span">
+          {bet.attributes.outcome_name}
+        </Typography>
+
+        <Typography
+          className={classNames('odd-value', {
+            isWin: bet.attributes.is_validated && bet.attributes.is_winner,
+            isLost: bet.attributes.is_validated && !bet.attributes.is_winner,
+          })}
+          variant="body2"
+          noWrap
+          component="span"
+        >
+          @ {parseFloat('' + bet.attributes.outcome_odds).toFixed(2)}
         </Typography>
 
         <div className="validation-result">

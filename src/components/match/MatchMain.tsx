@@ -148,7 +148,7 @@ const StyledMatchMain = styled(Paper)`
       align-items: center;
 
       .OddValue {
-        color: ${(props) => props.theme.palette.text.secondary};
+        color: ${(props) => props.theme.palette.primary.main};
         margin-left: 10px;
 
         &.isWin {

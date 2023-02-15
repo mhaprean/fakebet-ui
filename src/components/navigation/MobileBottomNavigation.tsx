@@ -15,6 +15,7 @@ const StyledMobileBottomNav = styled(Paper)`
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 10;
 
   ${(props) => props.theme.breakpoints.up('md')} {
     display: none;
