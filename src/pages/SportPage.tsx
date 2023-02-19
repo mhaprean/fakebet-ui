@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { lazy, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import DatepickerButton from '../components/atoms/DatepickerButton';
 import FlexBetween from '../components/atoms/FlexBetween';
 import PagePagination from '../components/atoms/PagePagination';
 import SportPageLoading from '../components/loaders/SportPageLoading';
@@ -8,6 +7,8 @@ import MatchList from '../components/match/MatchList';
 import PageBreadcrumbs from '../components/PageBreadcrumbs';
 import { useGetIguSportMatchesQuery } from '../redux/features/igubetApi';
 import { timeFormatService } from '../services/timeFormaterService';
+
+const DatepickerButton = lazy(() => import('../components/atoms/DatepickerButton'));
 
 const SportPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
