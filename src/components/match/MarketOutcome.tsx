@@ -6,7 +6,6 @@ import { IOutcome } from '../../redux/features/igubetTypes';
 const StyledMarketOutcome = styled(Button)`
   display: flex;
   justify-content: space-between;
-  flex-basis: 30%;
   flex-grow: 1;
   min-width: 70px;
   background: ${(props) => props.theme.palette.background.default};

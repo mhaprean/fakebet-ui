@@ -5,7 +5,7 @@ import { IIgubetMatch } from '../../redux/features/igubetTypes';
 import { timeFormatService } from '../../services/timeFormaterService';
 import parse from 'html-react-parser';
 import SportIcon from '../sport/SportIcon';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import ImageWithFallback from '../atoms/ImageWithFallback';
 
@@ -142,10 +142,7 @@ const SearchedMatch = ({ match, onClose = () => {} }: IPropsSearchedMatch) => {
           <SportIcon sportSlug={match.tournament.sport.key || ''} />
         </Box>
         <Box sx={{ display: 'flex' }}>
-          <Link
-            onClick={() => onClose()}
-            to={`/offer/league/${match.tournament.id}/event/${match.id}`}
-          >
+          <Link onClick={() => onClose()} to={`/offer/league/${match.tournament.id}/event/${match.id}`}>
             <Button className="match-button" sx={{ marginLeft: 'auto' }} endIcon={<ArrowForwardIcon />}>
               See more
             </Button>
