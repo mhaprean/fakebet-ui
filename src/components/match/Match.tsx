@@ -204,7 +204,7 @@ const Match = ({ match }: IPropsMatch) => {
             </>
           )}
         </div>
-        <div className="more">
+        {!timeFormatService.isPastDate(match.start_time) && <div className="more">
           <Link
             to={`/offer/league/${match.tournament.id}/event/${match.id}`}
             style={{ textDecoration: 'none' }}
@@ -213,7 +213,8 @@ const Match = ({ match }: IPropsMatch) => {
               +See all
             </Button>
           </Link>
-        </div>
+        </div>}
+        
       </div>
       <div className="match-footer">
         {match.main_market && (
