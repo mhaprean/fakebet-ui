@@ -1,24 +1,23 @@
 import { CssBaseline } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './layouts/Layout';
+import NotFoundPage from './pages/404';
 import CategoryPage from './pages/CategoryPage';
 import Homepage from './pages/Homepage';
 import LeaguePage from './pages/LeaguePage';
-import Mainpage from './pages/Mainpage';
+import TipsPage from './pages/TipsPage';
 import MatchPage from './pages/MatchPage';
 import PlayerPage from './pages/PlayerPage';
 import PlayersPage from './pages/PlayersPage';
+import SearchPage from './pages/SearchPage';
 import SportPage from './pages/SportPage';
 import TicketsPage from './pages/TicketsPage';
 
 import { useAppSelector } from './redux/hooks';
 import darkTheme from './theme/dark';
 import lightTheme from './theme/light';
-
-const NotFoundPage = lazy(() => import('./pages/404'));
-const SearchPage = lazy(() => import('./pages/SearchPage'));
+import ScrollToTop from './hooks/ScrollToTop';
 
 const App = () => {
   const themeName = useAppSelector((rootState) => rootState.settings.themeName);
@@ -28,11 +27,11 @@ const App = () => {
       <BrowserRouter>
         <ThemeProvider theme={themeName === 'light' ? lightTheme : darkTheme}>
           <CssBaseline />
-
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Homepage />} />
-              <Route path="/tips" element={<Mainpage />} />
+              <Route path="/tips" element={<TipsPage />} />
               <Route path="/offer" element={<SportPage />} />
               <Route path="/offer/:category_id/:category_slug" element={<CategoryPage />} />
               <Route path="/offer/:category_id/:category_slug/:league_id" element={<LeaguePage />} />
