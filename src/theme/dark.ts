@@ -17,7 +17,7 @@ export const darkTheme = createTheme({
     },
     text: {
       primary: '#ffffff',
-      secondary: '#dedede',
+      secondary: '#adacac',
       disabled: '#56585b',
     },
     action: {

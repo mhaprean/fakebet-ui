@@ -1,11 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import igubetApi from './features/igubetApi';
-
-import oddspediaApi from './features/oddspediaApi';
-
 import storage from 'redux-persist/lib/storage';
 import { persistReducer } from 'redux-persist';
-
 import betslipSlice from './features/betslipSlice';
 import authSlice from './features/authSlice';
 import { strapi } from './features/strapiApi';
@@ -23,7 +19,6 @@ const persistedSettings = persistReducer(persistConfig, settingsSlice);
 
 export const store = configureStore({
   reducer: {
-    [oddspediaApi.reducerPath]: oddspediaApi.reducer,
     [igubetApi.reducerPath]: igubetApi.reducer,
     [strapi.reducerPath]: strapi.reducer,
     settings: persistedSettings,
@@ -34,7 +29,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat([oddspediaApi.middleware, igubetApi.middleware, strapi.middleware]),
+    }).concat([igubetApi.middleware, strapi.middleware]),
 });
 
 export type AppDispatch = typeof store.dispatch;

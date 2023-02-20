@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import SearchedMatch from '../components/search/SearchedMatch';
 import { useIguSearchQuery } from '../redux/features/igubetApi';
@@ -16,7 +17,8 @@ const SearchPage = () => {
 
   return (
     <div>
-      SearchPage: {term}
+      <Typography variant="subtitle1">Search results:</Typography>
+
       {searchResultSuccess &&
         searchResults
           .filter((match) => match.tournament.sport.key === 'soccer')

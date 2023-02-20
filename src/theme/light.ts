@@ -13,8 +13,8 @@ export const lightTheme = createTheme({
       main: '#f56642',
     },
     text: {
-      primary: '#2d3240',
-      secondary: '#495169'
+      primary: '#3e4659',
+      secondary: '#888a8f'
     },
 
     success: {

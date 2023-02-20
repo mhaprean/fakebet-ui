@@ -26,6 +26,7 @@ const StyledTicketEvent = styled(Paper)`
     display: flex;
     align-items: center;
     color: ${(props) => props.theme.palette.primary.light};
+    color: ${(props) => props.theme.palette.text.secondary};
     font-weight: ${(props) => props.theme.typography.fontWeightMedium};
     .event-category {
       font-weight: ${(props) => props.theme.typography.fontWeightMedium};

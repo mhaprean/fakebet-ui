@@ -92,6 +92,8 @@ const menuEntries: IMenuEntry[] = [
   },
 ];
 
+const acceptedPaths = ['/', '/offer', '/tips', '/players', '/tickets'];
+
 interface IPropsNavigation {
   onMenuToggle?: () => void;
 }
@@ -111,7 +113,7 @@ const Navigation = ({ onMenuToggle = () => {} }: IPropsNavigation) => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
 
-  const activeTab = extractPageName(location.pathname);
+  const activeTab = extractPageName(acceptedPaths.includes(location.pathname) ? location.pathname : '/');
 
   const {
     data: myProfile,
